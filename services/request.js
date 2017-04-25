@@ -1,18 +1,13 @@
 // const xsrfTag = document.querySelector('meta[name=csrf-token]');
 // const xsrfToken = xsrfTag && xsrfTag.getAttribute('content'); // from rails
 
-// type Headers = { [key: string]: string };
-// type RequestOps = {
-//   headers?: Headers,
-//   method?: string,
-//   body?: any
-// };
+const production = false;
 
 const baseFetch = (url, ops) => {
   let headers = ops.headers;
   let body = ops.body;
   const cors = url.startsWith('http') && !url.includes(window.location.host);
-  if (!cors) headers['X-XSRF-TOKEN'] = xsrfToken;
+  // if (!cors) headers['X-XSRF-TOKEN'] = xsrfToken;
   if (body && typeof(body) !== 'string' && body.constructor !== ArrayBuffer) {
     headers['Accept'] = 'application/json';
     headers['Content-Type'] = 'application/json';
@@ -23,71 +18,59 @@ const baseFetch = (url, ops) => {
     credentials: cors ? 'omit' : 'include',
     method: ops.method || 'GET',
     body,
-    headers: new Headers(headers)
+    headers: new Headers(headers) // from fetch api
   });
   return new Promise((resolve, reject) => {
     fetchPromise.then(res => {
-      res.text().then(text => {
-        const bmRes = {
-          status: res.status,
-          statusText: res.statusText,
-          body: text
-        };
-        if (text && res.headers.get('Content-Type').includes('application/json')) {
-          bmRes.body = JSON.parse(text);
-        }
-        if (res.ok) {
-          resolve(bmRes.body);
-        } else {
-          reject(bmRes);
-        }
-      });
+      if (res.ok) {
+        resolve(res)
+      } else {
+        reject(res);
+      }
     });
   });
 };
 
 const request = {
-  get: function(url, query = null, headers = {}) {
-    let fullUrl = url;
+  get: (url, query = null, headers = {}) => {
+    let fullUrl = production ? "" + url : "http://127.0.0.1:3000" + url;
     if (query) fullUrl = url + '?' + query;
     return baseFetch(fullUrl, {
       headers
     });
   },
-  head: function(url, headers = {}) {
+  head: (url, headers = {}) => {
     return baseFetch(url, {
       method: 'HEAD',
       headers
     });
   },
-  post: function(url, body = {}, headers = {}) {
+  post: (url, body = {}, headers = {}) => {
     return baseFetch(url, {
       method: 'POST',
       body,
       headers
     });
   },
-  put: function(url, body = {}, headers = {}) {
+  put: (url, body = {}, headers = {}) => {
     return baseFetch(url, {
       method: 'PUT',
       body,
       headers
     });
   },
-  patch: function(url, body = {}, headers = {}) {
+  patch: (url, body = {}, headers = {}) => {
     return baseFetch(url, {
       method: 'PATCH',
       body,
       headers
     });
   },
-  del: function(url, headers = {}) {
+  del: (url, headers = {}) => {
     return baseFetch(url, {
       method: 'DELETE',
       headers
     });
   }
 };
-
 export default request;
-export { request };

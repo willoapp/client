@@ -14,6 +14,7 @@ import {
   Button
 } from 'react-native';
 import HeaderNav from './components/HeaderNav';
+import PostList from './components/PostList';
 
 export default class client extends Component {
   constructor(props) {
@@ -27,7 +28,8 @@ export default class client extends Component {
 
   render() {
     return (
-      <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
+      <PostList/>
+      /*<View style={{flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
         <Text>Enter a new event:</Text>
         <TextInput
           style={{height: 30, marginTop: 20, marginBottom: 20, paddingLeft: 20, paddingRight: 20, borderWidth: 1, borderColor: '#000000'}}
@@ -40,7 +42,7 @@ export default class client extends Component {
           title="Add"
           color="#841584"
         />
-      </View>
+      </View>*/
     );
   }
 }
