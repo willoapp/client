@@ -6,7 +6,7 @@ const production = false;
 const baseFetch = (url, ops) => {
   let headers = ops.headers;
   let body = ops.body;
-  const cors = url.startsWith('http') && !url.includes(window.location.host);
+  const cors = url.startsWith('http')
   // if (!cors) headers['X-XSRF-TOKEN'] = xsrfToken;
   if (body && typeof(body) !== 'string' && body.constructor !== ArrayBuffer) {
     headers['Accept'] = 'application/json';
