@@ -6,6 +6,7 @@ import {
 } from 'react-native';
 import HeaderNav from '../HeaderNav';
 import PostList from '../PostList';
+import colors from '../../assets/styles/colors';
 
 export default class App extends Component {
   render() {
@@ -21,6 +22,6 @@ export default class App extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F5FCFF',
+    backgroundColor: colors.bglightgray,
   }
 });
