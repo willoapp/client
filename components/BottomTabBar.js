@@ -13,17 +13,15 @@ import colors from '../assets/styles/colors';
 export default class BottomTabBar extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      activeTab: 'activity'
-    }
+    this._onPress = this._onPress.bind(this);
   }
 
   _active(tab) {
-    return tab === this.state.activeTab ? styles.active : null;
+    return tab === this.props.activeTab ? styles.active : null;
   }
 
   _onPress(tab) {
-    this.setState({ activeTab: tab });
+    this.props.onTabChange(tab);
   }
 
   render() {
