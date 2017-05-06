@@ -7,6 +7,15 @@ import {
 } from 'react-native';
 import colors from '../assets/styles/colors';
 import MyText from './MyText';
+import Icon from 'react-native-vector-icons/FontAwesome';
+
+PostAlert = (props) => {
+  if (props.post.state == 'new') { // Needs to check if new for this user only (some db work needed)
+    return <Icon name="circle" style={styles.alert}/>
+  } else {
+    return null;
+  }
+}
 
 export default class PostListItem extends Component {
   constructor(props) {
@@ -20,27 +29,55 @@ export default class PostListItem extends Component {
 
   render() {
     return (
-      <TouchableOpacity onPress={this._onPress}>
-        <View style={{flex: 1, padding: 20}}>
-          <View style={styles.header}>
-            <MyText style={styles.user}>{this.props.post.user.username}</MyText>
-            <MyText style={styles.time}>yesterday</MyText>
+      <TouchableOpacity onPress={this._onPress} style={styles.container}>
+          {/* Left - activity indicator */}
+          <View style={styles.alertContainer}>
+            <PostAlert post={this.props.post} />
           </View>
-          <View style={styles.content}>
-            <Text>{this.props.post.content}</Text>
+
+          {/* Right - everything else */}
+          <View style={{flex: 1}}>
+            <View style={styles.contentContainer}>
+              <View style={styles.header}>
+                <MyText style={styles.user}>{this.props.post.user.username}</MyText>
+                <MyText style={styles.time}>yesterday</MyText>
+              </View>
+              <Text>{this.props.post.content}</Text>
+            </View>
+
+            <View style={styles.divider}/>
           </View>
-        </View>
-        <View style={styles.divider}/>
       </TouchableOpacity>
     )
   }
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'flex-start'
+  },
+  alertContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 20
+  },
+  alert: {
+    fontSize: 6,
+    color: colors.brick
+  },
+
+  contentContainer: {
+    paddingRight: 20,
+    paddingTop: 10,
+    paddingBottom: 10
+  },
   header: {
     flex: 1,
     flexDirection: 'row',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    marginBottom: 5
   },
   user: {
     fontWeight: 'bold'
@@ -48,12 +85,8 @@ const styles = StyleSheet.create({
   time: {
     fontSize: 12
   },
-  content: {
-    marginTop: 10
-  },
   divider: {
     flex: 1,
-    marginLeft: 20,
     height: 1,
     backgroundColor: colors.gray
   }
