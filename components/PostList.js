@@ -13,7 +13,7 @@ export default class PostList extends Component {
   }
 
   componentDidMount() {
-    this.graphqlService.get("{ posts { _id state content user { username } } }").then(data => {
+    this.graphqlService.get("{ posts { _id state content createdAt user { username } } }").then(data => {
       const posts = data.posts;
       this.setState({ posts });
     });

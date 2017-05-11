@@ -10,11 +10,9 @@ import MyText from './MyText';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 PostAlert = (props) => {
-  if (props.post.state == 'new') { // Needs to check if new for this user only (some db work needed)
-    return <Icon name="circle" style={styles.alert}/>
-  } else {
-    return null;
-  }
+  // TODO: Only show if p.created/updatedAt is < user.lastViewedActivityAt
+  const p = props.post;
+  return <Icon name="circle" style={styles.alert}/>
 }
 
 export default class PostListItem extends Component {

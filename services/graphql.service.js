@@ -12,12 +12,14 @@ export class GraphqlService {
 
 function dataPromise(res) {
   return new Promise((resolve, reject) => {
-    res.then(r => r.json()).then(json => json.data).then(data => {
-      if (data) {
-        resolve(data);
-      } else {
-        reject(res);
-      }
-    });
+    res.then(r => r.json())
+      .then(json => json.data).then(data => {
+        if (data) {
+          resolve(data);
+        } else {
+          reject(res);
+        }
+      })
+      .catch(error => console.error(error));
   });
 }
