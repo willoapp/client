@@ -1,4 +1,3 @@
-import NavigationBar from 'react-native-navbar'
 /**
  * Sample React Native App
  * https://github.com/facebook/react-native
