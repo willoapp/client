@@ -8,7 +8,7 @@ import ActivityPage from './pages/ActivityPage';
 import TreePage from './pages/TreePage';
 import AddPage from './pages/AddPage'
 import ProfilePage from './pages/ProfilePage';
-import BottomTabBar from './BottomTabBar';
+import BottomTabBar from './components/BottomTabBar';
 
 
 function ActivePage(props) {

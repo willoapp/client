@@ -4,8 +4,8 @@ import {
   View,
   Text,
 } from 'react-native';
-import HeaderNav from '../HeaderNav';
-import colors from '../../assets/styles/colors';
+import HeaderNav from '../components/HeaderNav';
+import colors from '../assets/styles/colors';
 
 export default class AddPage extends Component {
   render() {

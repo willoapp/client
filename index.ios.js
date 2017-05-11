@@ -7,11 +7,10 @@
 import React, { Component } from 'react';
 import {
   AppRegistry,
-  StyleSheet,
   View,
   StatusBar,
 } from 'react-native'
-import App from './components/App';
+import App from './src/App';
 
 export default class client extends Component {
   render() {
