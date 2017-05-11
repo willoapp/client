@@ -6,9 +6,17 @@ import {
 } from 'react-native';
 import ActivityPage from './pages/ActivityPage';
 import TreePage from './pages/TreePage';
-import AddPage from './pages/AddPage'
+import AddPage from './pages/AddPage';
 import ProfilePage from './pages/ProfilePage';
 import BottomTabBar from './components/BottomTabBar';
+
+
+import { createStore, combineReducers } from 'redux';
+import { Provider } from 'react-redux';
+import reducers from './reducers';
+
+const reducer = combineReducers(reducers);
+const store = createStore(reducer);
 
 
 function ActivePage(props) {
@@ -36,10 +44,12 @@ export default class App extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <ActivePage page={this.state.page}/>
-        <BottomTabBar activeTab={this.state.page} onTabChange={this.handleTabChange}/>
-      </View>
+      <Provider store={store}>
+        <View style={styles.container}>
+          <ActivePage page={this.state.page}/>
+          <BottomTabBar activeTab={this.state.page} onTabChange={this.handleTabChange}/>
+        </View>
+      </Provider>
     );
   }
 }
