@@ -1,7 +1,14 @@
-// import users from './users';
-import posts from './posts';
+import thunk from 'redux-thunk';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
 
-export default {
+// import users from './users';
+import postsState from './posts';
+
+const state = {
   // users,
-  posts
+  postsState,
 };
+
+const store = createStore(combineReducers(state));
+
+export default store;

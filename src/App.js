@@ -10,14 +10,8 @@ import AddPage from './pages/AddPage';
 import ProfilePage from './pages/ProfilePage';
 import BottomTabBar from './components/BottomTabBar';
 
-
-import { createStore, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
-import reducers from './reducers';
-
-const reducer = combineReducers(reducers);
-const store = createStore(reducer);
-
+import store from './reducers';
 
 function ActivePage(props) {
   if (props.page === 'activity') {

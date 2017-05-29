@@ -22,7 +22,7 @@ class ActivityPage extends Component {
   }
 
   componentDidMount() {
-    this.graphqlService.get("{ posts { _id state content createdAt user { username } } }").then(data => {
+    this.graphqlService.query("{ posts { _id state content createdAt user { username } } }").then(data => {
       const posts = data.posts;
       this.props.actions.setPosts(posts);
     });
@@ -33,7 +33,7 @@ class ActivityPage extends Component {
     return (
       <View style={styles.container}>
         <HeaderNav/>
-        <PostList posts={state.posts} {...actions}/>
+        <PostList posts={state.postsState.posts} {...actions}/>
       </View>
     );
   }
@@ -47,9 +47,9 @@ const styles = StyleSheet.create({
 });
 
 export default connect(state => ({
-    state: state.posts
+    state
   }),
-  (dispatch) => ({
+  dispatch => ({
     actions: bindActionCreators(postActions, dispatch)
   })
 )(ActivityPage);

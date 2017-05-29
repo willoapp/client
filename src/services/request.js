@@ -27,47 +27,50 @@ const baseFetch = (url, ops) => {
       } else {
         reject(res);
       }
-    });
+    }).catch(err => reject(err));
   });
 };
 
+function full(url) {
+  return production ? "" + url : "http://127.0.0.1:3000" + url;
+}
+
 const request = {
   get: (url, query = null, headers = {}) => {
-    let fullUrl = production ? "" + url : "http://127.0.0.1:3000" + url;
-    if (query) fullUrl = url + '?' + query;
-    return baseFetch(fullUrl, {
+    if (query) url = url + '?' + query;
+    return baseFetch(full(url), {
       headers
     });
   },
   head: (url, headers = {}) => {
-    return baseFetch(url, {
+    return baseFetch(full(url), {
       method: 'HEAD',
       headers
     });
   },
   post: (url, body = {}, headers = {}) => {
-    return baseFetch(url, {
+    return baseFetch(full(url), {
       method: 'POST',
       body,
       headers
     });
   },
   put: (url, body = {}, headers = {}) => {
-    return baseFetch(url, {
+    return baseFetch(full(url), {
       method: 'PUT',
       body,
       headers
     });
   },
   patch: (url, body = {}, headers = {}) => {
-    return baseFetch(url, {
+    return baseFetch(full(url), {
       method: 'PATCH',
       body,
       headers
     });
   },
   del: (url, headers = {}) => {
-    return baseFetch(url, {
+    return baseFetch(full(url), {
       method: 'DELETE',
       headers
     });

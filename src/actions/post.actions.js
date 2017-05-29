@@ -1,5 +1,6 @@
 export const types = {
-  SET_POSTS: "SET_POSTS"
+  SET_POSTS: "SET_POSTS",
+  ADD_POST: "ADD_POST",
 }
 
 function setPosts(posts) {
@@ -9,8 +10,16 @@ function setPosts(posts) {
   }
 }
 
+function addPost(postText) {
+  return {
+    type: types.ADD_POST,
+    payload: postText
+  }
+}
+
 export const postActions = {
-  setPosts
+  setPosts,
+  addPost,
 }
 
 export default postActions;

@@ -1,12 +1,14 @@
 import request from './request';
 
 export class GraphqlService {
-  get(query) {
+  query(query) {
     return dataPromise(request.get(`/graphql?query=${query}`));
   }
 
-  post(query, variables) {
-    return dataPromise(request.post('/graphql', { query, variables }));
+  mutate(query, variables) {
+    const body = { query, variables };
+    console.log(body);
+    return dataPromise(request.post(`/graphql`, body));
   }
 }
 
