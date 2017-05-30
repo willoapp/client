@@ -8,24 +8,18 @@ import HeaderNav from '../components/HeaderNav';
 import PostList from '../components/PostList';
 import colors from '../assets/styles/colors';
 
-import { GraphqlService } from '../services/graphql.service'
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import postActions from '../actions/post.actions';
 
 class ActivityPage extends Component {
-  graphqlService = null;
 
   constructor(props) {
     super(props);
-    this.graphqlService = new GraphqlService();
   }
 
   componentDidMount() {
-    this.graphqlService.query("{ posts { _id state content createdAt user { username } } }").then(data => {
-      const posts = data.posts;
-      this.props.actions.setPosts(posts);
-    });
+    this.props.actions.getPosts();
   }
 
   render() {
@@ -46,6 +40,7 @@ const styles = StyleSheet.create({
   }
 });
 
+// These become the component state.
 export default connect(state => ({
     state
   }),

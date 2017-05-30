@@ -9,6 +9,7 @@ const state = {
   postsState,
 };
 
-const store = createStore(combineReducers(state));
+let reducer = combineReducers(state);
+let store = createStore(reducer, applyMiddleware(thunk));
 
 export default store;

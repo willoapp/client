@@ -1,13 +1,12 @@
 import request from './request';
 
-export class GraphqlService {
+class GraphqlService {
   query(query) {
     return dataPromise(request.get(`/graphql?query=${query}`));
   }
 
   mutate(query, variables) {
     const body = { query, variables };
-    console.log(body);
     return dataPromise(request.post(`/graphql`, body));
   }
 }
@@ -25,3 +24,6 @@ function dataPromise(res) {
       .catch(error => console.error(error));
   });
 }
+
+graphqlService = new GraphqlService();
+export default graphqlService;
