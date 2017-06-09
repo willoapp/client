@@ -7,7 +7,7 @@ import {
   Button,
   TouchableOpacity
 } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import colors from '../assets/styles/colors';
 
 export default class BottomTabBar extends Component {
@@ -30,23 +30,19 @@ export default class BottomTabBar extends Component {
         <View style={styles.container}>
 
           <TouchableOpacity style={styles.tabContainer} onPress={() => this._onPress('activity')}>
-            <Icon name="ios-chatbubbles" style={[styles.icon, this._active('activity')]}/>
-            <Text style={[styles.subtext, this._active('activity')]}>Activity</Text>
+            <Icon name="home" style={[styles.icon, this._active('activity'), {fontSize: 36}]}/>
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.tabContainer} onPress={() => this._onPress('tree')}>
-            <Icon name="md-git-network" style={[styles.icon, this._active('tree')]}/>
-            <Text style={[styles.subtext, this._active('tree')]}>Tree</Text>
+            <Icon name="calendar" style={[styles.icon, this._active('tree')]}/>
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.tabContainer} onPress={() => this._onPress('add')}>
-            <Icon name="md-add" style={[styles.icon, this._active('add')]}/>
-            <Text style={[styles.subtext, this._active('add')]}>Add</Text>
+            <Icon name="envelope" style={[styles.icon, this._active('add')]}/>
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.tabContainer} onPress={() => this._onPress('profile')}>
-            <Icon name="md-person" style={[styles.icon, this._active('profile')]}/>
-            <Text style={[styles.subtext, this._active('profile')]}>Profile</Text>
+            <Icon name="user" style={[styles.icon, this._active('profile')]}/>
           </TouchableOpacity>
 
         </View>
@@ -57,7 +53,7 @@ export default class BottomTabBar extends Component {
 
 const styles = StyleSheet.create({
   wrapper: {
-    backgroundColor: colors.bggray,
+    backgroundColor: colors.lightgray,
     height: 50,
   },
   container: {
@@ -71,9 +67,9 @@ const styles = StyleSheet.create({
   },
   icon: {
     fontSize: 30,
-    color: colors.gray
-  },
-  subtext: {
+    // Padding to alleviate buggy side clipping
+    paddingRight: 5,
+    paddingLeft: 5,
     color: colors.gray
   },
   active: {
