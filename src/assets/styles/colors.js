@@ -10,7 +10,7 @@ const colors = {
   blue: "#1F6DA8",
   slate: "#506575",
   aqua: "#3EDBCA",
-  salmon: "#E08977",
+  seaside: "#E08977",
   brick: "#A3211E",
 }
 export default colors;

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import colors from '../assets/styles/colors';
 
 export default class HeaderNav extends Component {
   render() {
@@ -7,7 +8,9 @@ export default class HeaderNav extends Component {
       <View style={styles.wrapper}>
         <View style={styles.buffer}/>
         <View style={styles.container}>
-          <Text style={styles.logo}>OneBigHappy</Text>
+          <View style={styles.cutoffBottom}>
+            <Text style={styles.logo}>Willow</Text>
+          </View>
         </View>
       </View>
     );
@@ -16,19 +19,25 @@ export default class HeaderNav extends Component {
 
 const styles = StyleSheet.create({
   wrapper: {
-    backgroundColor: "#1F6DA8"
+    backgroundColor: colors.seaside
   },
   buffer: {
     height: 10
   },
   container: {
     height: 50,
-    justifyContent: 'center',
+    justifyContent: 'flex-end',
     alignItems: 'center'
   },
+  cutoffBottom: {
+    height: 45,
+    overflow: 'hidden'
+  },
   logo: {
-    fontFamily: 'ComicSansMS-Bold',
-    fontSize: 20,
+    paddingRight: 5,
+    paddingLeft: 5,
+    fontFamily: 'Sacramento-Bold',
+    fontSize: 36,
     color: 'white'
   }
 });

@@ -17,6 +17,16 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
   NSURL *jsCodeLocation;
+  
+//  Log Font Names for each font family
+//  for (NSString* family in [UIFont familyNames])
+//  {
+//    NSLog(@"%@", family);
+//    for (NSString* name in [UIFont fontNamesForFamilyName: family])
+//    {
+//      NSLog(@" %@", name);
+//    }
+//  }
 
   jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index.ios" fallbackResource:nil];
 
