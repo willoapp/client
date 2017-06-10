@@ -30,7 +30,7 @@ export default class BottomTabBar extends Component {
         <View style={styles.container}>
 
           <TouchableOpacity style={styles.tabContainer} onPress={() => this._onPress('activity')}>
-            <Icon name="home" style={[styles.icon, this._active('activity'), {fontSize: 36}]}/>
+            <Icon name="home" style={[styles.icon, this._active('activity'), {fontSize: 32}]}/>
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.tabContainer} onPress={() => this._onPress('tree')}>
@@ -53,8 +53,10 @@ export default class BottomTabBar extends Component {
 
 const styles = StyleSheet.create({
   wrapper: {
-    backgroundColor: colors.lightgray,
-    height: 50,
+    borderTopColor: colors.gray,
+    borderTopWidth: 1,
+    backgroundColor: colors.bggray,
+    height: 45,
   },
   container: {
     flex: 1,
@@ -66,7 +68,7 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   icon: {
-    fontSize: 30,
+    fontSize: 24,
     // Padding to alleviate buggy side clipping
     paddingRight: 5,
     paddingLeft: 5,
