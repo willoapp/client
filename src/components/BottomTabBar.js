@@ -33,12 +33,12 @@ export default class BottomTabBar extends Component {
             <Icon name="home" style={[styles.icon, this._active('activity'), {fontSize: 32}]}/>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.tabContainer} onPress={() => this._onPress('tree')}>
-            <Icon name="calendar" style={[styles.icon, this._active('tree')]}/>
+          <TouchableOpacity style={styles.tabContainer} onPress={() => this._onPress('calendar')}>
+            <Icon name="calendar" style={[styles.icon, this._active('calendar')]}/>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.tabContainer} onPress={() => this._onPress('add')}>
-            <Icon name="envelope" style={[styles.icon, this._active('add')]}/>
+          <TouchableOpacity style={styles.tabContainer} onPress={() => this._onPress('invitations')}>
+            <Icon name="envelope" style={[styles.icon, this._active('invitations')]}/>
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.tabContainer} onPress={() => this._onPress('profile')}>
