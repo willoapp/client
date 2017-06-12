@@ -5,8 +5,8 @@ import {
   Text,
 } from 'react-native';
 import ActivityPage from './pages/ActivityPage';
-import TreePage from './pages/TreePage';
-import AddPage from './pages/AddPage';
+import CalendarPage from './pages/CalendarPage';
+import InvitationsPage from './pages/InvitationsPage';
 import ProfilePage from './pages/ProfilePage';
 import BottomTabBar from './components/BottomTabBar';
 
@@ -17,9 +17,9 @@ function ActivePage(props) {
   if (props.page === 'activity') {
     return <ActivityPage/>;
   } else if (props.page === 'tree') {
-    return <TreePage/>
+    return <CalendarPage/>
   } else if (props.page === 'add') {
-    return <AddPage/>
+    return <InvitationsPage/>
   } else if (props.page === 'profile') {
     return <ProfilePage/>
   }

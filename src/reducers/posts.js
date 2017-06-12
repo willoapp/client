@@ -1,4 +1,4 @@
-import {types} from '../actions/post.actions';
+import {types} from '../actions/postActions';
 
 const postsState = {
   posts: []

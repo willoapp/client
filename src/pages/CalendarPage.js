@@ -7,12 +7,12 @@ import {
 import HeaderNav from '../components/HeaderNav';
 import colors from '../assets/styles/colors';
 
-export default class TreePage extends Component {
+export default class CalendarPage extends Component {
   render() {
     return (
       <View style={styles.container}>
         <HeaderNav/>
-        <Text>This is the tree page</Text>
+        <Text>Calendar Page</Text>
       </View>
     );
   }
