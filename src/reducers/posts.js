@@ -1,10 +1,10 @@
 import {types} from '../actions/postActions';
 
-const postsState = {
+export const initialState = {
   posts: []
 }
 
-export default reducer = (state = postsState, action = {}) => {
+export default reducer = (state = initialState, action = {}) => {
   switch(action.type) {
     case types.SET_POSTS:
       return {
@@ -17,8 +17,6 @@ export default reducer = (state = postsState, action = {}) => {
         posts: Object.assign({}, state.posts, [action.payload])
       }
     default:
-      return {
-        ...state
-      }
+      return state;
   }
 }

@@ -1,11 +1,12 @@
 import {types} from '../actions/sessionActions';
 
-const sessionState = {
+export const initialState = {
+  userLoaded: false,
   user: null,
   token: null
 }
 
-export default reducer = (state = sessionState, action = {}) => {
+export default reducer = (state = initialState, action = {}) => {
   switch(action.type) {
     case types.SET_TOKEN:
       return Object.assign({}, state, {
@@ -13,11 +14,10 @@ export default reducer = (state = sessionState, action = {}) => {
       });
     case types.SET_USER:
       return Object.assign({}, state, {
-        user: action.payload
+        user: action.payload,
+        userLoaded: true,
       });
     default:
-      return {
-        ...state
-      }
+      return state;
   }
 }

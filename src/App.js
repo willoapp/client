@@ -4,6 +4,7 @@ import {
   View,
   Text,
 } from 'react-native';
+import LoadingPage from './pages/LoadingPage';
 import SignupPage from './pages/SignupPage';
 
 import ActivityPage from './pages/ActivityPage';
@@ -48,6 +49,12 @@ class App extends Component {
         <View style={styles.container}>
           <ActivePageForTab tab={this.state.tab}/>
           <BottomTabBar activeTab={this.state.tab} onTabChange={this.handleTabChange}/>
+        </View>
+      )
+    } else if (!state.sessionState.userLoaded) {
+      return (
+        <View style={styles.container}>
+          <LoadingPage/>
         </View>
       )
     } else {
