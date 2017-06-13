@@ -9,7 +9,7 @@ import {
 import HeaderNav from '../components/HeaderNav';
 import colors from '../assets/styles/colors';
 
-import graphqlService from '../services/graphql.service'
+import graphqlService from '../services/graphqlService'
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import postActions from '../actions/postActions';

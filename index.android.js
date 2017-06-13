@@ -11,14 +11,18 @@ import {
   StatusBar,
 } from 'react-native'
 import App from './src/App';
+import { Provider } from 'react-redux';
+import store from '.src/reducers';
 
 export default class client extends Component {
   render() {
     return (
-      <View style={{flex: 1}}>
-        <StatusBar barStyle="light-content"/>
-        <App/>
-      </View>
+      <Provider store={store}>
+        <View style={{flex: 1}}>
+          <StatusBar barStyle="light-content"/>
+          <App/>
+        </View>
+      </Provider>
     );
   }
 }

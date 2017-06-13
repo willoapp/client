@@ -1,5 +1,6 @@
 // const xsrfTag = document.querySelector('meta[name=csrf-token]');
 // const xsrfToken = xsrfTag && xsrfTag.getAttribute('content'); // from rails
+// import store from '../reducers/index';
 
 const production = false;
 
@@ -11,6 +12,8 @@ const baseFetch = (url, ops) => {
   if (body && typeof(body) !== 'string' && body.constructor !== ArrayBuffer) {
     headers['Accept'] = 'application/json';
     headers['Content-Type'] = 'application/json';
+    // Set the json web token on each request
+    headers['Authorization'] = //store.getState().sessionState.token;
     body = JSON.stringify(body);
   }
   const fetchPromise = fetch(url, {

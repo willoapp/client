@@ -4,14 +4,18 @@ import {
   View,
   Text,
 } from 'react-native';
+import SignupPage from './pages/SignupPage';
+
 import ActivityPage from './pages/ActivityPage';
 import CalendarPage from './pages/CalendarPage';
 import InvitationsPage from './pages/InvitationsPage';
 import ProfilePage from './pages/ProfilePage';
+
 import BottomTabBar from './components/BottomTabBar';
 
-import { Provider } from 'react-redux';
-import store from './reducers';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import sessionActions from './actions/sessionActions';
 
 function ActivePageForTab(props) {
   if (props.tab === 'activity') {
@@ -25,7 +29,7 @@ function ActivePageForTab(props) {
   }
 }
 
-export default class App extends Component {
+class App extends Component {
   constructor(props) {
     super(props);
     this.state = { tab: 'activity' }
@@ -37,14 +41,22 @@ export default class App extends Component {
   }
 
   render() {
-    return (
-      <Provider store={store}>
+    const { state, actions } = this.props;
+
+    if (state.sessionState.user) {
+      return (
         <View style={styles.container}>
           <ActivePageForTab tab={this.state.tab}/>
           <BottomTabBar activeTab={this.state.tab} onTabChange={this.handleTabChange}/>
         </View>
-      </Provider>
-    );
+      )
+    } else {
+      return (
+        <View style={styles.container}>
+          <SignupPage/>
+        </View>
+      )
+    }
   }
 }
 
@@ -54,3 +66,11 @@ const styles = StyleSheet.create({
   }
 });
 
+export default connect(state => ({
+    state
+  }),
+  dispatch => ({
+    sessionActions: bindActionCreators(sessionActions, dispatch),
+    // uiActions: bindActionCreators(uiActions, dispatch)
+  })
+)(App);

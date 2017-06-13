@@ -3,9 +3,10 @@ import { createStore, combineReducers, applyMiddleware } from 'redux';
 
 // import users from './users';
 import postsState from './posts';
+import sessionState from './session';
 
 const state = {
-  // users,
+  sessionState,
   postsState,
 };
 

@@ -1,4 +1,4 @@
-import graphqlService from '../services/graphql.service'
+import graphqlService from '../services/graphqlService'
 
 export const types = {
   SET_POSTS: "SET_POSTS",
