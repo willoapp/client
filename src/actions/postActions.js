@@ -8,8 +8,8 @@ export const types = {
 const postFragment = '{ _id state content createdAt user { firstName lastName } }';
 
 function getPosts() {
-  return (dispatch) => {
-    graphqlService.query(`{ posts ${postFragment} }`).then(data => {
+  return (dispatch, getState) => {
+    graphqlService.query(getState(), `{ posts ${postFragment} }`).then(data => {
       dispatch({
         type: types.SET_POSTS,
         payload: data.posts
@@ -19,8 +19,8 @@ function getPosts() {
 }
 
 function addPost(postText) {
-  return (dispatch) => {
-    graphqlService.mutate(`mutation ($post: PostInput!) { addPost(post: $post) ${postFragment} }`, { post }).then(data => {
+  return (dispatch, getState) => {
+    graphqlService.mutate(getState(), `mutation ($post: PostInput!) { addPost(post: $post) ${postFragment} }`, { post }).then(data => {
       const post = data.addPost;
       dispatch({
         type: types.ADD_POST,

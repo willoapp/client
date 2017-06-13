@@ -7,10 +7,6 @@ export default class PostList extends Component {
     super(props);
   }
 
-  postList() {
-    return this.props.posts.map((p) => <Text key={p._id}>{p.user.username}: {p.content}</Text>)
-  }
-
   _onPressItem(post) {
     console.log(post);
   }

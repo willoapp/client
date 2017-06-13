@@ -1,13 +1,13 @@
 import request from './request';
 
 class GraphqlService {
-  query(query) {
-    return dataPromise(request.get(`/graphql?query=${query}`));
+  query(state, query) {
+    return dataPromise(request.get(`/graphql?query=${query}`, null, {"Authorization": state.sessionState.token}));
   }
 
-  mutate(query, variables) {
+  mutate(state, query, variables) {
     const body = { query, variables };
-    return dataPromise(request.post(`/graphql`, body));
+    return dataPromise(request.post(`/graphql`, body, {"Authorization": state.sessionState.token}));
   }
 }
 

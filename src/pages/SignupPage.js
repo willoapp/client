@@ -3,36 +3,52 @@ import {
   StyleSheet,
   View,
   TextInput,
+  Button,
 } from 'react-native';
 import colors from '../assets/styles/colors';
 
-export default class SignupPage extends Component {
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import sessionActions from '../actions/sessionActions';
+
+class SignupPage extends Component {
+
+  constructor(props) {
+    super(props);
+  }
+
+  register(firstName, lastName, email, password) {
+    this.props.sessionActions.register(firstName, lastName, email, password);
+  }
+
   render() {
     return (
       <View style={styles.container}>
         <TextInput
           autoFocus={true}
-          style={{height: 40, backgroundColor: colors.white, paddingLeft: 20, paddingRight: 20, marginBottom: 5}}
+          style={styles.fullInput}
           placeholder="First name"
-          onChangeText={(text) => console.log(`First Name: ${text}`)}/>
+          onChangeText={(firstName) => this.setState({ firstName })}/>
 
         <TextInput
-          autoFocus={true}
-          style={{height: 40, backgroundColor: colors.white, paddingLeft: 20, paddingRight: 20, marginBottom: 5}}
+          style={styles.fullInput}
           placeholder="Last name"
-          onChangeText={(text) => console.log(`Last Name: ${text}`)}/>
+          onChangeText={(lastName) => this.setState({ lastName })}/>
 
         <TextInput
-          autoFocus={true}
-          style={{height: 40, backgroundColor: colors.white, paddingLeft: 20, paddingRight: 20, marginBottom: 5}}
+          style={styles.fullInput}
           placeholder="Email"
-          onChangeText={(text) => console.log(`Email: ${text}`)}/>
+          onChangeText={(email) => this.setState({ email })}/>
 
         <TextInput
-          autoFocus={true}
-          style={{height: 40, backgroundColor: colors.white, paddingLeft: 20, paddingRight: 20, marginBottom: 5}}
+          style={styles.fullInput}
           placeholder="Password"
-          onChangeText={(text) => console.log(`Password: ${text}`)}/>
+          onChangeText={(password) => this.setState({ password })}/>
+
+        <Button
+          onPress={() => this.register(this.state.firstName, this.state.lastName, this.state.email, this.state.password)}
+          title="Sign Up"
+        />
       </View>
     );
   }
@@ -47,5 +63,16 @@ const styles = StyleSheet.create({
   },
   whiteText: {
     color: colors.white
+  },
+  fullInput: {
+    height: 40, backgroundColor: colors.white, paddingLeft: 20, paddingRight: 20, marginBottom: 5
   }
 });
+
+export default connect(state => ({
+    state
+  }),
+  dispatch => ({
+    sessionActions: bindActionCreators(sessionActions, dispatch)
+  })
+)(SignupPage);

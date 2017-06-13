@@ -5,9 +5,9 @@ export const types = {
   SET_USER: "SET_USER"
 }
 
-function login(username, password) {
+function login(email, password) {
   return dispatch => {
-    sessionService.login(username, password).then(data => {
+    sessionService.login(email, password).then(res => {
       dispatch({
         type: types.SET_TOKEN,
         payload: data.token
@@ -16,13 +16,15 @@ function login(username, password) {
         type: types.SET_USER,
         payload: data.user
       });
+    }).catch(err => {
+      console.error('error: ', err);
     });
   }
 }
 
-function register(firstName, lastName, username, password) {
-  return dispatchEvent => {
-    sessionService.register(firstName, lastName, username, password).then(data => {
+function register(firstName, lastName, email, password) {
+  return dispatch => {
+    sessionService.register(firstName, lastName, email, password).then(data => {
       dispatch({
         type: types.SET_TOKEN,
         payload: data.token
@@ -31,6 +33,8 @@ function register(firstName, lastName, username, password) {
         type: types.SET_USER,
         payload: data.user
       });
+    }).catch(err => {
+      console.error('error: ', err);
     });
   }
 }
