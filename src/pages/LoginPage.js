@@ -14,14 +14,14 @@ import { connect } from 'react-redux';
 import sessionActions from '../actions/sessionActions';
 import uiActions from '../actions/uiActions';
 
-class SignupPage extends Component {
+class LoginPage extends Component {
 
   constructor(props) {
     super(props);
   }
 
-  register(firstName, lastName, email, password) {
-    this.props.sessionActions.register(firstName, lastName, email, password);
+  login(email, password) {
+    this.props.sessionActions.login(email, password);
   }
 
   render() {
@@ -30,53 +30,31 @@ class SignupPage extends Component {
         <View style={styles.container}>
           <TextInput
             style={styles.fullInput}
-            placeholder="First name"
-            returnKeyType="next"
-            onChangeText={(firstName) => this.setState({ firstName })}
-            onSubmitEditing={(event) => {
-              this.refs.SecondInput.focus();
-            }}
-          />
-
-          <TextInput
-            ref="SecondInput"
-            style={styles.fullInput}
-            placeholder="Last name"
-            returnKeyType="next"
-            onChangeText={(lastName) => this.setState({ lastName })}
-            onSubmitEditing={(event) => {
-              this.refs.ThirdInput.focus();
-            }}
-          />
-
-          <TextInput
-            ref="ThirdInput"
-            style={styles.fullInput}
             placeholder="Email"
             returnKeyType="next"
             keyboardType="email-address"
             autoCapitalize="none"
             onChangeText={(email) => this.setState({ email })}
             onSubmitEditing={(event) => {
-              this.refs.FourthInput.focus();
+              this.refs.SecondInput.focus();
             }}
           />
 
           <TextInput
-            ref="FourthInput"
+            ref='SecondInput'
             style={styles.fullInput}
             placeholder="Password"
-            returnKeyType="done"
             secureTextEntry={true}
+            returnKeyType="done"
             onChangeText={(password) => this.setState({ password })}/>
 
           <Button
-            onPress={() => this.register(this.state.firstName, this.state.lastName, this.state.email, this.state.password)}
-            title="Sign Up"
+            onPress={() => this.login(this.state.email, this.state.password)}
+            title="Login"
           />
           <Button
-            onPress={() => this.props.uiActions.setPage('login')}
-            title="Login instead"
+            onPress={() => this.props.uiActions.setPage('signup')}
+            title="Signup instead"
           />
         </View>
       </TouchableWithoutFeedback>
@@ -106,4 +84,4 @@ export default connect(state => ({
     uiActions: bindActionCreators(uiActions, dispatch),
     sessionActions: bindActionCreators(sessionActions, dispatch)
   })
-)(SignupPage);
+)(LoginPage);

@@ -6,6 +6,7 @@ import {
 } from 'react-native';
 import LoadingPage from './pages/LoadingPage';
 import SignupPage from './pages/SignupPage';
+import LoginPage from './pages/LoginPage';
 
 import ActivityPage from './pages/ActivityPage';
 import CalendarPage from './pages/CalendarPage';
@@ -51,10 +52,10 @@ class App extends Component {
           <BottomTabBar activeTab={this.state.tab} onTabChange={this.handleTabChange}/>
         </View>
       )
-    } else if (!state.sessionState.userLoaded) {
+    } else if (state.uiState.page === 'login') {
       return (
         <View style={styles.container}>
-          <LoadingPage/>
+          <LoginPage/>
         </View>
       )
     } else {

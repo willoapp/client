@@ -5,9 +5,22 @@ export const types = {
   SET_USER: "SET_USER"
 }
 
+function logout() {
+  return dispatch => {
+    dispatch({
+      type: types.SET_TOKEN,
+      payload: null
+    });
+    dispatch({
+      type: types.SET_USER,
+      payload: null
+    });
+  }
+}
+
 function login(email, password) {
   return dispatch => {
-    sessionService.login(email, password).then(res => {
+    sessionService.login(email, password).then(data => {
       dispatch({
         type: types.SET_TOKEN,
         payload: data.token
@@ -41,6 +54,7 @@ function register(firstName, lastName, email, password) {
 
 const sessionActions = {
   login,
+  logout,
   register
 };
 export default sessionActions;
