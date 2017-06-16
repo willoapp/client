@@ -13,57 +13,52 @@
       "scale" : "3x"
     },
     {
-      "size" : "29x29",
       "idiom" : "iphone",
-      "filename" : "Square Logo Small.png",
+      "size" : "29x29",
       "scale" : "1x"
     },
     {
+      "idiom" : "iphone",
       "size" : "29x29",
+      "scale" : "2x"
+    },
+    {
+      "idiom" : "iphone",
+      "size" : "29x29",
+      "scale" : "3x"
+    },
+    {
+      "size" : "40x40",
       "idiom" : "iphone",
       "filename" : "Square Logo Small@2x-1.png",
       "scale" : "2x"
     },
     {
-      "size" : "29x29",
+      "size" : "40x40",
       "idiom" : "iphone",
       "filename" : "Square Logo Small@3x-1.png",
       "scale" : "3x"
     },
     {
-      "size" : "40x40",
+      "idiom" : "iphone",
+      "size" : "57x57",
+      "scale" : "1x"
+    },
+    {
+      "idiom" : "iphone",
+      "size" : "57x57",
+      "scale" : "2x"
+    },
+    {
+      "size" : "60x60",
       "idiom" : "iphone",
       "filename" : "Square Logo Small@2x-2.png",
       "scale" : "2x"
     },
     {
-      "size" : "40x40",
+      "size" : "60x60",
       "idiom" : "iphone",
       "filename" : "Square Logo Small@3x-2.png",
-      "scale" : "3x"
-    },
-    {
-      "size" : "57x57",
-      "idiom" : "iphone",
-      "filename" : "Square Logo Small-1.png",
-      "scale" : "1x"
-    },
-    {
-      "size" : "57x57",
-      "idiom" : "iphone",
-      "filename" : "Square Logo Small@2x-3.png",
-      "scale" : "2x"
-    },
-    {
-      "size" : "60x60",
-      "idiom" : "iphone",
-      "filename" : "Square Logo Small@2x-4.png",
-      "scale" : "2x"
-    },
-    {
-      "size" : "60x60",
-      "idiom" : "iphone",
-      "filename" : "Square Logo Small@3x-3.png",
       "scale" : "3x"
     }
   ],

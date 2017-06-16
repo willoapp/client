@@ -2,7 +2,8 @@ import DeviceInfo from 'react-native-device-info'
 const production = false;
 
 function isSimulator() {
-  return DeviceInfo.getModel()==="Simulator";
+  const isSimulator = DeviceInfo.isEmulator();
+  return isSimulator;
 }
 
 const baseFetch = (url, ops) => {
@@ -33,7 +34,7 @@ const baseFetch = (url, ops) => {
 };
 
 function full(url) {
-  return production ? "**** PRODUCTION URL ****" + url : ( isSimulator() ? "http://127.0.0.1:3000" + url : "http://192.168.1.10:3000" + url);
+  return production ? "**** PRODUCTION URL ****" + url : ( isSimulator() ? "http://127.0.0.1:3000" + url : "https://willowappio-staging.herokuapp.com" + url);
 }
 
 const request = {
