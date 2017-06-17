@@ -22,16 +22,21 @@ const baseFetch = (url, ops) => {
     body,
     headers: new Headers(headers) // from fetch api
   });
-  return new Promise((resolve, reject) => {
-    fetchPromise.then(res => {
-      if (res.ok) {
-        resolve(res)
-      } else {
-        reject(res);
-      }
-    }).catch(err => reject(err));
-  });
+  return fetchPromise.then(checkStatus);
 };
+
+function checkStatus(response) {
+  if (response.ok) {
+    return Promise.resolve(response)
+  }
+
+  return response.json().then(json => {
+    // json.message is the message returned from the server on errors
+    // response.statusText is a fetch api thing (seems to always be undefined but maybe on network errors it will be more useful).
+    const error = new Error(json.message || response.statusText);
+    return Promise.reject(Object.assign(error, { response }))
+  })
+}
 
 function full(url) {
   return production ? "**** PRODUCTION URL ****" + url : ( isSimulator() ? "http://127.0.0.1:3000" + url : "https://willowappio-staging.herokuapp.com" + url);
