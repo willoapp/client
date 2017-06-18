@@ -10,6 +10,6 @@ function setPage(page) {
 }
 
 const uiActions = {
-  setPage
+  setPage,
 };
 export default uiActions;

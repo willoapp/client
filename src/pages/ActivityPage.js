@@ -22,12 +22,12 @@ class ActivityPage extends Component {
   }
 
   componentDidMount() {
-    this.props.actions.getPosts();
+    this.props.postActions.getPosts();
   }
 
   addPost() {
     const post = { content: this.state.text, userId: "58d9eafafa8beec1b2c33cbb" }
-    this.props.actions.addPost(post);
+    this.props.postActions.addPost(post);
   }
 
   render() {
@@ -55,6 +55,6 @@ export default connect(state => ({
     state
   }),
   dispatch => ({
-    actions: bindActionCreators(postActions, dispatch)
+    postActions: bindActionCreators(postActions, dispatch)
   })
 )(ActivityPage);

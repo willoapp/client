@@ -1,7 +1,7 @@
 import {types} from '../actions/uiActions';
 
 export const initialState = {
-  page: 'signup'
+  page: 'signup',
 }
 
 export default reducer = (state = initialState, action = {}) => {

@@ -1,8 +1,10 @@
 import sessionService from '../services/sessionService';
+import uiActions from './uiActions';
+import { ToastStyles } from 'react-native-toaster';
 
 export const types = {
   SET_TOKEN: "SET_TOKEN",
-  SET_USER: "SET_USER"
+  SET_USER: "SET_USER",
 }
 
 function logout() {
