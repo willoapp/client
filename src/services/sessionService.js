@@ -20,9 +20,7 @@ function sessionPromise(res) {
           reject(res);
         }
       })
-      .catch(err => {
-        console.log('we got an error, it was: ', err.message);
-      });
+      .catch(reject);
   });
 }
 

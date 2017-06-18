@@ -1,6 +1,5 @@
 import sessionService from '../services/sessionService';
-import uiActions from './uiActions';
-import { ToastStyles } from 'react-native-toaster';
+import { Alert } from 'react-native';
 
 export const types = {
   SET_TOKEN: "SET_TOKEN",
@@ -32,7 +31,7 @@ function login(email, password) {
         payload: data.user
       });
     }).catch(err => {
-      console.error('error: ', err);
+      Alert.alert('Invalid', err.message)
     });
   }
 }
@@ -49,7 +48,7 @@ function register(firstName, lastName, email, password) {
         payload: data.user
       });
     }).catch(err => {
-      console.error('error: ', err);
+      Alert.alert('Invalid', err.message)
     });
   }
 }
