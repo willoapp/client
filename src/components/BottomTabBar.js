@@ -54,7 +54,7 @@ export default class BottomTabBar extends Component {
 const styles = StyleSheet.create({
   wrapper: {
     borderTopColor: colors.gray,
-    borderTopWidth: 0.5,
+    borderTopWidth: StyleSheet.hairlineWidth,
     backgroundColor: colors.bggray,
     height: 45,
   },

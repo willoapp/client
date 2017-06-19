@@ -11,11 +11,14 @@ import {
 } from 'react-native';
 import colors from '../assets/styles/colors';
 import spacing from '../assets/styles/spacing';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import sessionActions from '../actions/sessionActions';
 import uiActions from '../actions/uiActions';
+
+let {height, width} = Dimensions.get('window');
 
 class LoginPage extends Component {
 
@@ -35,37 +38,45 @@ class LoginPage extends Component {
 
           <View style={styles.inputContainer}>
             <View style={styles.innerInputContainer}>
-              <TextInput
-                style={styles.input}
-                placeholder="Email"
-                returnKeyType="next"
-                keyboardType="email-address"
-                autoCapitalize="none"
-                onChangeText={(email) => this.setState({ email })}
-                onSubmitEditing={(event) => {
-                  this.refs.SecondInput.focus();
-                }}
-              />
+              <View style={[styles.inputWrapper, {borderBottomColor: colors.gray, borderBottomWidth: StyleSheet.hairlineWidth}]}>
+                <Icon name="envelope" style={[styles.icon, {fontSize: 18}]} />
+                <TextInput
+                  style={styles.input}
+                  placeholder="Email"
+                  returnKeyType="next"
+                  keyboardType="email-address"
+                  autoCapitalize="none"
+                  onChangeText={(email) => this.setState({ email })}
+                  onSubmitEditing={(event) => {
+                    this.refs.SecondInput.focus();
+                  }}
+                />
+              </View>
 
-              <TextInput
-                ref='SecondInput'
-                style={[styles.borderTop, styles.input]}
-                placeholder="Password"
-                secureTextEntry={true}
-                returnKeyType="done"
-                onChangeText={(password) => this.setState({ password })}/>
+              <View style={styles.inputWrapper}>
+                <Icon name="lock" style={[styles.icon, {marginRight: 5}]} />
+                <TextInput
+                  ref='SecondInput'
+                  style={[styles.borderTop, styles.input]}
+                  placeholder="Password"
+                  secureTextEntry={true}
+                  returnKeyType="done"
+                  onChangeText={(password) => this.setState({ password })}/>
+              </View>
             </View>
           </View>
 
-          <Button
-            color={colors.white}
-            onPress={() => this.login(this.state.email, this.state.password)}
-            title="Login"
-          />
+          <View style={{marginBottom: spacing.normal}}>
+            <Button
+              color={colors.white}
+              onPress={() => this.login(this.state.email, this.state.password)}
+              title="Login"
+            />
+          </View>
           <Button
             color={colors.white}
             onPress={() => this.props.uiActions.setPage('signup')}
-            title="New to Willow? Sign up!"
+            title="New to Willow? Sign up"
           />
         </View>
       </TouchableWithoutFeedback>
@@ -80,9 +91,9 @@ const styles = StyleSheet.create({
     backgroundColor: colors.seaside,
   },
   logo: {
-    marginTop: spacing.normal,
+    marginTop: spacing.xlarge,
     color: colors.white,
-    fontSize: 70,
+    fontSize: 60,
     fontFamily: 'Sacramento'
   },
   whiteText: {
@@ -90,9 +101,8 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     height: 100,
-    alignSelf: 'stretch',
-    marginLeft: spacing.normal,
-    marginRight: spacing.normal,
+    width: width - (spacing.normal*2),
+    marginBottom: spacing.normal,
     backgroundColor: colors.white,
     borderWidth: StyleSheet.hairlineWidth,
     borderColor: colors.gray,
@@ -100,17 +110,30 @@ const styles = StyleSheet.create({
   },
   innerInputContainer: {
     flex: 1,
+    flexDirection: 'column',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'flex-start'
   },
-  input: {
-    height: 40,
-    backgroundColor: colors.white,
-    paddingLeft: spacing.small,
-    paddingRight: spacing.xsmall,
+  inputWrapper: {
     marginLeft: spacing.normal,
     marginRight: spacing.normal,
-  }
+    flex: 1,
+    flexDirection: 'row',
+  },
+  input: {
+    flex: 1,
+    height: spacing.xlarge,
+    marginLeft: spacing.xsmall,
+    alignSelf: 'center'
+  },
+  icon: {
+    fontSize: 20,
+    alignSelf: 'center',
+    // Padding to alleviate buggy side clipping
+    paddingRight: spacing.xxsmall,
+    paddingLeft: spacing.xxsmall,
+    color: colors.gray
+  },
 });
 
 export default connect(state => ({

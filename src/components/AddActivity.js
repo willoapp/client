@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
   bottomBorder: {
     height: 50,
     borderBottomColor: colors.gray,
-    borderBottomWidth: 0.5,
+    borderBottomWidth: StyleSheet.hairlineWidth,
   },
   textInputMock: {
     marginLeft: spacing.normal,

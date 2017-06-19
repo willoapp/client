@@ -86,7 +86,7 @@ class SignupPage extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 0.5,
+    flex: StyleSheet.hairlineWidth,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: colors.seaside,
