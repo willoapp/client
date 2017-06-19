@@ -18,6 +18,7 @@ import BottomTabBar from './components/BottomTabBar';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import sessionActions from './actions/sessionActions';
+import uiActions from './actions/uiActions';
 
 function ActivePageForTab(props) {
   if (props.tab === 'activity') {
@@ -43,16 +44,14 @@ class App extends Component {
   }
 
   render() {
-    const { state, actions } = this.props;
-
-    if (state.sessionState.user) {
+    if (this.props.state.sessionState.user) {
       return (
         <View style={styles.container}>
           <ActivePageForTab tab={this.state.tab}/>
           <BottomTabBar activeTab={this.state.tab} onTabChange={this.handleTabChange}/>
         </View>
       )
-    } else if (state.uiState.page === 'login') {
+    } else if (this.props.state.uiState.page === 'login') {
       return (
         <View style={styles.container}>
           <LoginPage/>
@@ -79,6 +78,6 @@ export default connect(state => ({
   }),
   dispatch => ({
     sessionActions: bindActionCreators(sessionActions, dispatch),
-    // uiActions: bindActionCreators(uiActions, dispatch)
+    uiActions: bindActionCreators(uiActions, dispatch)
   })
 )(App);

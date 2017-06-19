@@ -1,8 +1,9 @@
 import sessionService from '../services/sessionService';
+import { Alert } from 'react-native';
 
 export const types = {
   SET_TOKEN: "SET_TOKEN",
-  SET_USER: "SET_USER"
+  SET_USER: "SET_USER",
 }
 
 function logout() {
@@ -30,7 +31,7 @@ function login(email, password) {
         payload: data.user
       });
     }).catch(err => {
-      console.error('error: ', err);
+      Alert.alert('Invalid', err.message)
     });
   }
 }
@@ -47,7 +48,7 @@ function register(firstName, lastName, email, password) {
         payload: data.user
       });
     }).catch(err => {
-      console.error('error: ', err);
+      Alert.alert('Invalid', err.message)
     });
   }
 }
