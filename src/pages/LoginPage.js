@@ -5,9 +5,12 @@ import {
   TextInput,
   Button,
   TouchableWithoutFeedback,
-  Keyboard
+  Keyboard,
+  Text,
+  Dimensions
 } from 'react-native';
 import colors from '../assets/styles/colors';
+import spacing from '../assets/styles/spacing';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -28,33 +31,41 @@ class LoginPage extends Component {
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.container}>
-          <TextInput
-            style={styles.fullInput}
-            placeholder="Email"
-            returnKeyType="next"
-            keyboardType="email-address"
-            autoCapitalize="none"
-            onChangeText={(email) => this.setState({ email })}
-            onSubmitEditing={(event) => {
-              this.refs.SecondInput.focus();
-            }}
-          />
+          <Text style={styles.logo}>Willow</Text>
 
-          <TextInput
-            ref='SecondInput'
-            style={styles.fullInput}
-            placeholder="Password"
-            secureTextEntry={true}
-            returnKeyType="done"
-            onChangeText={(password) => this.setState({ password })}/>
+          <View style={styles.inputContainer}>
+            <View style={styles.innerInputContainer}>
+              <TextInput
+                style={styles.input}
+                placeholder="Email"
+                returnKeyType="next"
+                keyboardType="email-address"
+                autoCapitalize="none"
+                onChangeText={(email) => this.setState({ email })}
+                onSubmitEditing={(event) => {
+                  this.refs.SecondInput.focus();
+                }}
+              />
+
+              <TextInput
+                ref='SecondInput'
+                style={[styles.borderTop, styles.input]}
+                placeholder="Password"
+                secureTextEntry={true}
+                returnKeyType="done"
+                onChangeText={(password) => this.setState({ password })}/>
+            </View>
+          </View>
 
           <Button
+            color={colors.white}
             onPress={() => this.login(this.state.email, this.state.password)}
             title="Login"
           />
           <Button
+            color={colors.white}
             onPress={() => this.props.uiActions.setPage('signup')}
-            title="Signup instead"
+            title="New to Willow? Sign up!"
           />
         </View>
       </TouchableWithoutFeedback>
@@ -64,16 +75,41 @@ class LoginPage extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 0.5,
-    justifyContent: 'center',
+    flex: 1,
     alignItems: 'center',
     backgroundColor: colors.seaside,
+  },
+  logo: {
+    marginTop: spacing.normal,
+    color: colors.white,
+    fontSize: 70,
+    fontFamily: 'Sacramento'
   },
   whiteText: {
     color: colors.white
   },
-  fullInput: {
-    height: 40, backgroundColor: colors.white, paddingLeft: 20, paddingRight: 20, marginBottom: 5
+  inputContainer: {
+    height: 100,
+    alignSelf: 'stretch',
+    marginLeft: spacing.normal,
+    marginRight: spacing.normal,
+    backgroundColor: colors.white,
+    borderWidth: StyleSheet.hairlineWidth,
+    borderColor: colors.gray,
+    borderRadius: 20,
+  },
+  innerInputContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  input: {
+    height: 40,
+    backgroundColor: colors.white,
+    paddingLeft: spacing.small,
+    paddingRight: spacing.xsmall,
+    marginLeft: spacing.normal,
+    marginRight: spacing.normal,
   }
 });
 
