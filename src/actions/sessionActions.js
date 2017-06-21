@@ -1,9 +1,11 @@
 import sessionService from '../services/sessionService';
 import { Alert } from 'react-native';
+import uiActions from './uiActions';
 
 export const types = {
   SET_TOKEN: "SET_TOKEN",
   SET_USER: "SET_USER",
+  SET_VERIFICATION_EMAIL: "SET_VERIFICATION_EMAIL",
 }
 
 function logout() {
@@ -15,6 +17,16 @@ function logout() {
     dispatch({
       type: types.SET_USER,
       payload: null
+    });
+  }
+}
+
+function validateVerificationCode(email, verificationCode) {
+  return dispatch => {
+    sessionService.validateVerificationCode(email, verificationCode).then(data => {
+      dispatch(uiActions.setPage('newPassword'))
+    }).catch(err => {
+      Alert.alert('Invalid', err.message);
     });
   }
 }
@@ -53,9 +65,18 @@ function register(firstName, lastName, email, password) {
   }
 }
 
+function setVerificationEmail(email) {
+  return {
+    type: types.SET_VERIFICATION_EMAIL,
+    payload: email
+  }
+}
+
 const sessionActions = {
   login,
   logout,
-  register
+  register,
+  setVerificationEmail,
+  validateVerificationCode,
 };
 export default sessionActions;

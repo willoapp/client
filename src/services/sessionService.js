@@ -8,6 +8,10 @@ class SessionService {
   register(firstName, lastName, email, password) {
     return sessionPromise(request.post(`/api/auth/register`, { firstName, lastName, email, password }));
   }
+
+  validateVerificationCode(email, verificationCode) {
+    return sessionPromise(request.post(`/api/auth/validateVerificationCode`, { email, verificationCode }))
+  }
 }
 
 function sessionPromise(res) {

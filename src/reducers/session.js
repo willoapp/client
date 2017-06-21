@@ -3,7 +3,8 @@ import {types} from '../actions/sessionActions';
 export const initialState = {
   userLoaded: false,
   user: null,
-  token: null
+  token: null,
+  verificationEmail: null
 }
 
 export default reducer = (state = initialState, action = {}) => {
@@ -17,6 +18,10 @@ export default reducer = (state = initialState, action = {}) => {
         user: action.payload,
         userLoaded: true,
       });
+    case types.SET_VERIFICATION_EMAIL:
+      return Object.assign({}, state, {
+        verificationEmail: action.payload
+      })
     default:
       return state;
   }

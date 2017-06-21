@@ -7,6 +7,9 @@ import {
 import LoadingPage from './pages/LoadingPage';
 import SignupPage from './pages/SignupPage';
 import LoginPage from './pages/LoginPage';
+import ForgotPasswordPage from './pages/ForgotPasswordPage';
+import EmailConfirmationCodePage from './pages/EmailConfirmationCodePage';
+import NewPasswordPage from './pages/NewPasswordPage';
 
 import ActivityPage from './pages/ActivityPage';
 import CalendarPage from './pages/CalendarPage';
@@ -55,6 +58,24 @@ class App extends Component {
       return (
         <View style={styles.container}>
           <LoginPage/>
+        </View>
+      )
+    } else if (this.props.state.uiState.page === 'forgotPassword') {
+      return (
+        <View style={styles.container}>
+          <ForgotPasswordPage/>
+        </View>
+      )
+    } else if (this.props.state.uiState.page === 'emailConfirmationCode') {
+      return (
+        <View style={styles.container}>
+          <EmailConfirmationCodePage/>
+        </View>
+      )
+    } else if (this.props.state.uiState.page === 'newPassword') {
+      return (
+        <View style={styles.container}>
+          <NewPasswordPage/>
         </View>
       )
     } else {

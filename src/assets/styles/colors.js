@@ -3,6 +3,7 @@ const colors = {
   bglightgray: "#F5FCFF",
   bggray: "#FAFAFA",
   lightgray: "#EFEFF4",
+  hairlinegray: "#BAC7CA",
   gray: "#9B9B9B",
   darkgray: "#4A4A4A",
   black: "#000000",

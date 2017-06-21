@@ -21,16 +21,24 @@ import uiActions from '../actions/uiActions';
 
 let {height, width} = Dimensions.get('window');
 
-class SignupPage extends Component {
+class NewPasswordPage extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {firstName: '', lastName: '', email: '', password: ''}
+    this.state = {newPassword: '', newPasswordConfirmation: ''}
   }
 
-    register(firstName, lastName, email, password) {
-      this.props.sessionActions.register(firstName, lastName, email, password);
+  updatePassword(newPassword, newPasswordConfirmation) {
+    if (!this.passwordsMatch()) {
+      Alert.alert("Passwords don't match", "Make sure your password matches in both fields.")
+    } else {
+      this.props.sessionActions.updatePassword(newPassword);
     }
+  }
+
+  passwordsMatch() {
+    return this.state.newPassword === this.state.newPasswordConfirmation;
+  }
 
   render() {
     return (
@@ -43,84 +51,46 @@ class SignupPage extends Component {
           <View style={styles.inputContainer}>
             <View style={styles.innerInputContainer}>
               <View style={[styles.inputWrapper, {borderBottomColor: colors.hairlinegray, borderBottomWidth: StyleSheet.hairlineWidth}]}>
-                <Icon name="user" style={[styles.icon]} />
+                <Icon name="lock" style={[styles.icon, {fontSize: 25, marginRight: 2}]} />
                 <TextInput
-                  style={styles.input}
-                  placeholder="First Name"
+                  style={[styles.borderTop, styles.input]}
+                  placeholder="New Password"
                   returnKeyType="next"
-                  autoCapitalize="words"
                   autoCorrect={false}
-                  onChangeText={(firstName) => this.setState({ firstName })}
+                  secureTextEntry={true}
+                  returnKeyType="done"
+                  onChangeText={(newPassword) => this.setState({ newPassword })}
                   onSubmitEditing={(event) => {
                     this.refs.SecondInput.focus();
                   }}
-                />
-              </View>
-
-              <View style={[styles.inputWrapper, {borderBottomColor: colors.hairlinegray, borderBottomWidth: StyleSheet.hairlineWidth}]}>
-                <Icon name="user" style={[styles.icon, {fontSize: 21.5}]} />
-                <TextInput
-                  ref='SecondInput'
-                  style={[styles.borderTop, styles.input]}
-                  placeholder="Last Name"
-                  returnKeyType="next"
-                  autoCapitalize="words"
-                  autoCorrect={false}
-                  onChangeText={(lastName) => this.setState({ lastName })}
-                  onSubmitEditing={(event) => {
-                    this.refs.ThirdInput.focus();
-                  }}
                   />
               </View>
-
-              <View style={[styles.inputWrapper, {borderBottomColor: colors.hairlinegray, borderBottomWidth: StyleSheet.hairlineWidth}]}>
-                <Icon name="envelope" style={[styles.icon, {fontSize: 18}]} />
-                <TextInput
-                  ref='ThirdInput'
-                  style={[styles.borderTop, styles.input]}
-                  placeholder="Email"
-                  autoCapitalize="none"
-                  autoCorrect={false}
-                  returnKeyType="next"
-                  keyboardType="email-address"
-                  onChangeText={(email) => this.setState({ email })}
-                  onSubmitEditing={(event) => {
-                    this.refs.FourthInput.focus();
-                  }}
-                  />
-              </View>
-
               <View style={styles.inputWrapper}>
                 <Icon name="lock" style={[styles.icon, {fontSize: 25, marginRight: 2}]} />
                 <TextInput
-                  ref='FourthInput'
+                  ref='SecondInput'
                   style={[styles.borderTop, styles.input]}
-                  placeholder="Password"
-                  secureTextEntry={true}
+                  placeholder="Confirm New Password"
                   autoCorrect={false}
+                  secureTextEntry={true}
                   returnKeyType="done"
                   onChangeText={(password) => this.setState({ password })}
-                  onSubmitEditing={(event) => {
-                    this.register(this.state.firstName, this.state.lastName, this.state.email, this.state.password)
-                  }}
+                  onSubmitEditing={() => this.updatePassword(this.state.newPassword, this.state.confirmNewPassword)}
                   />
               </View>
             </View>
           </View>
 
-          <TouchableOpacity style={{marginBottom: spacing.small}} onPress={() => this.register(this.state.firstName, this.state.lastName, this.state.email, this.state.password)}>
-            <Text style={[styles.loginButton]}>Sign up</Text>
-          </TouchableOpacity>
-
-          <View style={{ flex: 0, flexDirection: 'row', alignItems: 'center'}}>
-            <View style={{ marginRight: spacing.xxsmall }}>
-              <Text style={{ color: colors.slate, fontSize: fontSizes.normal }}>Already have an account?</Text>
-            </View>
-            <View>
-              <TouchableOpacity onPress={() => this.props.uiActions.setPage('login')}>
-                <Text style={{color: colors.white, fontSize: fontSizes.normal}}>Log in</Text>
+          <View style={{flex: 0, flexDirection: 'row', justifyContent: 'space-between'}}>
+            <View style={{marginRight: spacing.xlarge}}>
+              <TouchableOpacity style={{marginBottom: spacing.small}} onPress={() => this.uiActions.setPage('login')}>
+                <Text style={styles.loginButton}>Cancel</Text>
               </TouchableOpacity>
             </View>
+
+            <TouchableOpacity style={{marginBottom: spacing.small}} disabled={!this.passwordsMatch()} onPress={() => this.updatePassword(this.state.newPassword, this.state.confirmNewPassword)}>
+              <Text style={[styles.loginButton, {color: this.passwordsMatch() ? colors.white : colors.slate}]}>Confirm</Text>
+            </TouchableOpacity>
           </View>
         </View>
       </TouchableWithoutFeedback>
@@ -135,7 +105,8 @@ const styles = StyleSheet.create({
     backgroundColor: colors.seaside,
   },
   logo: {
-    marginTop: spacing.large,
+    marginTop: spacing.xlarge,
+    marginBottom: spacing.small,
     color: colors.white,
     fontSize: 60,
     fontFamily: 'Sacramento'
@@ -144,7 +115,7 @@ const styles = StyleSheet.create({
     color: colors.white
   },
   inputContainer: {
-    height: 200,
+    height: 100,
     width: width - (spacing.normal*2),
     marginBottom: spacing.normal,
     backgroundColor: colors.white,
@@ -171,7 +142,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center'
   },
   icon: {
-    fontSize: 20,
+    fontSize: fontSizes.xxlarge,
     alignSelf: 'center',
     // Padding to alleviate buggy side clipping
     paddingRight: spacing.xxsmall,
@@ -191,4 +162,4 @@ export default connect(state => ({
     uiActions: bindActionCreators(uiActions, dispatch),
     sessionActions: bindActionCreators(sessionActions, dispatch)
   })
-)(SignupPage);
+)(NewPasswordPage);

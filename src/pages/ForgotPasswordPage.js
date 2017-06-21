@@ -21,15 +21,17 @@ import uiActions from '../actions/uiActions';
 
 let {height, width} = Dimensions.get('window');
 
-class LoginPage extends Component {
+class ForgotPasswordPage extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {email: '', password: ''}
+    this.state = {email: ''}
   }
 
-  login(email, password) {
-    this.props.sessionActions.login(email, password);
+  sendConfirmationEmail(email) {
+    // this.props.sessionActions.sendConfirmationEmail(email);
+    this.props.sessionActions.setVerificationEmail(email);
+    this.props.uiActions.setPage('emailConfirmationCode');
   }
 
   render() {
@@ -40,56 +42,36 @@ class LoginPage extends Component {
             <Text style={styles.logo}>Willow</Text>
           </View>
 
+          <Text style={{color: colors.slate, fontSize: fontSizes.xlarge, marginBottom: spacing.normal}}>Forgot Your Password?</Text>
+          <Text style={{color: colors.white, fontSize: fontSizes.normal, marginBottom: spacing.normal, textAlign: 'center'}}>Enter your email address and we will send you a validation code to reset your password.</Text>
+
           <View style={styles.inputContainer}>
             <View style={styles.innerInputContainer}>
-              <View style={[styles.inputWrapper, {borderBottomColor: colors.hairlinegray, borderBottomWidth: StyleSheet.hairlineWidth}]}>
+              <View style={[styles.inputWrapper]}>
                 <Icon name="envelope" style={[styles.icon, {fontSize: 18}]} />
                 <TextInput
                   style={styles.input}
                   placeholder="Email"
-                  returnKeyType="next"
+                  returnKeyType="done"
                   keyboardType="email-address"
                   autoCapitalize="none"
                   autoCorrect={false}
                   onChangeText={(email) => this.setState({ email })}
-                  onSubmitEditing={(event) => {
-                    this.refs.SecondInput.focus();
-                  }}
+                  onSubmitEditing={() => this.sendConfirmationEmail(this.state.email)}
                 />
               </View>
-
-              <View style={styles.inputWrapper}>
-                <Icon name="lock" style={[styles.icon, {fontSize: 25, marginRight: 2}]} />
-                <TextInput
-                  ref='SecondInput'
-                  style={[styles.borderTop, styles.input]}
-                  placeholder="Password"
-                  autoCorrect={false}
-                  secureTextEntry={true}
-                  returnKeyType="done"
-                  onChangeText={(password) => this.setState({ password })}/>
-              </View>
             </View>
           </View>
 
-          <TouchableOpacity style={{marginBottom: spacing.small}} onPress={() => this.login(this.state.email, this.state.password)}>
-            <Text style={styles.loginButton}>Log in</Text>
-          </TouchableOpacity>
-
-          <View style={{ flex: 0, flexDirection: 'row', alignItems: 'center'}}>
-            <View style={{ marginRight: spacing.xxsmall }}>
-              <Text style={{ color: colors.slate, fontSize: fontSizes.normal }}>New to Willow?</Text>
-            </View>
-            <View>
-              <TouchableOpacity onPress={() => this.props.uiActions.setPage('signup')}>
-                <Text style={{color: colors.white, fontSize: fontSizes.normal }}>Sign up</Text>
+          <View style={{flex: 0, flexDirection: 'row', justifyContent: 'space-between'}}>
+            <View style={{marginRight: spacing.xlarge}}>
+              <TouchableOpacity onPress={() => this.props.uiActions.setPage('login')}>
+                <Text style={styles.loginButton}>Back</Text>
               </TouchableOpacity>
             </View>
-          </View>
 
-          <View style={{ marginTop: spacing.xsmall, flex: 0, flexDirection: 'row', alignItems: 'center'}}>
-            <TouchableOpacity onPress={() => this.props.uiActions.setPage('forgotPassword')}>
-              <Text style={{color: colors.white, fontSize: fontSizes.normal }}>Forgot Password?</Text>
+            <TouchableOpacity style={{marginBottom: spacing.small}} onPress={() => this.sendConfirmationEmail(this.state.email)} disabled={this.state.email.length == 0}>
+              <Text style={[styles.loginButton, { color: (this.state.email.length == 0 ? colors.slate : colors.white) }]}>Send</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -115,7 +97,7 @@ const styles = StyleSheet.create({
     color: colors.white
   },
   inputContainer: {
-    height: 100,
+    height: 50,
     width: width - (spacing.normal*2),
     marginBottom: spacing.normal,
     backgroundColor: colors.white,
@@ -162,4 +144,4 @@ export default connect(state => ({
     uiActions: bindActionCreators(uiActions, dispatch),
     sessionActions: bindActionCreators(sessionActions, dispatch)
   })
-)(LoginPage);
+)(ForgotPasswordPage);

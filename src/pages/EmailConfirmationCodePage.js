@@ -21,15 +21,19 @@ import uiActions from '../actions/uiActions';
 
 let {height, width} = Dimensions.get('window');
 
-class LoginPage extends Component {
+class EmailConfirmationCodePage extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {email: '', password: ''}
+    this.state = {verificationCode: ''}
   }
 
-  login(email, password) {
-    this.props.sessionActions.login(email, password);
+  validateVerificationCode(email, verificationCode) {
+    this.props.sessionActions.validateVerificationCode(email, verificationCode);
+  }
+
+  verificationCodeLongEnough() {
+    return this.state.verificationCode.length === 6;
   }
 
   render() {
@@ -40,56 +44,39 @@ class LoginPage extends Component {
             <Text style={styles.logo}>Willow</Text>
           </View>
 
+          <Text style={{color: colors.slate, fontSize: fontSizes.xlarge, marginBottom: spacing.normal, textAlign: 'center'}}>
+            Please enter the 6 digit code sent to
+            <Text style={{color: colors.white}}> {this.props.state.sessionState.verificationEmail}</Text>
+          </Text>
+
           <View style={styles.inputContainer}>
             <View style={styles.innerInputContainer}>
-              <View style={[styles.inputWrapper, {borderBottomColor: colors.hairlinegray, borderBottomWidth: StyleSheet.hairlineWidth}]}>
-                <Icon name="envelope" style={[styles.icon, {fontSize: 18}]} />
+              <View style={[styles.inputWrapper]}>
                 <TextInput
                   style={styles.input}
-                  placeholder="Email"
+                  maxLength={6}
+                  placeholder="- - - - - -"
                   returnKeyType="next"
-                  keyboardType="email-address"
+                  keyboardType="numeric"
                   autoCapitalize="none"
                   autoCorrect={false}
-                  onChangeText={(email) => this.setState({ email })}
-                  onSubmitEditing={(event) => {
-                    this.refs.SecondInput.focus();
-                  }}
+                  onChangeText={(verificationCode) => this.setState({ verificationCode })}
+                  onSubmitEditing={() => this.validateVerificationCode(this.props.state.sessionState.verificationEmail, this.state.verificationCode)}
                 />
               </View>
-
-              <View style={styles.inputWrapper}>
-                <Icon name="lock" style={[styles.icon, {fontSize: 25, marginRight: 2}]} />
-                <TextInput
-                  ref='SecondInput'
-                  style={[styles.borderTop, styles.input]}
-                  placeholder="Password"
-                  autoCorrect={false}
-                  secureTextEntry={true}
-                  returnKeyType="done"
-                  onChangeText={(password) => this.setState({ password })}/>
-              </View>
             </View>
           </View>
 
-          <TouchableOpacity style={{marginBottom: spacing.small}} onPress={() => this.login(this.state.email, this.state.password)}>
-            <Text style={styles.loginButton}>Log in</Text>
-          </TouchableOpacity>
-
-          <View style={{ flex: 0, flexDirection: 'row', alignItems: 'center'}}>
-            <View style={{ marginRight: spacing.xxsmall }}>
-              <Text style={{ color: colors.slate, fontSize: fontSizes.normal }}>New to Willow?</Text>
-            </View>
-            <View>
-              <TouchableOpacity onPress={() => this.props.uiActions.setPage('signup')}>
-                <Text style={{color: colors.white, fontSize: fontSizes.normal }}>Sign up</Text>
+          <View style={{flex: 0, flexDirection: 'row'}}>
+            <View style={{marginRight: spacing.xlarge}}>
+              <TouchableOpacity onPress={() => this.props.uiActions.setPage('forgotPassword')}>
+                <Text style={styles.loginButton}>Back</Text>
               </TouchableOpacity>
             </View>
-          </View>
 
-          <View style={{ marginTop: spacing.xsmall, flex: 0, flexDirection: 'row', alignItems: 'center'}}>
-            <TouchableOpacity onPress={() => this.props.uiActions.setPage('forgotPassword')}>
-              <Text style={{color: colors.white, fontSize: fontSizes.normal }}>Forgot Password?</Text>
+
+            <TouchableOpacity disabled={!this.verificationCodeLongEnough()} onPress={() => this.validateVerificationCode(this.props.state.sessionState.verificationEmail, this.state.verificationCode)}>
+              <Text style={[styles.loginButton, {color: this.verificationCodeLongEnough() ? colors.white : colors.slate}]}>Next</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -115,7 +102,7 @@ const styles = StyleSheet.create({
     color: colors.white
   },
   inputContainer: {
-    height: 100,
+    height: 50,
     width: width - (spacing.normal*2),
     marginBottom: spacing.normal,
     backgroundColor: colors.white,
@@ -138,7 +125,7 @@ const styles = StyleSheet.create({
   input: {
     flex: 1,
     height: spacing.xlarge,
-    marginLeft: spacing.xsmall,
+    textAlign: 'center',
     alignSelf: 'center'
   },
   icon: {
@@ -162,4 +149,4 @@ export default connect(state => ({
     uiActions: bindActionCreators(uiActions, dispatch),
     sessionActions: bindActionCreators(sessionActions, dispatch)
   })
-)(LoginPage);
+)(EmailConfirmationCodePage);
