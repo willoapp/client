@@ -1,13 +1,32 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
 import colors from './assets/styles/colors';
-import { TabNavigator } from 'react-navigation';
+import { TabNavigator, StackNavigator } from 'react-navigation';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import ActivityPage from './pages/tabs/ActivityPage';
 import CalendarPage from './pages/tabs/CalendarPage';
 import InvitationsPage from './pages/tabs/InvitationsPage';
 import ProfilePage from './pages/tabs/ProfilePage';
+import HeaderNav from './components/HeaderNav';
+
+import AddActivityPage from './pages/activity/AddActivityPage';
+
+export const ActivityStack = StackNavigator({
+  ActivityPage: {
+    screen: ActivityPage,
+    navigationOptions: {
+      title: 'Activity'
+    }
+  },
+  // AddActivityPage: {
+  //   screen: AddActivityPage,
+  //   navigationOptions: {
+  //     title: 'Create New Activity',
+  //     headerBackTitle: null,
+  //   }
+  // }
+});
 
 export const Tabs = TabNavigator({
   ActivityPage: {
@@ -50,6 +69,26 @@ export const Tabs = TabNavigator({
     activeTintColor: colors.blue,
     showLabel: false
   }
+});
+
+export const Root = StackNavigator({
+  Tabs: {
+    screen: Tabs,
+    navigationOptions: {
+      header: () => (
+        <HeaderNav/>
+      )
+    }
+  },
+  AddActivityPage: {
+    screen: AddActivityPage,
+    navigationOptions: {
+      title: 'Update Activity',
+      headerLeft: null,
+    }
+  }
+}, {
+  mode: 'modal',
 });
 
 const styles = StyleSheet.create({

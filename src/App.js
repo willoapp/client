@@ -4,14 +4,13 @@ import {
   View,
   Text,
 } from 'react-native';
-import { Tabs } from './router';
+import { Root } from './router';
 import LoadingPage from './pages/LoadingPage';
 import SignupPage from './pages/SignupPage';
 import LoginPage from './pages/LoginPage';
 import ForgotPasswordPage from './pages/ForgotPasswordPage';
 import EmailConfirmationCodePage from './pages/EmailConfirmationCodePage';
 import NewPasswordPage from './pages/NewPasswordPage';
-import HeaderNav from './components/HeaderNav';
 
 import BottomTabBar from './components/BottomTabBar';
 
@@ -29,8 +28,7 @@ class App extends Component {
     if (this.props.state.sessionState.user) {
       return (
         <View style={styles.container}>
-          <HeaderNav/>
-          <Tabs/>
+          <Root/>
         </View>
       )
     } else if (this.props.state.uiState.page === 'login') {
