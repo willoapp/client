@@ -26,7 +26,7 @@ class ActivityPage extends Component {
   }
 
   composeActivity(user) {
-    this.props.navigation.navigate('AddActivityPage', user);
+    this.props.navigation.navigate('AddActivityPage', { user });
   }
 
   render() {

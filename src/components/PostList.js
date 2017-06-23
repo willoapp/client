@@ -13,11 +13,15 @@ export default class PostList extends Component {
 
   _keyExtractor = (item, index) => item._id
 
+  orderedPosts(posts) {
+    return posts.sort((a, b) => new Date(a.createdAt) < new Date(b.createdAt))
+  }
+
   render() {
     return (
       <View style={{flex: 1}}>
         <FlatList
-          data={this.props.posts}
+          data={this.orderedPosts(this.props.posts)}
           extraData={this.state}
           keyExtractor={this._keyExtractor}
           renderItem={({item}) => <PostListItem post={item} onPressItem={this._onPressItem}/>}

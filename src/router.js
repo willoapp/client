@@ -19,13 +19,6 @@ export const ActivityStack = StackNavigator({
       title: 'Activity'
     }
   },
-  // AddActivityPage: {
-  //   screen: AddActivityPage,
-  //   navigationOptions: {
-  //     title: 'Create New Activity',
-  //     headerBackTitle: null,
-  //   }
-  // }
 });
 
 export const Tabs = TabNavigator({
@@ -62,7 +55,7 @@ export const Tabs = TabNavigator({
     }
   }
 }, {
-  swipeEnabled: true,
+  // swipeEnabled: true,
   animationEnabled: true,
   tabBarOptions: {
     inactiveTintColor: colors.gray,

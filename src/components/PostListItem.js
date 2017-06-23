@@ -9,6 +9,8 @@ import colors from '../assets/styles/colors';
 import MyText from './MyText';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
+import { fromNow } from '../utils/moment';
+
 PostAlert = (props) => {
   // TODO: Only show if p.created/updatedAt is < user.lastViewedActivityAt
   const p = props.post;
@@ -38,7 +40,7 @@ export default class PostListItem extends Component {
             <View style={styles.contentContainer}>
               <View style={styles.header}>
                 <MyText style={styles.user}>{this.props.post.user.firstName}</MyText>
-                <MyText style={styles.time}>yesterday</MyText>
+                <MyText style={styles.time}>{fromNow(this.props.post.createdAt)}</MyText>
               </View>
               <Text>{this.props.post.content}</Text>
             </View>

@@ -14,7 +14,7 @@ export default reducer = (state = initialState, action = {}) => {
     case types.ADD_POST:
       return {
         ...state,
-        posts: Object.assign({}, state.posts, [action.payload])
+        posts: state.posts.concat(action.payload)
       }
     default:
       return state;

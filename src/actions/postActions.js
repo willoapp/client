@@ -18,7 +18,7 @@ function getPosts() {
   }
 }
 
-function addPost(postText) {
+function addPost(post) {
   return (dispatch, getState) => {
     graphqlService.mutate(getState(), `mutation ($post: PostInput!) { addPost(post: $post) ${postFragment} }`, { post }).then(data => {
       const post = data.addPost;
@@ -26,7 +26,6 @@ function addPost(postText) {
         type: types.ADD_POST,
         payload: post
       })
-      this.props.actions.addPost(post);
     });
   }
 }

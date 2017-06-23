@@ -2,24 +2,54 @@ import React, { Component } from 'react';
 import {
   View,
   Text,
-  StyleSheet } from 'react-native';
+  StyleSheet,
+  TextInput,
+  Button,
+  Keyboard,
+  TouchableWithoutFeedback,
+} from 'react-native';
 
 import colors from '../../assets/styles/colors';
 import spacing from '../../assets/styles/spacing';
 import fontSizes from '../../assets/styles/fontSizes';
 
-export default class AddActivityPage extends Component {
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import postActions from '../../actions/postActions';
 
-  // addPost() {
-  //   const post = { content: this.state.text, userId: "58d9eafafa8beec1b2c33cbb" }
-  //   this.props.postActions.addPost(post);
-  // }
+class AddActivityPage extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = { text: '' }
+  }
+
+  addPost(text, user) {
+    const post = { content: text, userId: user._id }
+    this.props.postActions.addPost(post);
+    this.props.navigation.goBack();
+  }
 
   render() {
+    const user = this.props.navigation.state.params.user;
     return (
-      <View style={styles.container}>
-        <Text>Add Some Activity</Text>
-      </View>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View style={styles.container}>
+          <TextInput
+            style={{padding: spacing.normal, height: 300}}
+            onChangeText={(text) => this.setState({text})}
+            value={this.state.text}
+            placeholder="Update your family with your status..."
+            multiline={true}
+          />
+          <Button
+            onPress={() => this.addPost(this.state.text, user)}
+            title="Add Activity"
+            color={colors.slate}
+            accessibilityLabel="Add activity button"
+          />
+        </View>
+      </TouchableWithoutFeedback>
     )
   }
 }
@@ -27,6 +57,14 @@ export default class AddActivityPage extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.slate
+    backgroundColor: colors.white
   }
 });
+
+export default connect(state => ({
+    state
+  }),
+  dispatch => ({
+    postActions: bindActionCreators(postActions, dispatch)
+  })
+)(AddActivityPage);
