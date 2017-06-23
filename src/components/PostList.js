@@ -1,6 +1,14 @@
 import React, { Component } from 'react';
-import { AppRegistry, Text, View, ListView, FlatList } from 'react-native';
+import {
+  Text,
+  View,
+  ListView,
+  FlatList,
+  StyleSheet,
+} from 'react-native';
 import PostListItem from './PostListItem';
+import sortBy from 'lodash-es/sortBy';
+import colors from '../assets/styles/colors';
 
 export default class PostList extends Component {
   constructor(props) {
@@ -14,7 +22,7 @@ export default class PostList extends Component {
   _keyExtractor = (item, index) => item._id
 
   orderedPosts(posts) {
-    return posts.sort((a, b) => new Date(a.createdAt) < new Date(b.createdAt))
+    return sortBy(posts, p => p.createdAt).reverse();
   }
 
   render() {
@@ -24,10 +32,20 @@ export default class PostList extends Component {
           data={this.orderedPosts(this.props.posts)}
           extraData={this.state}
           keyExtractor={this._keyExtractor}
-          renderItem={({item}) => <PostListItem post={item} onPressItem={this._onPressItem}/>}
-
+          renderItem={({item}) => <PostListItem post={item}/>}
+          onPressItem={this._onPressItem}
+          ItemSeparatorComponent={() => <View style={styles.divider}/>}
         />
       </View>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  divider: {
+    flex: 1,
+    height: StyleSheet.hairlineWidth,
+    backgroundColor: colors.gray,
+    marginLeft: 20,
+  }
+})

@@ -35,7 +35,7 @@ class ActivityPage extends Component {
       <View style={styles.container}>
         <View style={[styles.bottomBorder]}>
           <TouchableOpacity style={styles.textInputMock} onPress={() => this.composeActivity(state.sessionState.user)}>
-            <Text style={styles.placeholder}>Post something</Text>
+            <Text style={styles.placeholder}>Post something...</Text>
           </TouchableOpacity>
         </View>
         <PostList posts={state.postsState.posts} {...actions}/>

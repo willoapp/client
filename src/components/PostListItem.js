@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import {
   StyleSheet,
   View,
-  TouchableOpacity,
   Text
 } from 'react-native';
 import colors from '../assets/styles/colors';
+import fontSizes from '../assets/styles/fontSizes';
+import spacing from '../assets/styles/spacing';
 import MyText from './MyText';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
@@ -20,16 +21,11 @@ PostAlert = (props) => {
 export default class PostListItem extends Component {
   constructor(props) {
     super(props);
-    this._onPress = this._onPress.bind(this);
-  }
-
-  _onPress() {
-    this.props.onPressItem(this.props.post)
   }
 
   render() {
     return (
-      <TouchableOpacity onPress={this._onPress} style={styles.container}>
+      <View style={styles.container}>
           {/* Left - activity indicator */}
           <View style={styles.alertContainer}>
             <PostAlert post={this.props.post} />
@@ -42,12 +38,12 @@ export default class PostListItem extends Component {
                 <MyText style={styles.user}>{this.props.post.user.firstName}</MyText>
                 <MyText style={styles.time}>{fromNow(this.props.post.createdAt)}</MyText>
               </View>
-              <Text>{this.props.post.content}</Text>
+              <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                <Text style={{flex: 1, width: 0}}>{this.props.post.content}</Text>
+              </View>
             </View>
-
-            <View style={styles.divider}/>
           </View>
-      </TouchableOpacity>
+      </View>
     )
   }
 }
@@ -69,25 +65,21 @@ const styles = StyleSheet.create({
   },
 
   contentContainer: {
-    paddingRight: 20,
-    paddingTop: 10,
-    paddingBottom: 10
+    // backgroundColor: 'powderblue',
+    paddingRight: spacing.normal,
+    paddingTop: spacing.xsmall,
+    paddingBottom: spacing.xsmall,
   },
   header: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 5
+    marginBottom: spacing.xxsmall
   },
   user: {
     fontWeight: 'bold'
   },
   time: {
-    fontSize: 12
-  },
-  divider: {
-    flex: 1,
-    height: 1,
-    backgroundColor: colors.gray
+    fontSize: fontSizes.xsmall
   }
 });

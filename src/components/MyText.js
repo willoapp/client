@@ -10,7 +10,7 @@ export default class MyText extends Component {
   }
 
   fontFamily() {
-    this.props.fontWeight && this.props.fontWeight === 'bold' ? 'Comic Sans MS - Bold' : 'Comic Sans MS';
+    this.props.fontWeight && this.props.fontWeight === 'bold' ? 'Helvetica - Bold' : 'Helvetica';
   }
 
   render() {
