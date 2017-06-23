@@ -5,13 +5,12 @@ import {
   Text,
   Button,
 } from 'react-native';
-import HeaderNav from '../components/HeaderNav';
-import colors from '../assets/styles/colors';
+import colors from '../../assets/styles/colors';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import sessionActions from '../actions/sessionActions';
-import uiActions from '../actions/uiActions';
+import sessionActions from '../../actions/sessionActions';
+import uiActions from '../../actions/uiActions';
 
 class ProfilePage extends Component {
   constructor(props) {
@@ -26,7 +25,6 @@ class ProfilePage extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <HeaderNav/>
         <Text>This is the profile page</Text>
         <Button
           onPress={() => this.logout()}

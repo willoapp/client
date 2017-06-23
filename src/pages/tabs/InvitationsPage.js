@@ -6,13 +6,12 @@ import {
   TextInput,
   Button
 } from 'react-native';
-import HeaderNav from '../components/HeaderNav';
-import colors from '../assets/styles/colors';
+import colors from '../../assets/styles/colors';
 
-import graphqlService from '../services/graphqlService'
+import graphqlService from '../../services/graphqlService'
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import postActions from '../actions/postActions';
+import postActions from '../../actions/postActions';
 
 class InvitationsPage extends Component {
 
@@ -27,7 +26,6 @@ class InvitationsPage extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <HeaderNav/>
 
         <Text>Invitations</Text>
 

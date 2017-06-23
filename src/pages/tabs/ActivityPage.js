@@ -4,15 +4,14 @@ import {
   View,
   Text,
 } from 'react-native';
-import HeaderNav from '../components/HeaderNav';
-import PostList from '../components/PostList';
-import AddActivity from '../components/AddActivity';
+import PostList from '../../components/PostList';
+import AddActivity from '../../components/AddActivity';
 
-import colors from '../assets/styles/colors';
+import colors from '../../assets/styles/colors';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import postActions from '../actions/postActions';
+import postActions from '../../actions/postActions';
 
 class ActivityPage extends Component {
 
@@ -34,7 +33,6 @@ class ActivityPage extends Component {
     const { state, actions } = this.props;
     return (
       <View style={styles.container}>
-        <HeaderNav/>
         <AddActivity/>
         <PostList posts={state.postsState.posts} {...actions}/>
       </View>
