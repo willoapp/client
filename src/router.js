@@ -1,6 +1,10 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import {
+  Text,
+  StyleSheet
+ } from 'react-native';
 import colors from './assets/styles/colors';
+import spacing from './assets/styles/spacing';
 import { TabNavigator, StackNavigator } from 'react-navigation';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
@@ -75,10 +79,6 @@ export const Root = StackNavigator({
   },
   AddActivityPage: {
     screen: AddActivityPage,
-    navigationOptions: {
-      title: 'Update Activity',
-      headerLeft: null,
-    }
   }
 }, {
   mode: 'modal',

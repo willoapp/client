@@ -19,15 +19,32 @@ import postActions from '../../actions/postActions';
 
 class AddActivityPage extends Component {
 
-  constructor(props) {
-    super(props);
-    this.state = { text: '' }
+  static navigationOptions = ({ navigation }) => {
+    const text = navigation.state.params.text;
+    const user = navigation.state.params.user;
+    const addPost = navigation.state.params.addPost;
+    const props = navigation.state.params.props;
+    return {
+      title: 'Update Activity',
+      headerLeft: <Text style={{ color: colors.slate, marginLeft: spacing.small }} onPress={() => navigation.goBack()}>Cancel</Text>,
+      headerRight: <Text style={{ color: colors.slate, marginRight: spacing.small }} onPress={() => addPost(text, user, props)}>Post</Text>,
+      headerStyle: {backgroundColor: colors.lightgray},
+      headerTitleStyle: {color: colors.seaside}
+    }
   }
 
-  addPost(text, user) {
+  componentDidMount() {
+    this.props.navigation.setParams({ props: this.props, addPost: this.addPost })
+  }
+
+  constructor(props) {
+    super(props);
+  }
+
+  addPost(text, user, props) {
     const post = { content: text, userId: user._id }
-    this.props.postActions.addPost(post);
-    this.props.navigation.goBack();
+    props.postActions.addPost(post);
+    props.navigation.goBack();
   }
 
   render() {
@@ -36,18 +53,18 @@ class AddActivityPage extends Component {
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.container}>
           <TextInput
-            style={{padding: spacing.normal, height: 300}}
-            onChangeText={(text) => this.setState({text})}
-            value={this.state.text}
+            style={{padding: spacing.normal, flex: 1, fontSize: fontSizes.normal}}
+            onChangeText={(text) => this.props.navigation.setParams({ text })}
+            value={this.props.navigation.state.params.text}
             placeholder="Update your family with your status..."
             multiline={true}
           />
-          <Button
+          {/*<Button
             onPress={() => this.addPost(this.state.text, user)}
             title="Add Activity"
             color={colors.slate}
             accessibilityLabel="Add activity button"
-          />
+          />*/}
         </View>
       </TouchableWithoutFeedback>
     )
