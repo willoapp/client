@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import {
-  StyleSheet,
   View,
-  Text,
+  StyleSheet,
   Button,
 } from 'react-native';
+import ProfileHeader from '../../components/ProfileHeader';
+
 import colors from '../../assets/styles/colors';
 
 import { bindActionCreators } from 'redux';
@@ -22,10 +23,14 @@ class ProfilePage extends Component {
     this.props.uiActions.setPage('signup');
   }
 
+  onEditPress() {
+    console.log('Edit was pressed');
+  }
+
   render() {
     return (
       <View style={styles.container}>
-        <Text>This is the profile page</Text>
+        <ProfileHeader onEditPress={() => this.onEditPress()}/>
         <Button
           onPress={() => this.logout()}
           title="Log out"
