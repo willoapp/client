@@ -9,6 +9,7 @@ import {
 import PostListItem from './PostListItem';
 import sortBy from 'lodash-es/sortBy';
 import colors from '../assets/styles/colors';
+import spacing from '../assets/styles/spacing';
 
 export default class PostList extends Component {
   constructor(props) {
@@ -32,7 +33,7 @@ export default class PostList extends Component {
           data={this.orderedPosts(this.props.posts)}
           extraData={this.state}
           keyExtractor={this._keyExtractor}
-          renderItem={({item}) => <PostListItem post={item}/>}
+          renderItem={({item, index}) => <PostListItem index={index} post={item}/>}
           onPressItem={this._onPressItem}
           ItemSeparatorComponent={() => <View style={styles.divider}/>}
         />
@@ -44,8 +45,7 @@ export default class PostList extends Component {
 const styles = StyleSheet.create({
   divider: {
     flex: 1,
-    height: StyleSheet.hairlineWidth,
-    backgroundColor: colors.gray,
-    marginLeft: 20,
+    height: spacing.backgroundWidth,
+    backgroundColor: colors.bggray
   }
 })

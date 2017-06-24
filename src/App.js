@@ -12,8 +12,6 @@ import ForgotPasswordPage from './pages/ForgotPasswordPage';
 import EmailConfirmationCodePage from './pages/EmailConfirmationCodePage';
 import NewPasswordPage from './pages/NewPasswordPage';
 
-import BottomTabBar from './components/BottomTabBar';
-
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import sessionActions from './actions/sessionActions';

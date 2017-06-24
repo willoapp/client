@@ -47,12 +47,11 @@ class ActivityPage extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.bglightgray,
+    backgroundColor: colors.bggray,
   },
   bottomBorder: {
+    backgroundColor: colors.white,
     height: 50,
-    borderBottomColor: colors.gray,
-    borderBottomWidth: StyleSheet.hairlineWidth,
   },
   textInputMock: {
     marginLeft: spacing.normal,

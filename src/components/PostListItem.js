@@ -25,7 +25,7 @@ export default class PostListItem extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      <View style={[styles.container, { marginTop: ( this.props.index === 0 ? spacing.backgroundWidth : 0 ) }]}>
           {/* Left - activity indicator */}
           <View style={styles.alertContainer}>
             <PostAlert post={this.props.post} />
@@ -52,7 +52,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'row',
-    justifyContent: 'flex-start'
+    justifyContent: 'flex-start',
+    backgroundColor: colors.white,
   },
   alertContainer: {
     justifyContent: 'center',

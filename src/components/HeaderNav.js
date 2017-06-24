@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import colors from '../assets/styles/colors';
 
 export default class HeaderNav extends Component {
