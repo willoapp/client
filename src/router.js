@@ -56,7 +56,7 @@ export const Tabs = TabNavigator({
   }
 }, {
   // swipeEnabled: true,
-  animationEnabled: true,
+  // animationEnabled: true,
   tabBarOptions: {
     inactiveTintColor: colors.gray,
     activeTintColor: colors.blue,

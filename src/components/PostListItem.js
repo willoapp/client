@@ -80,6 +80,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   },
   time: {
-    fontSize: fontSizes.xsmall
+    fontSize: fontSizes.xsmall,
+    color: colors.gray,
   }
 });
