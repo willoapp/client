@@ -7,6 +7,7 @@ import {
   Button,
   Keyboard,
   TouchableWithoutFeedback,
+  StatusBar,
 } from 'react-native';
 
 import colors from '../../assets/styles/colors';
@@ -26,7 +27,7 @@ class AddActivityPage extends Component {
     const props = navigation.state.params.props;
     return {
       title: 'Update Activity',
-      headerLeft: <Text style={{ color: colors.slate, marginLeft: spacing.small }} onPress={() => navigation.goBack()}>Cancel</Text>,
+      headerLeft: <Text style={{ color: colors.slate, marginLeft: spacing.small }} onPress={() => { StatusBar.setBarStyle('light-content', true); navigation.goBack(); }}>Cancel</Text>,
       headerRight: <Text style={{ color: colors.slate, marginRight: spacing.small }} onPress={() => addPost(text, user, props)}>Post</Text>,
       headerStyle: {backgroundColor: colors.lightgray},
       headerTitleStyle: {color: colors.seaside}
@@ -45,9 +46,11 @@ class AddActivityPage extends Component {
     const post = { content: text, userId: user._id }
     props.postActions.addPost(post);
     props.navigation.goBack();
+    StatusBar.setBarStyle('light-content', true);
   }
 
   render() {
+    StatusBar.setBarStyle('dark-content', true);
     const user = this.props.navigation.state.params.user;
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -59,12 +62,6 @@ class AddActivityPage extends Component {
             placeholder="Update your family with your status..."
             multiline={true}
           />
-          {/*<Button
-            onPress={() => this.addPost(this.state.text, user)}
-            title="Add Activity"
-            color={colors.slate}
-            accessibilityLabel="Add activity button"
-          />*/}
         </View>
       </TouchableWithoutFeedback>
     )
