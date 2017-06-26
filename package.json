@@ -21,12 +21,12 @@
     "redux-thunk": "^2.2.0"
   },
   "devDependencies": {
+    "babel-eslint": "^7.2.3",
     "babel-jest": "19.0.0",
     "babel-preset-react-native": "1.9.1",
     "eslint-plugin-html": "^3.0.0",
     "jest": "19.0.2",
     "react-test-renderer": "16.0.0-alpha.6",
-    "semistandard": "^11.0.0",
     "standard": "^10.0.2"
   },
   "jest": {
