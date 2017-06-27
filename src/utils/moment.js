@@ -1,6 +1,6 @@
-import moment from 'moment';
+import moment from 'moment'
 
 export function fromNow(time) {
-  const dateTime = new Date(time);
-  return moment(dateTime).fromNow();
+  const dateTime = new Date(time)
+  return moment(dateTime).fromNow()
 }

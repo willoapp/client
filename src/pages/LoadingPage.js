@@ -1,15 +1,15 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import {
   StyleSheet,
   View,
   Text
-} from 'react-native';
-import colors from '../assets/styles/colors';
+} from 'react-native'
+import colors from '../assets/styles/colors'
 
 export default class LoadingPage extends Component {
 
   constructor(props) {
-    super(props);
+    super(props)
   }
 
   render() {
@@ -17,7 +17,7 @@ export default class LoadingPage extends Component {
       <View style={styles.container}>
         <Text style={styles.whiteText}>Loading...</Text>
       </View>
-    );
+    )
   }
 }
 
@@ -31,4 +31,4 @@ const styles = StyleSheet.create({
   whiteText: {
     color: colors.white
   }
-});
+})

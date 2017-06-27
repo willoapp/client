@@ -1,82 +1,67 @@
-import sessionService from '../services/sessionService';
-import { Alert } from 'react-native';
-import uiActions from './uiActions';
+import { Alert } from 'react-native'
+import uiActions from './uiActions'
+import firebase from '../utils/firebase'
 
 export const types = {
   SET_TOKEN: "SET_TOKEN",
   SET_USER: "SET_USER",
-  SET_VERIFICATION_EMAIL: "SET_VERIFICATION_EMAIL",
-}
-
-function logout() {
-  return dispatch => {
-    dispatch({
-      type: types.SET_TOKEN,
-      payload: null
-    });
-    dispatch({
-      type: types.SET_USER,
-      payload: null
-    });
-  }
-}
-
-function validateVerificationCode(email, verificationCode) {
-  return dispatch => {
-    sessionService.validateVerificationCode(email, verificationCode).then(data => {
-      dispatch(uiActions.setPage('newPassword'))
-    }).catch(err => {
-      Alert.alert('Invalid', err.message);
-    });
-  }
 }
 
 function login(email, password) {
   return dispatch => {
-    sessionService.login(email, password).then(data => {
-      dispatch({
-        type: types.SET_TOKEN,
-        payload: data.token
-      });
+    firebase.auth().signInWithEmailAndPassword(email, password)
+    .then(data => {
+      firebase.database().ref(`users/${data.uid}`).once('value').then(user => {
+        u = Object.assign({}, user.val(), {id: data.uid})
+        dispatch({
+          type: types.SET_USER,
+          payload: u
+        })
+      })
+    })
+    .catch(error => {
+      Alert.alert(error.toString())
+    })
+  }
+}
+
+function logout() {
+  return dispatch => {
+    firebase.auth().signOut().then(() => {
       dispatch({
         type: types.SET_USER,
-        payload: data.user
-      });
-    }).catch(err => {
-      Alert.alert('Invalid', err.message)
-    });
+        payload: null
+      })
+    }).catch(error => {
+      Alert.alert(error.toString())
+    })
   }
 }
 
 function register(firstName, lastName, email, password) {
   return dispatch => {
-    sessionService.register(firstName, lastName, email, password).then(data => {
-      dispatch({
-        type: types.SET_TOKEN,
-        payload: data.token
-      });
+    firebase.auth().createUserWithEmailAndPassword(email, password)
+    .then(data => {
+      firebase.database().ref('users/' + data.uid).set({
+        email,
+        firstName,
+        lastName,
+      })
+      user = { email: data.email, uid: data.uid, firstName, lastName }
       dispatch({
         type: types.SET_USER,
-        payload: data.user
-      });
-    }).catch(err => {
-      Alert.alert('Invalid', err.message)
-    });
-  }
-}
-
-function setVerificationEmail(email) {
-  return {
-    type: types.SET_VERIFICATION_EMAIL,
-    payload: email
+        payload: user
+      })
+    })
+    .catch(error => {
+      Alert.alert(error.toString())
+    })
   }
 }
 
 const sessionActions = {
   login,
   logout,
-  register,
-  setVerificationEmail,
-  validateVerificationCode,
-};
-export default sessionActions;
+  register
+}
+export default sessionActions

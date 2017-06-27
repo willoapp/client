@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import {
   StyleSheet,
   View,
@@ -8,32 +8,32 @@ import {
   Text,
   Dimensions,
   TouchableOpacity
-} from 'react-native';
-import colors from '../assets/styles/colors';
-import spacing from '../assets/styles/spacing';
-import fontSizes from '../assets/styles/fontSizes';
-import Icon from 'react-native-vector-icons/FontAwesome';
+} from 'react-native'
+import colors from '../assets/styles/colors'
+import spacing from '../assets/styles/spacing'
+import fontSizes from '../assets/styles/fontSizes'
+import Icon from 'react-native-vector-icons/FontAwesome'
 
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import sessionActions from '../actions/sessionActions';
-import uiActions from '../actions/uiActions';
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import sessionActions from '../actions/sessionActions'
+import uiActions from '../actions/uiActions'
 
-let {height, width} = Dimensions.get('window');
+let {height, width} = Dimensions.get('window')
 
 class EmailConfirmationCodePage extends Component {
 
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {verificationCode: ''}
   }
 
   validateVerificationCode(email, verificationCode) {
-    this.props.sessionActions.validateVerificationCode(email, verificationCode);
+    this.props.sessionActions.validateVerificationCode(email, verificationCode)
   }
 
   verificationCodeLongEnough() {
-    return this.state.verificationCode.length === 6;
+    return this.state.verificationCode.length === 6
   }
 
   render() {
@@ -81,7 +81,7 @@ class EmailConfirmationCodePage extends Component {
           </View>
         </View>
       </TouchableWithoutFeedback>
-    );
+    )
   }
 }
 
@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
     color: colors.white,
     fontSize: fontSizes.xlarge,
   }
-});
+})
 
 export default connect(state => ({
     state
@@ -149,4 +149,4 @@ export default connect(state => ({
     uiActions: bindActionCreators(uiActions, dispatch),
     sessionActions: bindActionCreators(sessionActions, dispatch)
   })
-)(EmailConfirmationCodePage);
+)(EmailConfirmationCodePage)

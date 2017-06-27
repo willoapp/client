@@ -1,26 +1,25 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import {
   StyleSheet,
   View,
   Text,
   TextInput,
   Button
-} from 'react-native';
-import colors from '../../assets/styles/colors';
+} from 'react-native'
+import colors from '../../assets/styles/colors'
 
-import graphqlService from '../../services/graphqlService'
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import postActions from '../../actions/postActions';
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import postActions from '../../actions/postActions'
 
 class InvitationsPage extends Component {
 
   constructor(props) {
-    super(props);
+    super(props)
   }
 
   onTextChange(text) {
-    this.setState({ text });
+    this.setState({ text })
   }
 
   render() {
@@ -30,7 +29,7 @@ class InvitationsPage extends Component {
         <Text>Invitations</Text>
 
       </View>
-    );
+    )
   }
 }
 
@@ -39,10 +38,10 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.bggray,
   }
-});
+})
 
 export default connect(null,
   (dispatch) => ({
     actions: bindActionCreators(postActions, dispatch)
   })
-)(InvitationsPage);
+)(InvitationsPage)

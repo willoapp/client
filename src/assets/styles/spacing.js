@@ -8,4 +8,4 @@ const spacing = {
   backgroundWidth: 8,
 }
 
-export default spacing;
+export default spacing

@@ -1,4 +1,4 @@
-import {types} from '../actions/sessionActions';
+import {types} from '../actions/sessionActions'
 
 export const initialState = {
   userLoaded: false,
@@ -12,17 +12,13 @@ export default reducer = (state = initialState, action = {}) => {
     case types.SET_TOKEN:
       return Object.assign({}, state, {
         token: action.payload
-      });
+      })
     case types.SET_USER:
       return Object.assign({}, state, {
         user: action.payload,
         userLoaded: true,
-      });
-    case types.SET_VERIFICATION_EMAIL:
-      return Object.assign({}, state, {
-        verificationEmail: action.payload
       })
     default:
-      return state;
+      return state
   }
 }

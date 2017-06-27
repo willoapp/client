@@ -1,20 +1,20 @@
-import React from 'react';
+import React from 'react'
 import {
   Text,
   StyleSheet
- } from 'react-native';
-import colors from './assets/styles/colors';
-import spacing from './assets/styles/spacing';
-import { TabNavigator, StackNavigator } from 'react-navigation';
-import Icon from 'react-native-vector-icons/FontAwesome';
+ } from 'react-native'
+import colors from './assets/styles/colors'
+import spacing from './assets/styles/spacing'
+import { TabNavigator, StackNavigator } from 'react-navigation'
+import Icon from 'react-native-vector-icons/FontAwesome'
 
-import ActivityPage from './pages/tabs/ActivityPage';
-import CalendarPage from './pages/tabs/CalendarPage';
-import InvitationsPage from './pages/tabs/InvitationsPage';
-import ProfilePage from './pages/tabs/ProfilePage';
-import HeaderNav from './components/HeaderNav';
+import ActivityPage from './pages/tabs/ActivityPage'
+import CalendarPage from './pages/tabs/CalendarPage'
+import InvitationsPage from './pages/tabs/InvitationsPage'
+import ProfilePage from './pages/tabs/ProfilePage'
+import HeaderNav from './components/HeaderNav'
 
-import AddActivityPage from './pages/activity/AddActivityPage';
+import AddActivityPage from './pages/activity/AddActivityPage'
 
 export const ActivityStack = StackNavigator({
   ActivityPage: {
@@ -23,7 +23,7 @@ export const ActivityStack = StackNavigator({
       title: 'Activity'
     }
   },
-});
+})
 
 export const Tabs = TabNavigator({
   ActivityPage: {
@@ -67,7 +67,7 @@ export const Tabs = TabNavigator({
     activeTintColor: colors.blue,
     showLabel: false
   }
-});
+})
 
 export const Root = StackNavigator({
   Tabs: {
@@ -83,7 +83,7 @@ export const Root = StackNavigator({
   }
 }, {
   mode: 'modal',
-});
+})
 
 const styles = StyleSheet.create({
   icon: {
@@ -94,4 +94,4 @@ const styles = StyleSheet.create({
   active: {
     color: colors.blue
   }
-});
+})

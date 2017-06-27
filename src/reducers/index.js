@@ -1,13 +1,13 @@
-import thunk from 'redux-thunk';
-import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
-import { persistStore, autoRehydrate } from 'redux-persist';
+import thunk from 'redux-thunk'
+import { createStore, combineReducers, applyMiddleware, compose } from 'redux'
+import { persistStore, autoRehydrate } from 'redux-persist'
 import {AsyncStorage} from 'react-native'
-import logger from 'redux-logger';
+import logger from 'redux-logger'
 
-import sessionState, { initialState as sessionInitialState } from './session';
-import postsState, { initialState as postsInitialState } from './posts';
-import uiState, { initialState as uiInitialState } from './ui';
-// import users from './users';
+import sessionState, { initialState as sessionInitialState } from './session'
+import postsState, { initialState as postsInitialState } from './posts'
+import uiState, { initialState as uiInitialState } from './ui'
+// import users from './users'
 
 const initialState = {
   uiState: uiInitialState,
@@ -19,9 +19,9 @@ const reducers = {
   uiState,
   sessionState,
   postsState
-};
+}
 
-let reducer = combineReducers(reducers);
+let reducer = combineReducers(reducers)
 let store = createStore(
   reducer,
   initialState,
@@ -33,8 +33,8 @@ let store = createStore(
     // Not a middleware
     autoRehydrate({ log: true })
   )
-);
+)
 
-persistStore(store, {storage: AsyncStorage});
+persistStore(store, {storage: AsyncStorage})
 
-export default store;
+export default store

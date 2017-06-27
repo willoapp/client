@@ -1,21 +1,21 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import {
   View,
   Text,
   TouchableOpacity,
   StyleSheet,
-} from 'react-native';
+} from 'react-native'
 
-import Avatar from './Avatar';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Avatar from './Avatar'
+import Icon from 'react-native-vector-icons/FontAwesome'
 
-import colors from '../assets/styles/colors';
-import spacing from '../assets/styles/spacing';
-import fontSizes from '../assets/styles/fontSizes';
+import colors from '../assets/styles/colors'
+import spacing from '../assets/styles/spacing'
+import fontSizes from '../assets/styles/fontSizes'
 
 export default class ProfileHeader extends Component {
   constructor(props) {
-    super(props);
+    super(props)
   }
 
   render() {

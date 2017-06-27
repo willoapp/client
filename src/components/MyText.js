@@ -1,16 +1,16 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import {
   Text
-} from 'react-native';
+} from 'react-native'
 
 export default class MyText extends Component {
   constructor(props) {
-    super(props);
-    this.fontFamily = this.fontFamily.bind(this);
+    super(props)
+    this.fontFamily = this.fontFamily.bind(this)
   }
 
   fontFamily() {
-    this.props.fontWeight && this.props.fontWeight === 'bold' ? 'Helvetica - Bold' : 'Helvetica';
+    this.props.fontWeight && this.props.fontWeight === 'bold' ? 'Helvetica - Bold' : 'Helvetica'
   }
 
   render() {

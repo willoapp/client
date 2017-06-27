@@ -1,25 +1,26 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import {
   StyleSheet,
   View,
   Text,
-} from 'react-native';
-import { Root } from './router';
-import LoadingPage from './pages/LoadingPage';
-import SignupPage from './pages/SignupPage';
-import LoginPage from './pages/LoginPage';
-import ForgotPasswordPage from './pages/ForgotPasswordPage';
-import EmailConfirmationCodePage from './pages/EmailConfirmationCodePage';
-import NewPasswordPage from './pages/NewPasswordPage';
+} from 'react-native'
+import { Root } from './router'
+import LoadingPage from './pages/LoadingPage'
+import SignupPage from './pages/SignupPage'
+import LoginPage from './pages/LoginPage'
+import ForgotPasswordPage from './pages/ForgotPasswordPage'
+import EmailConfirmationCodePage from './pages/EmailConfirmationCodePage'
+import NewPasswordPage from './pages/NewPasswordPage'
 
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import sessionActions from './actions/sessionActions';
-import uiActions from './actions/uiActions';
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import sessionActions from './actions/sessionActions'
+import uiActions from './actions/uiActions'
+import firebase from './utils/firebase'
 
 class App extends Component {
   constructor(props) {
-    super(props);
+    super(props)
   }
 
   render() {
@@ -67,7 +68,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   }
-});
+})
 
 export default connect(state => ({
     state
@@ -76,4 +77,4 @@ export default connect(state => ({
     sessionActions: bindActionCreators(sessionActions, dispatch),
     uiActions: bindActionCreators(uiActions, dispatch)
   })
-)(App);
+)(App)

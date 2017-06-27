@@ -1,36 +1,36 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import {
   StyleSheet,
   View,
   Text,
   TouchableOpacity,
-} from 'react-native';
-import PostList from '../../components/PostList';
+} from 'react-native'
+import PostList from '../../components/PostList'
 
-import colors from '../../assets/styles/colors';
-import spacing from '../../assets/styles/spacing';
-import fontSizes from '../../assets/styles/fontSizes';
+import colors from '../../assets/styles/colors'
+import spacing from '../../assets/styles/spacing'
+import fontSizes from '../../assets/styles/fontSizes'
 
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import postActions from '../../actions/postActions';
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import postActions from '../../actions/postActions'
 
 class ActivityPage extends Component {
 
   constructor(props) {
-    super(props);
+    super(props)
   }
 
   componentDidMount() {
-    this.props.postActions.getPosts();
+    this.props.postActions.getPosts()
   }
 
   composeActivity(user) {
-    this.props.navigation.navigate('AddActivityPage', { user });
+    this.props.navigation.navigate('AddActivityPage', { user })
   }
 
   render() {
-    const { state, actions } = this.props;
+    const { state, actions } = this.props
     return (
       <View style={styles.container}>
         <View style={[styles.bottomBorder]}>
@@ -40,7 +40,7 @@ class ActivityPage extends Component {
         </View>
         <PostList posts={state.postsState.posts} {...actions}/>
       </View>
-    );
+    )
   }
 }
 
@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
     fontStyle: 'italic'
   },
 
-});
+})
 
 // These become the component state.
 // This is auto-subscription to the state changes
@@ -74,4 +74,4 @@ export default connect(state => ({
   dispatch => ({
     postActions: bindActionCreators(postActions, dispatch)
   })
-)(ActivityPage);
+)(ActivityPage)

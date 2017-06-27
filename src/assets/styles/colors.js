@@ -13,4 +13,4 @@ const colors = {
   seaside: "#E08977",
   brick: "#A3211E",
 }
-export default colors;
+export default colors

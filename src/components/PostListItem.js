@@ -9,7 +9,7 @@ import fontSizes from '../assets/styles/fontSizes'
 import spacing from '../assets/styles/spacing'
 import MyText from './MyText'
 import Icon from 'react-native-vector-icons/FontAwesome'
-import Avatar from './Avatar';
+import Avatar from './Avatar'
 
 import { fromNow } from '../utils/moment'
 

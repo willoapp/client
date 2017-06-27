@@ -1,7 +1,7 @@
-import {types} from '../actions/postActions';
+import {types} from '../actions/postActions'
 
 export const initialState = {
-  posts: []
+  posts: {}
 }
 
 export default reducer = (state = initialState, action = {}) => {
@@ -14,9 +14,9 @@ export default reducer = (state = initialState, action = {}) => {
     case types.ADD_POST:
       return {
         ...state,
-        posts: state.posts.concat(action.payload)
+        posts: Object.assign({}, state.posts, action.payload)
       }
     default:
-      return state;
+      return state
   }
 }

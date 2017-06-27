@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import {
   StyleSheet,
   Text,
   View,
-} from 'react-native';
-import colors from '../assets/styles/colors';
+} from 'react-native'
+import colors from '../assets/styles/colors'
 
 export default class HeaderNav extends Component {
   render() {
@@ -17,7 +17,7 @@ export default class HeaderNav extends Component {
           </View>
         </View>
       </View>
-    );
+    )
   }
 }
 
@@ -44,4 +44,4 @@ const styles = StyleSheet.create({
     fontSize: 36,
     color: 'white'
   }
-});
+})

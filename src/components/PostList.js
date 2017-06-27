@@ -1,36 +1,34 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import {
   Text,
   View,
   ListView,
   FlatList,
   StyleSheet,
-} from 'react-native';
-import PostListItem from './PostListItem';
-import sortBy from 'lodash-es/sortBy';
-import colors from '../assets/styles/colors';
-import spacing from '../assets/styles/spacing';
+} from 'react-native'
+import PostListItem from './PostListItem'
+import sortBy from 'lodash-es/sortBy'
+import colors from '../assets/styles/colors'
+import spacing from '../assets/styles/spacing'
+import map from 'lodash-es/map'
+import {collectionToArray} from '../utils'
 
 export default class PostList extends Component {
   constructor(props) {
-    super(props);
+    super(props)
   }
 
   _onPressItem(post) {
-    console.log(post);
+    console.log(post)
   }
 
-  _keyExtractor = (item, index) => item._id
-
-  orderedPosts(posts) {
-    return sortBy(posts, p => p.createdAt).reverse();
-  }
+  _keyExtractor = item => item.key
 
   render() {
     return (
       <View style={{flex: 1}}>
         <FlatList
-          data={this.orderedPosts(this.props.posts)}
+          data={collectionToArray(this.props.posts)}
           extraData={this.state}
           keyExtractor={this._keyExtractor}
           renderItem={({item, index}) => <PostListItem index={index} post={item}/>}
@@ -38,7 +36,7 @@ export default class PostList extends Component {
           ItemSeparatorComponent={() => <View style={styles.divider}/>}
         />
       </View>
-    );
+    )
   }
 }
 

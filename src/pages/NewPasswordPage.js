@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import {
   StyleSheet,
   View,
@@ -8,23 +8,23 @@ import {
   Text,
   Dimensions,
   TouchableOpacity
-} from 'react-native';
-import colors from '../assets/styles/colors';
-import spacing from '../assets/styles/spacing';
-import fontSizes from '../assets/styles/fontSizes';
-import Icon from 'react-native-vector-icons/FontAwesome';
+} from 'react-native'
+import colors from '../assets/styles/colors'
+import spacing from '../assets/styles/spacing'
+import fontSizes from '../assets/styles/fontSizes'
+import Icon from 'react-native-vector-icons/FontAwesome'
 
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import sessionActions from '../actions/sessionActions';
-import uiActions from '../actions/uiActions';
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import sessionActions from '../actions/sessionActions'
+import uiActions from '../actions/uiActions'
 
-let {height, width} = Dimensions.get('window');
+let {height, width} = Dimensions.get('window')
 
 class NewPasswordPage extends Component {
 
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {newPassword: '', newPasswordConfirmation: ''}
   }
 
@@ -32,12 +32,12 @@ class NewPasswordPage extends Component {
     if (!this.passwordsMatch()) {
       Alert.alert("Passwords don't match", "Make sure your password matches in both fields.")
     } else {
-      this.props.sessionActions.updatePassword(newPassword);
+      this.props.sessionActions.updatePassword(newPassword)
     }
   }
 
   passwordsMatch() {
-    return this.state.newPassword === this.state.newPasswordConfirmation;
+    return this.state.newPassword === this.state.newPasswordConfirmation
   }
 
   render() {
@@ -61,7 +61,7 @@ class NewPasswordPage extends Component {
                   returnKeyType="done"
                   onChangeText={(newPassword) => this.setState({ newPassword })}
                   onSubmitEditing={(event) => {
-                    this.refs.SecondInput.focus();
+                    this.refs.SecondInput.focus()
                   }}
                   />
               </View>
@@ -94,7 +94,7 @@ class NewPasswordPage extends Component {
           </View>
         </View>
       </TouchableWithoutFeedback>
-    );
+    )
   }
 }
 
@@ -153,7 +153,7 @@ const styles = StyleSheet.create({
     color: colors.white,
     fontSize: fontSizes.xlarge,
   }
-});
+})
 
 export default connect(state => ({
     state
@@ -162,4 +162,4 @@ export default connect(state => ({
     uiActions: bindActionCreators(uiActions, dispatch),
     sessionActions: bindActionCreators(sessionActions, dispatch)
   })
-)(NewPasswordPage);
+)(NewPasswordPage)

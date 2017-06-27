@@ -6,6 +6,6 @@ const fontSizes = {
   large: 18,
   xlarge: 20,
   xxlarge: 24,
-};
+}
 
-export default fontSizes;
+export default fontSizes

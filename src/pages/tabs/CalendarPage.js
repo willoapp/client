@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import {
   StyleSheet,
   View,
   Text,
-} from 'react-native';
-import colors from '../../assets/styles/colors';
+} from 'react-native'
+import colors from '../../assets/styles/colors'
 
 export default class CalendarPage extends Component {
   render() {
@@ -12,7 +12,7 @@ export default class CalendarPage extends Component {
       <View style={styles.container}>
         <Text>Calendar Page</Text>
       </View>
-    );
+    )
   }
 }
 
@@ -21,4 +21,4 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.bggray,
   }
-});
+})
