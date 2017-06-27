@@ -3,12 +3,17 @@ import uiActions from './uiActions'
 import firebase from '../utils/firebase'
 
 export const types = {
-  SET_TOKEN: "SET_TOKEN",
-  SET_USER: "SET_USER",
+  SET_TOKEN: 'SET_TOKEN',
+  SET_USER: 'SET_USER',
+  SET_LOGIN_LOADING: 'SET_LOGIN_LOADING',
 }
 
 function login(email, password) {
   return dispatch => {
+    dispatch({
+      type: types.SET_LOGIN_LOADING,
+      payload: true
+    })
     firebase.auth().signInWithEmailAndPassword(email, password)
     .then(data => {
       firebase.database().ref(`users/${data.uid}`).once('value').then(user => {
@@ -16,6 +21,10 @@ function login(email, password) {
         dispatch({
           type: types.SET_USER,
           payload: u
+        })
+        dispatch({
+          type: types.SET_LOGIN_LOADING,
+          payload: false
         })
       })
     })
@@ -40,6 +49,10 @@ function logout() {
 
 function register(firstName, lastName, email, password) {
   return dispatch => {
+    dispatch({
+      type: types.SET_LOGIN_LOADING,
+      payload: true,
+    })
     firebase.auth().createUserWithEmailAndPassword(email, password)
     .then(data => {
       firebase.database().ref('users/' + data.uid).set({
@@ -52,6 +65,10 @@ function register(firstName, lastName, email, password) {
       dispatch({
         type: types.SET_USER,
         payload: user
+      })
+      dispatch({
+        type: types.SET_LOGIN_LOADING,
+        payload: false
       })
     })
     .catch(error => {

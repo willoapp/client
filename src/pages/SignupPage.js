@@ -116,7 +116,9 @@ class SignupPage extends Component {
           </View>
 
           <TouchableOpacity style={{marginBottom: spacing.small}} onPress={() => this.register(this.state.firstName, this.state.lastName, this.state.email, this.state.password)}>
-            <Text style={[styles.loginButton]}>Sign up</Text>
+            <Text style={[styles.loginButton, this.props.state.sessionState.loginLoading ? {color: colors.gray} : {}]}>
+              {this.props.state.sessionState.loginLoading ? 'Signing you up...' : 'Sign up'}
+            </Text>
           </TouchableOpacity>
 
           <View style={{ flex: 0, flexDirection: 'row', alignItems: 'center'}}>

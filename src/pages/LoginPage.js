@@ -73,7 +73,9 @@ class LoginPage extends Component {
           </View>
 
           <TouchableOpacity style={{marginBottom: spacing.small}} onPress={() => this.login(this.state.email, this.state.password)}>
-            <Text style={styles.loginButton}>Log in</Text>
+            <Text style={[styles.loginButton, this.props.state.sessionState.loginLoading ? { color: colors.gray } : {}]}>
+              {this.props.state.sessionState.loginLoading ? 'Loggin you in...' : 'Log in'}
+            </Text>
           </TouchableOpacity>
 
           <View style={{ flex: 0, flexDirection: 'row', alignItems: 'center'}}>
