@@ -44,7 +44,7 @@ class AddActivityPage extends Component {
 
   addPost(text, user, props) {
     const post = { content: text, user: {firstName: user.firstName, lastName: user.lastName} }
-    props.postActions.addPostWithFirebase(post)
+    props.postActions.addPost(post)
     props.navigation.goBack()
     StatusBar.setBarStyle('light-content', true)
   }

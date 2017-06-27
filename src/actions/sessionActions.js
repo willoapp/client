@@ -46,6 +46,7 @@ function register(firstName, lastName, email, password) {
         email,
         firstName,
         lastName,
+        createdAt: new Date().toString()
       })
       user = { email: data.email, uid: data.uid, firstName, lastName }
       dispatch({

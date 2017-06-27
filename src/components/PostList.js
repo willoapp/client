@@ -28,7 +28,7 @@ export default class PostList extends Component {
     return (
       <View style={{flex: 1}}>
         <FlatList
-          data={collectionToArray(this.props.posts)}
+          data={collectionToArray(this.props.posts).reverse()}
           extraData={this.state}
           keyExtractor={this._keyExtractor}
           renderItem={({item, index}) => <PostListItem index={index} post={item}/>}

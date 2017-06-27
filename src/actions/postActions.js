@@ -20,10 +20,11 @@ function getPosts() {
 function addPost(post) {
   return dispatch => {
     const newPostRef = firebase.database().ref('posts').push()
-    newPostRef.set(post).then(p => {
+    p = Object.assign({}, post, {createdAt: new Date().toString()})
+    newPostRef.set(p).then(_ => {
       dispatch({
         type: types.ADD_POST,
-        payload: {[newPostRef.key]: post}
+        payload: {[newPostRef.key]: p}
       })
     })
   }
