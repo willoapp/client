@@ -6,8 +6,7 @@ import {
   TextInput,
   Button,
   Keyboard,
-  TouchableWithoutFeedback,
-  StatusBar,
+  TouchableWithoutFeedback
 } from 'react-native'
 
 import colors from '../../assets/styles/colors'
@@ -27,7 +26,7 @@ class AddActivityPage extends Component {
     const props = navigation.state.params.props
     return {
       title: 'Update Activity',
-      headerLeft: <Text style={{ color: colors.slate, marginLeft: spacing.small, fontSize: fontSizes.normal }} onPress={() => { StatusBar.setBarStyle('light-content', true); navigation.goBack(); }}>Cancel</Text>,
+      headerLeft: <Text style={{ color: colors.slate, marginLeft: spacing.small, fontSize: fontSizes.normal }} onPress={() => { navigation.goBack(); }}>Cancel</Text>,
       headerRight: <Text style={{ color: colors.slate, marginRight: spacing.small, fontSize: fontSizes.normal }} onPress={() => addPost(text, user, props)}>Post</Text>,
       headerStyle: {backgroundColor: colors.lightgray},
       headerTitleStyle: {color: colors.seaside}
@@ -46,11 +45,9 @@ class AddActivityPage extends Component {
     const post = { content: text, user: {firstName: user.firstName, lastName: user.lastName} }
     props.postActions.addPost(post)
     props.navigation.goBack()
-    StatusBar.setBarStyle('light-content', true)
   }
 
   render() {
-    StatusBar.setBarStyle('dark-content', true)
     const user = this.props.navigation.state.params.user
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>

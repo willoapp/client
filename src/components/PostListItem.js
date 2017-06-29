@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: spacing.xxsmall
+    alignItems: 'center',
   },
   user: {
     fontWeight: 'bold',

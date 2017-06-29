@@ -19,7 +19,7 @@ export default class client extends Component {
     return (
       <Provider store={store}>
         <View style={{flex: 1}}>
-          <StatusBar barStyle="light-content"/>
+          <StatusBar barStyle="dark-content"/>
           <App/>
         </View>
       </Provider>

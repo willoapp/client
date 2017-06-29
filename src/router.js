@@ -30,7 +30,7 @@ export const Tabs = TabNavigator({
     screen: ActivityPage,
     navigationOptions: {
       tabBarIcon: ({ tintColor }) => (
-        <Icon name="home" style={[styles.icon, {fontSize: 32, color: tintColor}]} />
+        <Icon name="home" style={[styles.icon, {fontSize: 31, color: tintColor}]} />
       )
     }
   },
@@ -38,7 +38,7 @@ export const Tabs = TabNavigator({
     screen: CalendarPage,
     navigationOptions: {
       tabBarIcon: ({ tintColor }) => (
-        <Icon name="calendar" style={[styles.icon, {color: tintColor}]} />
+        <Icon name="calendar" style={[styles.icon, {fontSize: 23, color: tintColor}]} />
       )
     }
   },
@@ -46,7 +46,7 @@ export const Tabs = TabNavigator({
     screen: InvitationsPage,
     navigationOptions: {
       tabBarIcon: ({ tintColor }) => (
-        <Icon name="envelope" style={[styles.icon, {color: tintColor}]} />
+        <Icon name="globe" style={[styles.icon, {fontSize: 26, color: tintColor}]} />
       )
     }
   },
@@ -54,7 +54,7 @@ export const Tabs = TabNavigator({
     screen: ProfilePage,
     navigationOptions: {
       tabBarIcon: ({ tintColor }) => (
-        <Icon name="user" style={[styles.icon, {color: tintColor}]} />
+        <Icon name="comment" style={[styles.icon, {fontSize: 25, color: tintColor}]} />
       )
     }
   }

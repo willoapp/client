@@ -25,20 +25,16 @@ class ActivityPage extends Component {
     this.props.postActions.getPosts()
   }
 
-  composeActivity(user) {
-    this.props.navigation.navigate('AddActivityPage', { user })
-  }
-
   render() {
     const { state, actions } = this.props
     return (
       <View style={styles.container}>
-        <View style={[styles.bottomBorder]}>
-          <TouchableOpacity style={styles.textInputMock} onPress={() => this.composeActivity(state.sessionState.user)}>
-            <Text style={styles.placeholder}>Post something...</Text>
-          </TouchableOpacity>
-        </View>
-        <PostList posts={state.postsState.posts} {...actions}/>
+        <PostList
+          user={state.sessionState.user}
+          posts={state.postsState.posts}
+          navigation={this.props.navigation}
+          {...actions}
+        />
       </View>
     )
   }
@@ -48,22 +44,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.bggray,
-  },
-  bottomBorder: {
-    backgroundColor: colors.white,
-    height: 50,
-  },
-  textInputMock: {
-    marginLeft: spacing.normal,
-    flex: 1,
-    justifyContent: 'center'
-  },
-  placeholder: {
-    fontSize: fontSizes.normal,
-    color: colors.gray,
-    fontStyle: 'italic'
-  },
-
+  }
 })
 
 // These become the component state.
