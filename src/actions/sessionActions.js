@@ -29,6 +29,10 @@ function login(email, password) {
       })
     })
     .catch(error => {
+      dispatch({
+        type: types.SET_LOGIN_LOADING,
+        payload: false
+      })
       Alert.alert(error.toString())
     })
   }
@@ -72,6 +76,10 @@ function register(firstName, lastName, email, password) {
       })
     })
     .catch(error => {
+      dispatch({
+        type: types.SET_LOGIN_LOADING,
+        payload: false
+      })
       Alert.alert(error.toString())
     })
   }

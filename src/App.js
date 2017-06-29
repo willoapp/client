@@ -4,7 +4,7 @@ import {
   View,
   Text,
 } from 'react-native'
-import { Root } from './router'
+import { RootModalNavigator } from './router'
 import LoadingPage from './pages/LoadingPage'
 import SignupPage from './pages/SignupPage'
 import LoginPage from './pages/LoginPage'
@@ -27,7 +27,7 @@ class App extends Component {
     if (this.props.state.sessionState.user) {
       return (
         <View style={styles.container}>
-          <Root/>
+          <RootModalNavigator/>
         </View>
       )
     } else if (this.props.state.uiState.page === 'login') {

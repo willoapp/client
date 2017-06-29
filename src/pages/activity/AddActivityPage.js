@@ -19,20 +19,6 @@ import postActions from '../../actions/postActions'
 
 class AddActivityPage extends Component {
 
-  static navigationOptions = ({ navigation }) => {
-    const text = navigation.state.params.text
-    const user = navigation.state.params.user
-    const addPost = navigation.state.params.addPost
-    const props = navigation.state.params.props
-    return {
-      title: 'Update Activity',
-      headerLeft: <Text style={{ color: colors.slate, marginLeft: spacing.small, fontSize: fontSizes.normal }} onPress={() => { navigation.goBack(); }}>Cancel</Text>,
-      headerRight: <Text style={{ color: colors.slate, marginRight: spacing.small, fontSize: fontSizes.normal }} onPress={() => addPost(text, user, props)}>Post</Text>,
-      headerStyle: {backgroundColor: colors.lightgray},
-      headerTitleStyle: {color: colors.seaside}
-    }
-  }
-
   componentDidMount() {
     this.props.navigation.setParams({ props: this.props, addPost: this.addPost })
   }

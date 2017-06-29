@@ -17,7 +17,7 @@ export default class Avatar extends Component {
     const size = this.props.size ? max([this.props.size, 25]) : 100 // Minimum size is 25, default is 100
 
     return (
-      <Image style={{width: size, height: size, borderRadius: size/2, borderColor: colors.aqua, borderWidth: floor(size/25)}} source={src} />
+      <Image style={{width: size, height: size, borderRadius: size/2}} source={src} />
     )
   }
 }
