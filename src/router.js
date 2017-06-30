@@ -2,7 +2,7 @@ import React from 'react'
 import {
   Text,
   StyleSheet
- } from 'react-native'
+} from 'react-native'
 import colors from './assets/styles/colors'
 import spacing from './assets/styles/spacing'
 import fontSizes from './assets/styles/fontSizes'
@@ -11,7 +11,7 @@ import Icon from 'react-native-vector-icons/FontAwesome'
 
 import ActivityPage from './pages/tabs/ActivityPage'
 import CalendarPage from './pages/tabs/CalendarPage'
-import InvitationsPage from './pages/tabs/InvitationsPage'
+import MapPage from './pages/tabs/MapPage'
 import MessagesPage from './pages/tabs/MessagesPage'
 import ProfilePage from './pages/tabs/ProfilePage'
 import HeaderNav from './components/HeaderNav'
@@ -46,8 +46,8 @@ export const Tabs = TabNavigator({
       )
     }
   },
-  InvitationsPage: {
-    screen: InvitationsPage,
+  MapPage: {
+    screen: MapPage,
     navigationOptions: {
       tabBarIcon: ({ tintColor }) => (
         <Icon name="globe" style={{fontSize: 26, color: tintColor}} />
@@ -79,7 +79,7 @@ const RootCardNavigator = StackNavigator({
     navigationOptions: {
       header: (navigator) => (
         <HeaderNav onProfilePress={() => {
-          navigator.navigation.navigate('ProfilePage');
+          navigator.navigation.navigate('ProfilePage')
         }}/>
       )
     }
@@ -115,7 +115,7 @@ export const RootModalNavigator = StackNavigator({
       const props = navigator.navigation.state.params.props
       return {
         title: 'Update Activity',
-        headerLeft: <Text style={{ color: colors.slate, marginLeft: spacing.small, fontSize: fontSizes.normal }} onPress={() => { navigator.navigation.goBack(); }}>Cancel</Text>,
+        headerLeft: <Text style={{ color: colors.slate, marginLeft: spacing.small, fontSize: fontSizes.normal }} onPress={() => { navigator.navigation.goBack() }}>Cancel</Text>,
         headerRight: <Text style={{ color: colors.slate, marginRight: spacing.small, fontSize: fontSizes.normal, fontWeight: 'bold' }} onPress={() => addPost(text, user, props)}>Post</Text>,
         headerStyle: styles.header,
         headerTitleStyle: styles.headerTitle
