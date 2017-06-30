@@ -126,6 +126,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-background-geolocation')
     compile project(':react-native-maps')
     compile project(':react-native-device-info')
     compile fileTree(dir: "libs", include: ["*.jar"])
