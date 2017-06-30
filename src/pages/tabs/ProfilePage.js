@@ -28,9 +28,10 @@ class ProfilePage extends Component {
   }
 
   render() {
+    const { state, sessionActions } = this.props
     return (
       <View style={styles.container}>
-        <ProfileHeader onEditPress={() => this.onEditPress()}/>
+        <ProfileHeader user={state.sessionState.user} onEditPress={() => this.onEditPress()}/>
         <Button
           onPress={() => this.logout()}
           title="Log out"
@@ -48,10 +49,10 @@ const styles = StyleSheet.create({
 })
 
 export default connect(state => ({
-    state
-  }),
-  dispatch => ({
-    uiActions: bindActionCreators(uiActions, dispatch),
-    sessionActions: bindActionCreators(sessionActions, dispatch)
-  })
+  state,
+}),
+dispatch => ({
+  uiActions: bindActionCreators(uiActions, dispatch),
+  sessionActions: bindActionCreators(sessionActions, dispatch)
+})
 )(ProfilePage)

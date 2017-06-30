@@ -21,7 +21,7 @@ export default class ProfileHeader extends Component {
   render() {
     return (
       <View style={{ flexDirection: 'row', alignItems: 'center', padding: spacing.normal }} >
-        <Avatar size={75} />
+        <Avatar size={75} changeable={true}/>
 
         <View style={{ marginLeft: spacing.xsmall }}>
           <Text style={{ color: colors.slate, fontWeight: 'bold' }}>Max Harris</Text>

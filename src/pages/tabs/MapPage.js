@@ -19,10 +19,18 @@ import BackgroundGeolocation from 'react-native-background-geolocation'
 class MapPage extends Component {
   constructor (props) {
     super(props)
+    const fakeMarkers = [
+      {coordinate: {latitude: 45.5209087, longitude: -100.6705107}, key: 1},
+      {coordinate: {latitude: 42.5209087, longitude: -101.6705107}, key: 2},
+      {coordinate: {latitude: 40.5209087, longitude: -103.6705107}, key: 3},
+      {coordinate: {latitude: 41.5209087, longitude: -122.6705107}, key: 4},
+      {coordinate: {latitude: 43.5209087, longitude: -122.6705107}, key: 5},
+      {coordinate: {latitude: 38.5209087, longitude: -122.6705107}, key: 6},
+    ]
     this.state = {
       latitude: 45.5209087,
       longitude: -122.6705107,
-      markers: [{coordinate: {latitude: 45.5209087, longitude: -122.6705107}}],
+      markers: fakeMarkers,
     }
     this.onLocation = this.onLocation.bind(this)
     this.onError = this.onError.bind(this)
@@ -50,26 +58,24 @@ class MapPage extends Component {
       // Activity Recognition
       stopTimeout: 1,
       // Application config
-      debug: true, // <-- enable this hear sounds for background-geolocation life-cycle.
-      logLevel: BackgroundGeolocation.LOG_LEVEL_VERBOSE,
+      debug: false, // <-- enable this hear sounds for background-geolocation life-cycle.
+      logLevel: BackgroundGeolocation.LOG_LEVEL_INFO,
       stopOnTerminate: false,   // <-- Allow the background-service to continue tracking when user closes the app.
       startOnBoot: true,        // <-- Auto start tracking when device is powered-up.
       // HTTP / SQLite config
       url: 'http://yourserver.com/locations',
       batchSync: false,       // <-- [Default: false] Set true to sync locations to server in a single HTTP request.
       autoSync: true,         // <-- [Default: true] Set true to sync each location to server as it arrives.
-      headers: {              // <-- Optional HTTP headers
-        "X-FOO": "bar"
-      },
+      headers: {},              // <-- Optional HTTP headers
       params: {               // <-- Optional HTTP params
-        "auth_token": "maybe_your_server_authenticates_via_token_YES?"
-      }
+        'auth_token': 'maybe_your_server_authenticates_via_token_YES?',
+      },
     }, function(state) {
-      console.log("- BackgroundGeolocation is configured and ready: ", state.enabled)
+      console.log('- BackgroundGeolocation is configured and ready: ', state.enabled)
 
       if (!state.enabled) {
         BackgroundGeolocation.start(function() {
-          console.log("- Start success")
+          console.log('- Start success')
         })
       }
     })
@@ -78,9 +84,9 @@ class MapPage extends Component {
   // You must remove listeners when your component unmounts
   componentWillUnmount() {
     // Remove BackgroundGeolocation listeners
-    BackgroundGeolocation.un('location', this.onLocation);
-    BackgroundGeolocation.un('error', this.onError);
-    BackgroundGeolocation.un('providerchange', this.onProviderChange);
+    BackgroundGeolocation.un('location', this.onLocation)
+    BackgroundGeolocation.un('error', this.onError)
+    BackgroundGeolocation.un('providerchange', this.onProviderChange)
   }
 
   onLocation(location) {
@@ -90,10 +96,10 @@ class MapPage extends Component {
   onError(error) {
     const type = error.type
     const code = error.code
-    alert(type + " Error: " + code)
+    alert(`${type} Error: ${code}`)
   }
   onProviderChange(provider) {
-    console.log('- Location provider changed: ', provider.enabled);
+    console.log('- Location provider changed: ', provider.enabled)
   }
 
   render () {
@@ -106,7 +112,10 @@ class MapPage extends Component {
           latitudeDelta: 0.0922,
           longitudeDelta: 0.0421,
         }}
-        showsUserLocation={true}>
+        showsUserLocation={true}
+        followsUserLocation={true}
+        showsMyLocationButton={true}
+        loadingIndicatorColor={colors.seasideMuted}>
         {this.state.markers.map(marker => {
           return (
             <Marker {...marker}>
