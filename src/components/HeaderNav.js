@@ -3,7 +3,7 @@ import {
   StyleSheet,
   Text,
   View,
-  TouchableOpacity
+  TouchableOpacity,
 } from 'react-native'
 import colors from '../assets/styles/colors'
 import spacing from '../assets/styles/spacing'
@@ -22,11 +22,11 @@ export default class HeaderNav extends Component {
             </View>
           </View>
 
-          <View style={{flex: 1, alignItems: 'flex-end'}}>
+          {this.props.noButtons ? null : <View style={{flex: 1, alignItems: 'flex-end'}}>
             <TouchableOpacity onPress={() => this.props.onProfilePress()}>
               <Icon name="user" style={styles.icon} />
             </TouchableOpacity>
-          </View>
+          </View>}
         </View>
       </View>
     )

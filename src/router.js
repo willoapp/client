@@ -1,7 +1,7 @@
 import React from 'react'
 import {
   Text,
-  StyleSheet
+  StyleSheet,
 } from 'react-native'
 import colors from './assets/styles/colors'
 import spacing from './assets/styles/spacing'
@@ -15,6 +15,8 @@ import MapPage from './pages/tabs/MapPage'
 import MessagesPage from './pages/tabs/MessagesPage'
 import ProfilePage from './pages/tabs/ProfilePage'
 import HeaderNav from './components/HeaderNav'
+import LoadingPage from './pages/LoadingPage'
+import SignupPage from './pages/SignupPage'
 
 import AddActivityPage from './pages/activity/AddActivityPage'
 
@@ -59,9 +61,9 @@ export const Tabs = TabNavigator({
     navigationOptions: {
       tabBarIcon: ({ tintColor }) => (
         <Icon name="comment" style={{fontSize: 25, color: tintColor}} />
-      )
-    }
-  }
+      ),
+    },
+  },
 }, {
   // swipeEnabled: true,
   // animationEnabled: true,
@@ -69,8 +71,8 @@ export const Tabs = TabNavigator({
   tabBarOptions: {
     inactiveTintColor: colors.gray,
     activeTintColor: colors.blue,
-    showLabel: false
-  }
+    showLabel: false,
+  },
 })
 
 const RootCardNavigator = StackNavigator({
@@ -99,11 +101,23 @@ const RootCardNavigator = StackNavigator({
   headerMode: 'float'
 })
 
+const LoginNavigator = StackNavigator({
+  SignupPage: {
+    screen: SignupPage,
+    navigationOptions: {
+      header: null
+    }
+  }
+  // TODO: Additional Login related pages
+}, {
+  mode: 'modal'
+})
+
 export const RootModalNavigator = StackNavigator({
   RootCardNavigator: {
     screen: RootCardNavigator,
     navigationOptions: {
-      header: null
+      header: null,
     }
   },
   AddActivityPage: {
@@ -118,8 +132,15 @@ export const RootModalNavigator = StackNavigator({
         headerLeft: <Text style={{ color: colors.slate, marginLeft: spacing.small, fontSize: fontSizes.normal }} onPress={() => { navigator.navigation.goBack() }}>Cancel</Text>,
         headerRight: <Text style={{ color: colors.slate, marginRight: spacing.small, fontSize: fontSizes.normal, fontWeight: 'bold' }} onPress={() => addPost(text, user, props)}>Post</Text>,
         headerStyle: styles.header,
-        headerTitleStyle: styles.headerTitle
+        headerTitleStyle: styles.headerTitle,
       }
+    },
+  },
+  LoginNavigator: {
+    screen: LoginNavigator,
+    navigationOptions: {
+      gesturesEnabled: false,
+      header: null,
     }
   }
 }, {

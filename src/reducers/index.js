@@ -1,7 +1,5 @@
 import thunk from 'redux-thunk'
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux'
-import { persistStore, autoRehydrate } from 'redux-persist'
-import {AsyncStorage} from 'react-native'
 import logger from 'redux-logger'
 
 import sessionState, { initialState as sessionInitialState } from './session'
@@ -18,7 +16,7 @@ const initialState = {
 const reducers = {
   uiState,
   sessionState,
-  postsState
+  postsState,
 }
 
 let reducer = combineReducers(reducers)
@@ -29,12 +27,8 @@ let store = createStore(
     applyMiddleware(
       thunk,
       logger // TODO: Only use in development
-    ),
-    // Not a middleware
-    autoRehydrate({ log: true })
+    )
   )
 )
-
-persistStore(store, {storage: AsyncStorage})
 
 export default store

@@ -19,6 +19,8 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import sessionActions from '../actions/sessionActions'
 import uiActions from '../actions/uiActions'
+import firebase from '../utils/firebase'
+import { NavigationActions } from 'react-navigation'
 
 let {height, width} = Dimensions.get('window')
 
@@ -26,30 +28,86 @@ class SignupPage extends Component {
 
   constructor(props) {
     super(props)
-    this.state = {firstName: '', lastName: '', email: '', password: ''}
+    this.state = {firstName: '', lastName: '', email: '', password: '', pageType: 'signup'}
+
   }
 
-    register(firstName, lastName, email, password) {
-      if (!firstName) {
-        Alert.alert('Please enter your first name')
-      } else if (!lastName) {
-        Alert.alert('Please enter a your last name')
-      } else {
-        this.props.sessionActions.register(firstName, lastName, email, password)
-      }
+  register(firstName, lastName, email, password) {
+    if (!firstName) {
+      Alert.alert('Please enter your first name')
+    } else if (!lastName) {
+      Alert.alert('Please enter a your last name')
+    } else {
+      this.props.sessionActions.register(firstName, lastName, email, password, _ => {
+        this.props.navigation.dispatch(NavigationActions.back())
+      })
     }
+  }
+
+  login(email, password) {
+    this.props.sessionActions.login(email, password, _ => {
+      this.props.navigation.dispatch(NavigationActions.back())
+    })
+  }
 
   render() {
+    const login = this.state.pageType === 'login'
+    const LoginButtons = (
+      <View style={styles.container}>
+        <TouchableOpacity style={{marginBottom: spacing.small}} onPress={() => this.login(this.state.email, this.state.password)}>
+          <Text style={[styles.loginButton, this.props.state.sessionState.loginLoading ? { color: colors.gray } : {}]}>
+            {this.props.state.sessionState.loginLoading ? 'Loggin you in...' : 'Log in'}
+          </Text>
+        </TouchableOpacity>
+
+        <View style={{ flex: 0, flexDirection: 'row', alignItems: 'center'}}>
+          <View style={{ marginRight: spacing.xxsmall }}>
+            <Text style={{ color: colors.slate, fontSize: fontSizes.normal }}>New to Willow?</Text>
+          </View>
+          <View>
+            <TouchableOpacity onPress={() => this.setState({ pageType: 'signup' })}>
+              <Text style={{color: colors.white, fontSize: fontSizes.normal }}>Sign up</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+
+        <View style={{ marginTop: spacing.xsmall, flex: 0, flexDirection: 'row', alignItems: 'center'}}>
+          <TouchableOpacity onPress={() => this.props.uiActions.setPage('forgotPassword')}>
+            <Text style={{color: colors.white, fontSize: fontSizes.normal }}>Forgot Password?</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    )
+    const SignupButtons = (
+      <View style={styles.container}>
+        <TouchableOpacity style={{marginBottom: spacing.small}} onPress={() => this.register(this.state.firstName, this.state.lastName, this.state.email, this.state.password)}>
+          <Text style={[styles.loginButton, this.props.state.sessionState.loginLoading ? {color: colors.gray} : {}]}>
+            {this.props.state.sessionState.loginLoading ? 'Signing you up...' : 'Sign up'}
+          </Text>
+        </TouchableOpacity>
+
+        <View style={{ flex: 0, flexDirection: 'row', alignItems: 'center'}}>
+          <View style={{ marginRight: spacing.xxsmall }}>
+            <Text style={{ color: colors.slate, fontSize: fontSizes.normal }}>Already have an account?</Text>
+          </View>
+          <View>
+            <TouchableOpacity onPress={() => this.setState({pageType: 'login'})}>
+              <Text style={{color: colors.white, fontSize: fontSizes.normal}}>Log in</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </View>
+    )
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.container}>
           <View>
-            <Text style={styles.logo}>Willow</Text>
+            <Text style={styles.logo}>Willo</Text>
           </View>
 
-          <View style={styles.inputContainer}>
+          <View style={[styles.inputContainer, {height: login ? 100 : 200}]}>
             <View style={styles.innerInputContainer}>
-              <View style={[styles.inputWrapper, {borderBottomColor: colors.hairlinegray, borderBottomWidth: StyleSheet.hairlineWidth}]}>
+              {login ? null : <View style={[styles.inputWrapper, {borderBottomColor: colors.hairlinegray, borderBottomWidth: StyleSheet.hairlineWidth}]}>
                 <Icon name="user" style={[styles.icon]} />
                 <TextInput
                   style={styles.input}
@@ -62,9 +120,9 @@ class SignupPage extends Component {
                     this.refs.SecondInput.focus()
                   }}
                 />
-              </View>
+              </View>}
 
-              <View style={[styles.inputWrapper, {borderBottomColor: colors.hairlinegray, borderBottomWidth: StyleSheet.hairlineWidth}]}>
+              {login ? null : <View style={[styles.inputWrapper, {borderBottomColor: colors.hairlinegray, borderBottomWidth: StyleSheet.hairlineWidth}]}>
                 <Icon name="user" style={[styles.icon, {fontSize: 21.5}]} />
                 <TextInput
                   ref='SecondInput'
@@ -76,9 +134,8 @@ class SignupPage extends Component {
                   onChangeText={(lastName) => this.setState({ lastName })}
                   onSubmitEditing={(event) => {
                     this.refs.ThirdInput.focus()
-                  }}
-                  />
-              </View>
+                  }}/>
+              </View>}
 
               <View style={[styles.inputWrapper, {borderBottomColor: colors.hairlinegray, borderBottomWidth: StyleSheet.hairlineWidth}]}>
                 <Icon name="envelope" style={[styles.icon, {fontSize: 18}]} />
@@ -93,8 +150,7 @@ class SignupPage extends Component {
                   onChangeText={(email) => this.setState({ email })}
                   onSubmitEditing={(event) => {
                     this.refs.FourthInput.focus()
-                  }}
-                  />
+                  }}/>
               </View>
 
               <View style={styles.inputWrapper}>
@@ -109,28 +165,11 @@ class SignupPage extends Component {
                   onChangeText={(password) => this.setState({ password })}
                   onSubmitEditing={(event) => {
                     this.register(this.state.firstName, this.state.lastName, this.state.email, this.state.password)
-                  }}
-                  />
+                  }}/>
               </View>
             </View>
           </View>
-
-          <TouchableOpacity style={{marginBottom: spacing.small}} onPress={() => this.register(this.state.firstName, this.state.lastName, this.state.email, this.state.password)}>
-            <Text style={[styles.loginButton, this.props.state.sessionState.loginLoading ? {color: colors.gray} : {}]}>
-              {this.props.state.sessionState.loginLoading ? 'Signing you up...' : 'Sign up'}
-            </Text>
-          </TouchableOpacity>
-
-          <View style={{ flex: 0, flexDirection: 'row', alignItems: 'center'}}>
-            <View style={{ marginRight: spacing.xxsmall }}>
-              <Text style={{ color: colors.slate, fontSize: fontSizes.normal }}>Already have an account?</Text>
-            </View>
-            <View>
-              <TouchableOpacity onPress={() => this.props.uiActions.setPage('login')}>
-                <Text style={{color: colors.white, fontSize: fontSizes.normal}}>Log in</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
+          { login ? LoginButtons : SignupButtons  }
         </View>
       </TouchableWithoutFeedback>
     )
@@ -153,7 +192,6 @@ const styles = StyleSheet.create({
     color: colors.white
   },
   inputContainer: {
-    height: 200,
     width: width - (spacing.normal*2),
     marginBottom: spacing.normal,
     backgroundColor: colors.white,
@@ -194,10 +232,10 @@ const styles = StyleSheet.create({
 })
 
 export default connect(state => ({
-    state
-  }),
-  dispatch => ({
-    uiActions: bindActionCreators(uiActions, dispatch),
-    sessionActions: bindActionCreators(sessionActions, dispatch)
-  })
+  state
+}),
+dispatch => ({
+  uiActions: bindActionCreators(uiActions, dispatch),
+  sessionActions: bindActionCreators(sessionActions, dispatch)
+})
 )(SignupPage)

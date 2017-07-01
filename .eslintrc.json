@@ -32,10 +32,7 @@
             "never"
         ],
         "no-unused-vars": 0,
-        "comma-dangle": [
-            1,
-            "always-multiline"
-        ],
+        "comma-dangle": 0,
         "no-console": 1,
         "no-undef": 0
     }

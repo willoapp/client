@@ -2,20 +2,28 @@ import React, { Component } from 'react'
 import {
   StyleSheet,
   View,
-  Text
+  Text,
 } from 'react-native'
-import colors from '../assets/styles/colors'
 
-export default class LoadingPage extends Component {
+import colors from '../assets/styles/colors'
+import spacing from '../assets/styles/spacing'
+import fontSizes from '../assets/styles/fontSizes'
+
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import sessionActions from '../actions/sessionActions'
+import firebase from '../utils/firebase'
+
+class LoadingPage extends Component {
 
   constructor(props) {
     super(props)
   }
 
   render() {
+    const { state, actions } = this.props
     return (
       <View style={styles.container}>
-        <Text style={styles.whiteText}>Loading...</Text>
       </View>
     )
   }
@@ -24,11 +32,16 @@ export default class LoadingPage extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: colors.seaside,
+    backgroundColor: colors.bggray,
   },
-  whiteText: {
-    color: colors.white
-  }
 })
+
+// These become the component state.
+// This is auto-subscription to the state changes
+export default connect(state => ({
+  state,
+}),
+dispatch => ({
+  sessionActions: bindActionCreators(sessionActions, dispatch),
+})
+)(LoadingPage)

@@ -8,33 +8,57 @@ export const types = {
   SET_LOGIN_LOADING: 'SET_LOGIN_LOADING',
 }
 
-function login(email, password) {
+// Used directly by firebase auth user event handler
+function setUser(authUser) {
+  return dispatch => {
+    firebase.database().ref(`users/${authUser.uid}`).once('value').then(user => {
+      u = Object.assign({}, user.val(), {id: authUser.uid})
+      dispatch({
+        type: types.SET_USER,
+        payload: u,
+      })
+    })
+  }
+}
+
+// Used directly by firebase auth user event handler
+function removeUser() {
+  return dispatch => {
+    dispatch({
+      type: types.SET_USER,
+      payload: null,
+    })
+  }
+}
+
+function login(email, password, successCallback = null) {
   return dispatch => {
     dispatch({
       type: types.SET_LOGIN_LOADING,
-      payload: true
+      payload: true,
     })
     firebase.auth().signInWithEmailAndPassword(email, password)
-    .then(data => {
-      firebase.database().ref(`users/${data.uid}`).once('value').then(user => {
-        u = Object.assign({}, user.val(), {id: data.uid})
-        dispatch({
-          type: types.SET_USER,
-          payload: u
+      .then(data => {
+        firebase.database().ref(`users/${data.uid}`).once('value').then(user => {
+          if (successCallback) successCallback()
+          u = Object.assign({}, user.val(), {id: data.uid})
+          dispatch({
+            type: types.SET_USER,
+            payload: u,
+          })
+          dispatch({
+            type: types.SET_LOGIN_LOADING,
+            payload: false,
+          })
         })
+      })
+      .catch(error => {
         dispatch({
           type: types.SET_LOGIN_LOADING,
-          payload: false
+          payload: false,
         })
+        Alert.alert(error.toString())
       })
-    })
-    .catch(error => {
-      dispatch({
-        type: types.SET_LOGIN_LOADING,
-        payload: false
-      })
-      Alert.alert(error.toString())
-    })
   }
 }
 
@@ -43,7 +67,7 @@ function logout() {
     firebase.auth().signOut().then(() => {
       dispatch({
         type: types.SET_USER,
-        payload: null
+        payload: null,
       })
     }).catch(error => {
       Alert.alert(error.toString())
@@ -51,43 +75,46 @@ function logout() {
   }
 }
 
-function register(firstName, lastName, email, password) {
+function register(firstName, lastName, email, password, successCallback = null) {
   return dispatch => {
     dispatch({
       type: types.SET_LOGIN_LOADING,
       payload: true,
     })
     firebase.auth().createUserWithEmailAndPassword(email, password)
-    .then(data => {
-      firebase.database().ref('users/' + data.uid).set({
-        email,
-        firstName,
-        lastName,
-        createdAt: new Date().toString()
+      .then(data => {
+        if (successCallback) successCallback()
+        firebase.database().ref('users/' + data.uid).set({
+          email,
+          firstName,
+          lastName,
+          createdAt: new Date().toString()
+        })
+        user = { email: data.email, uid: data.uid, firstName, lastName }
+        dispatch({
+          type: types.SET_USER,
+          payload: user
+        })
+        dispatch({
+          type: types.SET_LOGIN_LOADING,
+          payload: false
+        })
       })
-      user = { email: data.email, uid: data.uid, firstName, lastName }
-      dispatch({
-        type: types.SET_USER,
-        payload: user
+      .catch(error => {
+        dispatch({
+          type: types.SET_LOGIN_LOADING,
+          payload: false
+        })
+        Alert.alert(error.toString())
       })
-      dispatch({
-        type: types.SET_LOGIN_LOADING,
-        payload: false
-      })
-    })
-    .catch(error => {
-      dispatch({
-        type: types.SET_LOGIN_LOADING,
-        payload: false
-      })
-      Alert.alert(error.toString())
-    })
   }
 }
 
 const sessionActions = {
+  setUser,
+  removeUser,
   login,
   logout,
-  register
+  register,
 }
 export default sessionActions
