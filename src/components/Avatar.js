@@ -27,7 +27,7 @@ export default class Avatar extends Component {
             <Icon name="plus" style={{fontSize: 15, color: colors.white}} />
           </TouchableOpacity>
         : null}
-        <Image style={{zIndex: 0, width: size, height: size, borderRadius: size/2, borderWidth: 1, borderColor: colors.gray}} source={src} />
+        <Image style={{zIndex: 0, width: size, height: size, borderRadius: size/2}} source={src} />
       </View>
     )
   }

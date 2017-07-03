@@ -37,14 +37,14 @@ class ActivityPage extends Component {
   }
 
   render() {
-    const { state, actions } = this.props
+    const { state, postActions } = this.props
     return (
       <View style={styles.container}>
         <PostList
           user={state.sessionState.user}
           posts={state.postsState.posts}
           navigation={this.props.navigation}
-          {...actions}
+          postActions={postActions}
         />
       </View>
     )

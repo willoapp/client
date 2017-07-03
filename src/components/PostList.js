@@ -19,6 +19,7 @@ import Avatar from './Avatar'
 export default class PostList extends Component {
   constructor(props) {
     super(props)
+    console.log('post list props', props)
   }
 
   _onPressItem(post) {
@@ -29,17 +30,16 @@ export default class PostList extends Component {
     navigation.navigate('AddActivityPage', { user })
   }
 
-  _keyExtractor = item => item.key
-
   render() {
     const data = collectionToArray(this.props.posts).reverse()
-    data.unshift({key: 1}) // First item is "Create a post"
+    const { postActions, user } = this.props
+    data.unshift({id: 1}) // First item is "Create a post"
     return (
       <View style={{flex: 1}}>
         <FlatList
           data={data}
           extraData={this.state}
-          keyExtractor={this._keyExtractor}
+          keyExtractor={item => item.id}
           renderItem={({item, index}) => {
             if (index === 0) return (
               <View style={[styles.shareContainer]}>
@@ -49,7 +49,7 @@ export default class PostList extends Component {
                 </TouchableOpacity>
               </View>
             )
-            else return <PostListItem index={index} post={item}/>
+            else return <PostListItem user={user} index={index} post={item} postActions={postActions}/>
           }}
           onPressItem={this._onPressItem}
           ItemSeparatorComponent={() => <View style={styles.divider}/>}

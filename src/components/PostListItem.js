@@ -10,6 +10,7 @@ import spacing from '../assets/styles/spacing'
 import MyText from './MyText'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import Avatar from './Avatar'
+import get from 'lodash-es/get'
 
 import { fromNow } from '../utils/moment'
 
@@ -18,23 +19,53 @@ export default class PostListItem extends Component {
     super(props)
   }
 
+  toggleLike(post, user) {
+    this.props.postActions.toggleLike(post)
+  }
+
+  isLikedByCurrentUser(post, currentUser) {
+    return get(post, ['likedBy', get(currentUser, 'id')], false)
+  }
+
   render() {
     const firstItemInListMarginTop = this.props.index === 0 ? spacing.backgroundWidth : 0
+    const post = this.props.post
+    const user = this.props.user
     return (
       <View style={[styles.container, { marginTop: firstItemInListMarginTop }]}>
-        {/* Left - activity indicator */}
-        <View style={styles.avatarContainer}>
-          <Avatar style={styles.avatarContainer} size={45} />
+        {/*Top*/}
+        <View style={styles.alignRowWithPadding}>
+          {/* Left - activity indicator */}
+          <View style={styles.leftColumn}>
+            <Avatar size={45} />
+          </View>
+
+          {/* Right - everything else */}
+          <View style={{flex: 1}}>
+            <View style={styles.header}>
+              <MyText style={styles.user}>{post.user.firstName}</MyText>
+              <MyText style={styles.time}>{fromNow(post.createdAt)}</MyText>
+            </View>
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <Text style={{flex: 1, width: 0}}>{post.content}</Text>
+            </View>
+          </View>
         </View>
 
-        {/* Right - everything else */}
-        <View style={{flex: 1}}>
-          <View style={styles.header}>
-            <MyText style={styles.user}>{this.props.post.user.firstName}</MyText>
-            <MyText style={styles.time}>{fromNow(this.props.post.createdAt)}</MyText>
+        {/*Pictures*/}
+        <View>
+
+        </View>
+
+        {/*Liking*/}
+        <View style={[styles.alignRowWithPadding, {marginTop: spacing.xsmall}]}>
+          <View style={styles.leftColumn}>
+            <Icon name={this.isLikedByCurrentUser(post, user) ? 'heart' : 'heart-o'} style={{fontSize: 20}} onPress={() => this.toggleLike(post)}/>
           </View>
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <Text style={{flex: 1, width: 0}}>{this.props.post.content}</Text>
+          <View style={{flex: 1}}>
+            <Text style={{fontSize: 14, color: colors.textMuted}}>
+              {this.isLikedByCurrentUser(post, user) ? 'You like this' : 'Be the first to like this'}
+            </Text>
           </View>
         </View>
       </View>
@@ -45,18 +76,21 @@ export default class PostListItem extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    alignItems: 'flex-start',
     backgroundColor: colors.white,
-    paddingLeft: spacing.small,
-    paddingRight: spacing.small,
     paddingTop: spacing.xsmall,
     paddingBottom: spacing.xsmall,
   },
-  avatarContainer: {
+  alignRowWithPadding: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+    paddingLeft: spacing.small,
+    paddingRight: spacing.small,
+  },
+  leftColumn: {
     justifyContent: 'center',
     alignItems: 'center',
+    width: 45,
     marginRight: spacing.xsmall,
   },
   alert: {
@@ -64,7 +98,7 @@ const styles = StyleSheet.create({
     color: colors.brick
   },
   header: {
-    flex: 1,
+    flex: 0,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',

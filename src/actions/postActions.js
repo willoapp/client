@@ -1,14 +1,17 @@
 import firebase from '../utils/firebase'
+import {insertIds} from '../utils'
+import compact from 'lodash-es/compact'
 
 export const types = {
   SET_POSTS: 'SET_POSTS',
   ADD_POST: 'ADD_POST',
+  UPDATE_POST: 'UPDATE_POST'
 }
 
 function getPosts() {
   return dispatch => {
     firebase.database().ref('posts').on('value', snapshot => {
-      const posts = snapshot.val() || {}
+      const posts = insertIds(snapshot.val()) || {}
       dispatch({
         type: types.SET_POSTS,
         payload: posts,
@@ -30,9 +33,26 @@ function addPost(post) {
   }
 }
 
+function toggleLike(post, user) {
+  return (dispatch, getState) => {
+    user = getState().sessionState.user
+    firebase.database().ref(`posts/${post.id}/likedBy/${user.id}`).set(true)
+      .then(_ => {
+        dispatch({
+          type: types.UPDATE_POST,
+          payload: {postId: post.id, updates: {likedBy: {[user.id]: true}}}
+        })
+      })
+      .catch(error => {
+
+      })
+  }
+}
+
 export const postActions = {
   getPosts,
   addPost,
+  toggleLike,
 }
 
 export default postActions
