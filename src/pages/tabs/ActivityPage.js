@@ -41,8 +41,7 @@ class ActivityPage extends Component {
     return (
       <View style={styles.container}>
         <PostList
-          user={state.sessionState.user}
-          posts={state.postsState.posts}
+          state={state}
           navigation={this.props.navigation}
           postActions={postActions}
         />

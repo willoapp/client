@@ -19,31 +19,38 @@ import Avatar from './Avatar'
 export default class PostList extends Component {
   constructor(props) {
     super(props)
-    console.log('post list props', props)
   }
 
-  _onPressItem(post) {
-    console.log(post)
-  }
+  _onPressItem(post) {}
 
   composePost(navigation, user) {
     navigation.navigate('AddActivityPage', { user })
   }
 
+  refreshPosts() {
+    this.props.postActions.refreshPosts()
+  }
+
   render() {
-    const data = collectionToArray(this.props.posts).reverse()
-    const { postActions, user } = this.props
+    const { postActions, state, navigation } = this.props
+    const user = state.sessionState.user
+    const { posts, refreshing } = state.postsState
+
+    const data = collectionToArray(posts).reverse()
     data.unshift({id: 1}) // First item is "Create a post"
+
     return (
       <View style={{flex: 1}}>
         <FlatList
           data={data}
           extraData={this.state}
           keyExtractor={item => item.id}
+          onRefresh={() => this.refreshPosts()}
+          refreshing={refreshing}
           renderItem={({item, index}) => {
             if (index === 0) return (
               <View style={[styles.shareContainer]}>
-                <TouchableOpacity style={styles.textInputMock} onPress={() => this.composePost(this.props.navigation, this.props.user)}>
+                <TouchableOpacity style={styles.textInputMock} onPress={() => this.composePost(navigation, user)}>
                   <Avatar size={45} />
                   <Text style={styles.placeholder}>Share something with your family...</Text>
                 </TouchableOpacity>
