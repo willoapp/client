@@ -18,13 +18,19 @@ export default class ProfileHeader extends Component {
     super(props)
   }
 
+  fullName(user) {
+    if (user) return `${user.firstName} ${user.lastName}`
+    return ''
+  }
+
   render() {
+    const { user } = this.props
     return (
       <View style={{ flexDirection: 'row', alignItems: 'center', padding: spacing.normal }} >
         <Avatar size={75} changeable={true}/>
 
         <View style={{ marginLeft: spacing.xsmall }}>
-          <Text style={{ color: colors.slate, fontWeight: 'bold' }}>Max Harris</Text>
+          <Text style={{ color: colors.slate, fontWeight: 'bold' }}>{this.fullName(user)}</Text>
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <Icon name="gift" style={{ fontSize: fontSizes.small, marginRight: spacing.xxsmall, color: colors.gray }}/>
             <Text style={{ color: colors.gray }}>July 1</Text>

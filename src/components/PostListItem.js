@@ -7,9 +7,9 @@ import {
 import colors from '../assets/styles/colors'
 import fontSizes from '../assets/styles/fontSizes'
 import spacing from '../assets/styles/spacing'
-import MyText from './MyText'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import Avatar from './Avatar'
+import LoveCount from './LoveCount'
 import get from 'lodash-es/get'
 
 import { fromNow } from '../utils/moment'
@@ -19,18 +19,22 @@ export default class PostListItem extends Component {
     super(props)
   }
 
-  toggleLike(post, user) {
-    this.props.postActions.toggleLike(post)
+  toggleLove(post, user) {
+    this.props.postActions.toggleLove(post, user, !this.postLovedByUser(post, user))
   }
 
-  isLikedByCurrentUser(post, currentUser) {
-    return get(post, ['likedBy', get(currentUser, 'id')], false)
+  postLovedByUser(post, user) {
+    return get(post, ['lovedBy', get(user, 'id')], false)
+  }
+
+  loveCount(post) {
+    return Object.keys(get(post, 'lovedBy', {})).filter(k => post.lovedBy[k]).length
   }
 
   render() {
     const firstItemInListMarginTop = this.props.index === 0 ? spacing.backgroundWidth : 0
     const post = this.props.post
-    const user = this.props.user
+    const currentUser = this.props.currentUser
     return (
       <View style={[styles.container, { marginTop: firstItemInListMarginTop }]}>
         {/*Top*/}
@@ -43,8 +47,8 @@ export default class PostListItem extends Component {
           {/* Right - everything else */}
           <View style={{flex: 1}}>
             <View style={styles.header}>
-              <MyText style={styles.user}>{post.user.firstName}</MyText>
-              <MyText style={styles.time}>{fromNow(post.createdAt)}</MyText>
+              <Text style={styles.user}>{post.user.firstName}</Text>
+              <Text style={styles.time}>{fromNow(post.createdAt)}</Text>
             </View>
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <Text style={{flex: 1, width: 0}}>{post.content}</Text>
@@ -60,12 +64,10 @@ export default class PostListItem extends Component {
         {/*Liking*/}
         <View style={[styles.alignRowWithPadding, {marginTop: spacing.xsmall}]}>
           <View style={styles.leftColumn}>
-            <Icon name={this.isLikedByCurrentUser(post, user) ? 'heart' : 'heart-o'} style={{fontSize: 20}} onPress={() => this.toggleLike(post)}/>
+            <Icon name={this.postLovedByUser(post, currentUser) ? 'heart' : 'heart-o'} style={{fontSize: 20}} onPress={() => this.toggleLove(post, currentUser)}/>
           </View>
           <View style={{flex: 1}}>
-            <Text style={{fontSize: 14, color: colors.textMuted}}>
-              {this.isLikedByCurrentUser(post, user) ? 'You like this' : 'Be the first to like this'}
-            </Text>
+            <LoveCount loveCount={this.loveCount(post)} lovedByCurrentUser={this.postLovedByUser(post, currentUser)}/>
           </View>
         </View>
       </View>

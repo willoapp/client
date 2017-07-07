@@ -67,26 +67,24 @@ function addPost(post) {
   }
 }
 
-function toggleLike(post, user) {
-  return (dispatch, getState) => {
-    user = getState().sessionState.user
-    firebase.database().ref(`posts/${post.id}/likedBy/${user.id}`).set(true)
+// TODO destroy key/value pair entirely if val == false
+function toggleLove(post, user, val) {
+  return dispatch => {
+    firebase.database().ref(`posts/${post.id}/lovedBy/${user.id}`).set(val)
       .then(_ => {
         dispatch({
           type: types.UPDATE_POST,
-          payload: {postId: post.id, updates: {likedBy: {[user.id]: true}}}
+          payload: {postId: post.id, updates: {lovedBy: {[user.id]: val}}}
         })
       })
-      .catch(error => {
-
-      })
+      .catch(error => {})
   }
 }
 
 export const postActions = {
   getPosts,
   addPost,
-  toggleLike,
+  toggleLove,
   refreshPosts,
 }
 

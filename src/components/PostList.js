@@ -36,7 +36,7 @@ export default class PostList extends Component {
     console.log('spinner: ', Spinner)
 
     const { postActions, state, navigation } = this.props
-    const user = state.sessionState.user
+    const currentUser = state.sessionState.user
     const { posts, loading, refreshing } = state.postsState
 
     const data = collectionToArray(posts).reverse()
@@ -62,7 +62,7 @@ export default class PostList extends Component {
                   </TouchableOpacity>
                 </View>
               )
-              else return <PostListItem user={user} index={index} post={item} postActions={postActions}/>
+              else return <PostListItem currentUser={currentUser} index={index} post={item} postActions={postActions}/>
             }}
             onPressItem={this._onPressItem}
             ItemSeparatorComponent={() => <View style={styles.divider}/>}
