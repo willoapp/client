@@ -40,7 +40,7 @@ class AddActivityPage extends Component {
         <View style={styles.container}>
           <TextInput
             autoFocus={true}
-            style={{padding: spacing.normal, flex: 1, fontSize: fontSizes.normal}}
+            style={{marginTop: spacing.normal, padding: spacing.normal, flex: 1, fontSize: fontSizes.normal}}
             onChangeText={(text) => this.props.navigation.setParams({ text })}
             value={this.props.navigation.state.params.text}
             placeholder="Update your family with your status..."

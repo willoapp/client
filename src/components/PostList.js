@@ -33,8 +33,6 @@ export default class PostList extends Component {
   }
 
   render() {
-    console.log('spinner: ', Spinner)
-
     const { postActions, state, navigation } = this.props
     const currentUser = state.sessionState.user
     const { posts, loading, refreshing } = state.postsState
@@ -56,7 +54,7 @@ export default class PostList extends Component {
             renderItem={({item, index}) => {
               if (index === 0) return (
                 <View style={[styles.shareContainer]}>
-                  <TouchableOpacity style={styles.textInputMock} onPress={() => this.composePost(navigation, user)}>
+                  <TouchableOpacity style={styles.textInputMock} onPress={() => this.composePost(navigation, currentUser)}>
                     <Avatar size={45} />
                     <Text style={styles.placeholder}>Share something with your family...</Text>
                   </TouchableOpacity>
