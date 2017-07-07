@@ -22,18 +22,18 @@ class ActivityPage extends Component {
 
   constructor(props) {
     super(props)
+  }
+
+  componentWillMount() {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
         this.props.sessionActions.setUser(user)
+        this.props.postActions.getPosts()
       } else {
         this.props.navigation.navigate('LoginNavigator')
         this.props.sessionActions.removeUser()
       }
     })
-  }
-
-  componentWillMount() {
-    this.props.postActions.getPosts()
   }
 
   render() {

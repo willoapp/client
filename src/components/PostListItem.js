@@ -64,7 +64,7 @@ export default class PostListItem extends Component {
         {/*Liking*/}
         <View style={[styles.alignRowWithPadding, {marginTop: spacing.xsmall}]}>
           <View style={styles.leftColumn}>
-            <Icon name={this.postLovedByUser(post, currentUser) ? 'heart' : 'heart-o'} style={{fontSize: 20}} onPress={() => this.toggleLove(post, currentUser)}/>
+            <Icon name={this.postLovedByUser(post, currentUser) ? 'heart' : 'heart-o'} style={[{fontSize: 20}, {color: this.postLovedByUser(post, currentUser) ? colors.seaside : colors.darkgray}]} onPress={() => this.toggleLove(post, currentUser)}/>
           </View>
           <View style={{flex: 1}}>
             <LoveCount loveCount={this.loveCount(post)} lovedByCurrentUser={this.postLovedByUser(post, currentUser)}/>
