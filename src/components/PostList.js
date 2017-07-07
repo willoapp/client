@@ -42,10 +42,7 @@ export default class PostList extends Component {
 
     return (
       <View style={{flex: 1}}>
-        { loading ?
-          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <Spinner isVisible={true} size={35} type={'ThreeBounce'} color={colors.gray}/>
-          </View> :
+        <View style={{ flex: 0 }}>
           <FlatList
             data={data}
             keyExtractor={item => item.id}
@@ -65,6 +62,12 @@ export default class PostList extends Component {
             onPressItem={this._onPressItem}
             ItemSeparatorComponent={() => <View style={styles.divider}/>}
           />
+        </View>
+        { loading ?
+          <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+            <Spinner isVisible={loading} size={35} type={'ThreeBounce'} color={colors.gray}/>
+          </View>
+         : null
         }
       </View>
     )
