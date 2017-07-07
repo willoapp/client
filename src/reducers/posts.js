@@ -4,6 +4,7 @@ import merge from 'lodash-es/merge'
 export const initialState = {
   posts: {},
   refreshing: false,
+  loading: false,
 }
 
 export default reducer = (state = initialState, action = {}) => {
@@ -26,6 +27,12 @@ export default reducer = (state = initialState, action = {}) => {
         [action.payload.postId]: merge({}, state.posts[action.payload.postId], action.payload.updates)
       }
     }
+  case types.SET_LOADING:
+    return {
+      ...state,
+      loading: action.payload
+    }
+
   case types.SET_REFRESHING:
     return {
       ...state,

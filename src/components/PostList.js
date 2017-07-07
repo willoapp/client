@@ -15,6 +15,7 @@ import fontSizes from '../assets/styles/fontSizes'
 import map from 'lodash-es/map'
 import {collectionToArray} from '../utils'
 import Avatar from './Avatar'
+import Spinner from 'react-native-spinkit'
 
 export default class PostList extends Component {
   constructor(props) {
@@ -32,35 +33,41 @@ export default class PostList extends Component {
   }
 
   render() {
+    console.log('spinner: ', Spinner)
+
     const { postActions, state, navigation } = this.props
     const user = state.sessionState.user
-    const { posts, refreshing } = state.postsState
+    const { posts, loading, refreshing } = state.postsState
 
     const data = collectionToArray(posts).reverse()
     data.unshift({id: 1}) // First item is "Create a post"
 
     return (
       <View style={{flex: 1}}>
-        <FlatList
-          data={data}
-          extraData={this.state}
-          keyExtractor={item => item.id}
-          onRefresh={() => this.refreshPosts()}
-          refreshing={refreshing}
-          renderItem={({item, index}) => {
-            if (index === 0) return (
-              <View style={[styles.shareContainer]}>
-                <TouchableOpacity style={styles.textInputMock} onPress={() => this.composePost(navigation, user)}>
-                  <Avatar size={45} />
-                  <Text style={styles.placeholder}>Share something with your family...</Text>
-                </TouchableOpacity>
-              </View>
-            )
-            else return <PostListItem user={user} index={index} post={item} postActions={postActions}/>
-          }}
-          onPressItem={this._onPressItem}
-          ItemSeparatorComponent={() => <View style={styles.divider}/>}
-        />
+        { loading ?
+          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            <Spinner isVisible={true} size={35} type={'ThreeBounce'} color={colors.gray}/>
+          </View> :
+          <FlatList
+            data={data}
+            keyExtractor={item => item.id}
+            onRefresh={() => this.refreshPosts()}
+            refreshing={refreshing}
+            renderItem={({item, index}) => {
+              if (index === 0) return (
+                <View style={[styles.shareContainer]}>
+                  <TouchableOpacity style={styles.textInputMock} onPress={() => this.composePost(navigation, user)}>
+                    <Avatar size={45} />
+                    <Text style={styles.placeholder}>Share something with your family...</Text>
+                  </TouchableOpacity>
+                </View>
+              )
+              else return <PostListItem user={user} index={index} post={item} postActions={postActions}/>
+            }}
+            onPressItem={this._onPressItem}
+            ItemSeparatorComponent={() => <View style={styles.divider}/>}
+          />
+        }
       </View>
     )
   }

@@ -32,7 +32,7 @@ class ActivityPage extends Component {
     })
   }
 
-  componentDidMount() {
+  componentWillMount() {
     this.props.postActions.getPosts()
   }
 
