@@ -13,9 +13,10 @@ import fontSizes from '../../assets/styles/fontSizes'
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import postActions from '../../actions/postActions'
 import firebase from '../../utils/firebase'
+import postActions from '../../actions/postActions'
 import sessionActions from '../../actions/sessionActions'
+import userActions from '../../actions/userActions'
 
 
 class ActivityPage extends Component {
@@ -28,6 +29,7 @@ class ActivityPage extends Component {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
         this.props.sessionActions.setUser(user)
+        this.props.userActions.getUserImage(user)
         this.props.postActions.getPosts()
       } else {
         this.props.navigation.navigate('LoginNavigator')
@@ -65,5 +67,6 @@ export default connect(state => ({
 dispatch => ({
   postActions: bindActionCreators(postActions, dispatch),
   sessionActions: bindActionCreators(sessionActions, dispatch),
+  userActions: bindActionCreators(userActions, dispatch),
 })
 )(ActivityPage)

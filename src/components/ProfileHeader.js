@@ -24,16 +24,21 @@ export default class ProfileHeader extends Component {
   }
 
   render() {
-    const { user } = this.props
+    const { user, userActions } = this.props
     return (
       <View style={{ flexDirection: 'row', alignItems: 'center', padding: spacing.normal }} >
-        <Avatar size={75} changeable={true}/>
+        <Avatar size={75} changeable={true} user={user} userActions={userActions}/>
 
         <View style={{ marginLeft: spacing.xsmall }}>
           <Text style={{ color: colors.slate, fontWeight: 'bold' }}>{this.fullName(user)}</Text>
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <Icon name="gift" style={{ fontSize: fontSizes.small, marginRight: spacing.xxsmall, color: colors.gray }}/>
-            <Text style={{ color: colors.gray }}>July 1</Text>
+            {
+              user && user.birthDate ?
+                <View>
+                  <Icon name="gift" style={{ fontSize: fontSizes.small, marginRight: spacing.xxsmall, color: colors.gray }}/>
+                  <Text style={{ color: colors.gray }}>{user.birthDate}</Text>
+                </View> : null
+            }
           </View>
         </View>
 

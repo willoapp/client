@@ -5,18 +5,20 @@ import logger from 'redux-logger'
 import sessionState, { initialState as sessionInitialState } from './session'
 import postsState, { initialState as postsInitialState } from './posts'
 import uiState, { initialState as uiInitialState } from './ui'
-// import users from './users'
+import usersState, { initialState as usersInitialState } from './users'
 
 const initialState = {
   uiState: uiInitialState,
   sessionState: sessionInitialState,
   postsState: postsInitialState,
+  usersState: usersInitialState,
 }
 
 const reducers = {
   uiState,
   sessionState,
   postsState,
+  usersState,
 }
 
 let reducer = combineReducers(reducers)
