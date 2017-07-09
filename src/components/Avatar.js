@@ -25,16 +25,16 @@ export default class Avatar extends Component {
       cropperCircleOverlay: true,
       mediaType: 'photo',
     }).then(image => {
-      const imageUri = image.path
-      this.setState({ imageUri })
-      this.props.userActions.setUserImage(user, imageUri)
+      const photoURL = image.path
+      this.setState({ photoURL })
+      this.props.userActions.setUserImage(user, photoURL)
     })
   }
 
   render() {
     const user = this.props.user
-    const imageUri = user && user.imageUri
-    const src = imageUri ? {uri: imageUri} : require('../assets/images/avatar-default.png')
+    const photoURL = user && user.photoURL
+    const src = photoURL ? {uri: photoURL} : require('../assets/images/avatar-default.png')
     const size = this.props.size ? max([this.props.size, 25]) : 100 // Minimum size is 25, default is 100
     const changeable = this.props.changeable
 

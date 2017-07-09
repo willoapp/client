@@ -7,15 +7,19 @@ import {
   StyleSheet,
   TouchableOpacity
 } from 'react-native'
+import Spinner from 'react-native-spinkit'
 import PostListItem from './PostListItem'
+import Avatar from './Avatar'
+
 import sortBy from 'lodash-es/sortBy'
+import map from 'lodash-es/map'
+import get from 'lodash-es/get'
+
 import colors from '../assets/styles/colors'
 import spacing from '../assets/styles/spacing'
 import fontSizes from '../assets/styles/fontSizes'
-import map from 'lodash-es/map'
+
 import {collectionToArray} from '../utils'
-import Avatar from './Avatar'
-import Spinner from 'react-native-spinkit'
 
 export default class PostList extends Component {
   constructor(props) {
@@ -52,7 +56,7 @@ export default class PostList extends Component {
               if (index === 0) return (
                 <View style={[styles.shareContainer]}>
                   <TouchableOpacity style={styles.textInputMock} onPress={() => this.composePost(navigation, currentUser)}>
-                    <Avatar size={45} />
+                    <Avatar size={45} user={currentUser}/>
                     <Text style={styles.placeholder}>Share something with your family...</Text>
                   </TouchableOpacity>
                 </View>

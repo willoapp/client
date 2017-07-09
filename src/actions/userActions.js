@@ -9,20 +9,20 @@ export const types = {
 function getUserImage(user) {
   return dispatch => {
     userId = user.uid || user.id
-    willoFetchBlob.getImageUri('users', userId)
-      .then(imageUri => {
+    willoFetchBlob.getPhotoURL('users', userId)
+      .then(photoURL => {
         dispatch({
           type: types.UPDATE_USER,
-          payload: { userId, updates: { imageUri } }
+          payload: { userId, updates: { photoURL } }
         })
       })
   }
 }
 
 // Used directly by firebase auth user event handler
-function setUserImage(user, imageUri) {
+function setUserImage(user, photoURL) {
   return dispatch => {
-    willoFetchBlob.uploadImage('users', user.id, imageUri)
+    willoFetchBlob.uploadImage('users', user.id, photoURL)
       .then(_ => {
         dispatch(getUserImage(user))
       })

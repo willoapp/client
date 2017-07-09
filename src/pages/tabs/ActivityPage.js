@@ -29,7 +29,6 @@ class ActivityPage extends Component {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
         this.props.sessionActions.setUser(user)
-        this.props.userActions.getUserImage(user)
         this.props.postActions.getPosts()
       } else {
         this.props.navigation.navigate('LoginNavigator')

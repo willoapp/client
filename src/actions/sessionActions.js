@@ -8,10 +8,15 @@ export const types = {
   SET_LOGIN_LOADING: 'SET_LOGIN_LOADING',
 }
 
+console.log('firebase: ', firebase)
+const rootRef = firebase.database()
+const usersRef = rootRef.ref('users')
+const userLovesRef = rootRef.ref('userLoves')
+
 // Used directly by firebase auth user event handler
 function setUser(authUser) {
   return dispatch => {
-    firebase.database().ref(`users/${authUser.uid}`).once('value').then(user => {
+    usersRef.child(authUser.uid).once('value').then(user => {
       u = Object.assign({}, user.val(), {id: authUser.uid})
       dispatch({
         type: types.SET_USER,

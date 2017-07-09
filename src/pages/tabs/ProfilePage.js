@@ -19,10 +19,6 @@ class ProfilePage extends Component {
     super(props)
   }
 
-  componentWillMount() {
-    this.props.userActions.getUserImage(this.props.state.sessionState.user)
-  }
-
   logout() {
     this.props.sessionActions.logout()
     this.props.uiActions.setPage('signup')
@@ -35,12 +31,10 @@ class ProfilePage extends Component {
   render() {
     const { state, sessionActions, userActions } = this.props
     const { user } = state.sessionState
-    const userWithImageUri = state.usersState.users[user.id]
-    const userWithImage = Object.assign({}, user, userWithImageUri)
 
     return (
       <View style={styles.container}>
-        <ProfileHeader user={userWithImage} userActions={userActions} onEditPress={() => this.onEditPress()}/>
+        <ProfileHeader user={user} userActions={userActions} onEditPress={() => this.onEditPress()}/>
         <Button
           onPress={() => this.logout()}
           title="Log out"

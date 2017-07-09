@@ -10,11 +10,12 @@ window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest
 window.Blob = Blob
 
 class WilloFetchBlob {
+
   imageName(imageKey) {
     return `${imageKey}-${Platform.OS}-${new Date()}.png`
   }
 
-  getImageUri(directory, imageKey) {
+  getPhotoURL(directory, imageKey) {
     return firebase
       .storage()
       .ref(`images/${directory}/${imageKey}`)

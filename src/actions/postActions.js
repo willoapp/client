@@ -6,10 +6,16 @@ import isEmpty from 'lodash-es/isEmpty'
 export const types = {
   SET_POSTS: 'SET_POSTS',
   ADD_POST: 'ADD_POST',
+  LOVE_POST: 'LOVE_POST',
   UPDATE_POST: 'UPDATE_POST',
+  UNLOVE_POST: 'UNLOVE_POST',
   SET_LOADING: 'SET_LOADING', // Original load
   SET_REFRESHING: 'SET_REFRESHING', // Pull to refresh
 }
+
+const rootRef = firebase.database()
+const postsRef = rootRef.ref('posts')
+const postLovesRef = (postId) => postsRef.child(`${postId}/postLoves`)
 
 function refreshPosts() {
   return dispatch => {
@@ -17,7 +23,8 @@ function refreshPosts() {
       type: types.SET_REFRESHING,
       payload: true
     })
-    firebase.database().ref('posts').on('value', snapshot => {
+    // TODO: Where do we clean up this listener?
+    postsRef.on('value', snapshot => {
       const posts = insertIds(snapshot.val()) || {}
       dispatch({
         type: types.SET_POSTS,
@@ -40,7 +47,8 @@ function getPosts() {
         payload: true
       })
     }
-    firebase.database().ref('posts').on('value', snapshot => {
+    // TODO: Where do we clean up this listener?
+    postsRef.on('value', snapshot => {
       const posts = insertIds(snapshot.val()) || {}
       dispatch({
         type: types.SET_POSTS,
@@ -56,8 +64,8 @@ function getPosts() {
 
 function addPost(post) {
   return dispatch => {
-    const newPostRef = firebase.database().ref('posts').push()
-    const p = Object.assign({}, post, {createdAt: new Date().toString()})
+    const newPostRef = postsRef.push()
+    const p = Object.assign({}, post, {createdAt: new Date().toString(), loveCount: 0})
     newPostRef.set(p).then(_ => {
       dispatch({
         type: types.ADD_POST,
@@ -67,17 +75,57 @@ function addPost(post) {
   }
 }
 
-// TODO destroy key/value pair entirely if val == false
 function toggleLove(post, user, val) {
   return dispatch => {
-    firebase.database().ref(`posts/${post.id}/lovedBy/${user.id}`).set(val)
-      .then(_ => {
-        dispatch({
-          type: types.UPDATE_POST,
-          payload: {postId: post.id, updates: {lovedBy: {[user.id]: val}}}
-        })
+    if (val) {
+      const newLoveCount = (post.loveCount || 0) + 1
+      // Optimistically Update
+      dispatch({
+        type: types.LOVE_POST,
+        payload: { postId: post.id, user }
       })
-      .catch(error => {})
+      dispatch({
+        type: types.UPDATE_POST,
+        payload: { postId: post.id, updates: { loveCount: newLoveCount } }
+      })
+
+      postsRef.child(`${post.id}/loveCount`).set(newLoveCount)
+        .catch(error => {
+          dispatch({
+            type: types.UPDATE_POST,
+            payload: { postId: post.id, updates: { loveCount: newLoveCount - 1 } }
+          })
+        })
+      postLovesRef(post.id).child(user.id).set(user)
+        .catch(error => {
+          dispatch({
+            type: types.UNLOVE_POST,
+            payload: {postId: post.id, userId: user.id }
+          })
+          Alert.alert(error)
+        })
+
+    } else if (val == false) {
+      // Optimistically update
+      const newLoveCount = (!post.loveCount || post.loveCount == 0) ? 0 : post.loveCount - 1
+      dispatch({
+        type: types.UNLOVE_POST,
+        payload: {postId: post.id, userId: user.id }
+      })
+      dispatch({
+        type: types.UPDATE_POST,
+        payload: { postId: post.id, updates: { loveCount: newLoveCount } }
+      })
+
+      postsRef.child(`${post.id}/loveCount`).set(newLoveCount)
+        .catch(error => {
+          dispatch({
+            type: types.UPDATE_POST,
+            payload: { postId: post.id, updates: { loveCount: newLoveCount } }
+          })
+        })
+      postLovesRef(post.id).child(user.id).remove() // Removes key/value pair on firebase
+    }
   }
 }
 

@@ -1,5 +1,7 @@
 import {types} from '../actions/postActions'
 import merge from 'lodash-es/merge'
+import omit from 'lodash-es/omit'
+import { combineReducers } from 'redux'
 
 export const initialState = {
   posts: {},
@@ -7,7 +9,7 @@ export const initialState = {
   loading: false,
 }
 
-export default reducer = (state = initialState, action = {}) => {
+const postReducer = (state = initialState, action = {}) => {
   switch(action.type) {
   case types.SET_POSTS:
     return {
@@ -18,6 +20,28 @@ export default reducer = (state = initialState, action = {}) => {
     return {
       ...state,
       posts: Object.assign({}, state.posts, action.payload)
+    }
+  case types.LOVE_POST:
+    return {
+      ...state,
+      posts: {
+        ...state.posts,
+        [action.payload.postId]: {
+          ...state.posts[action.payload.postId],
+          postLoves: merge({}, state.posts[action.payload.postId].postLoves, { [action.payload.user.id]: action.payload.user })
+        }
+      }
+    }
+  case types.UNLOVE_POST:
+    return {
+      ...state,
+      posts: {
+        ...state.posts,
+        [action.payload.postId]: {
+          ...state.posts[action.payload.postId],
+          postLoves: omit(state.posts[action.payload.postId].postLoves, action.payload.userId)
+        }
+      }
     }
   case types.UPDATE_POST:
     return {
@@ -32,7 +56,6 @@ export default reducer = (state = initialState, action = {}) => {
       ...state,
       loading: action.payload
     }
-
   case types.SET_REFRESHING:
     return {
       ...state,
@@ -42,3 +65,5 @@ export default reducer = (state = initialState, action = {}) => {
     return state
   }
 }
+
+export default postReducer

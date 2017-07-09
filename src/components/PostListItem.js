@@ -24,24 +24,21 @@ export default class PostListItem extends Component {
   }
 
   postLovedByUser(post, user) {
-    return get(post, ['lovedBy', get(user, 'id')], false)
-  }
-
-  loveCount(post) {
-    return Object.keys(get(post, 'lovedBy', {})).filter(k => post.lovedBy[k]).length
+    return get(post, ['postLoves', get(user, 'id')], false)
   }
 
   render() {
     const firstItemInListMarginTop = this.props.index === 0 ? spacing.backgroundWidth : 0
     const post = this.props.post
     const currentUser = this.props.currentUser
+    const postUserImage = this.props.post.userId
     return (
       <View style={[styles.container, { marginTop: firstItemInListMarginTop }]}>
         {/*Top*/}
         <View style={styles.alignRowWithPadding}>
           {/* Left - activity indicator */}
           <View style={styles.leftColumn}>
-            <Avatar size={45} />
+            <Avatar size={45}/>
           </View>
 
           {/* Right - everything else */}
@@ -67,7 +64,7 @@ export default class PostListItem extends Component {
             <Icon name={this.postLovedByUser(post, currentUser) ? 'heart' : 'heart-o'} style={[{fontSize: 20}, {color: this.postLovedByUser(post, currentUser) ? colors.seaside : colors.darkgray}]} onPress={() => this.toggleLove(post, currentUser)}/>
           </View>
           <View style={{flex: 1}}>
-            <LoveCount loveCount={this.loveCount(post)} lovedByCurrentUser={this.postLovedByUser(post, currentUser)}/>
+            <LoveCount loveCount={post.loveCount} lovedByCurrentUser={this.postLovedByUser(post, currentUser)}/>
           </View>
         </View>
       </View>
