@@ -5,7 +5,6 @@ const spacing = {
   normal: 20,
   large: 30,
   xlarge: 40,
-  backgroundWidth: 8,
 }
 
 export default spacing

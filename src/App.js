@@ -14,7 +14,6 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import sessionActions from './actions/sessionActions'
 import uiActions from './actions/uiActions'
-import firebase from './utils/firebase'
 
 class App extends Component {
   constructor(props) {

@@ -5,14 +5,21 @@ import {
   Button,
 } from 'react-native'
 import ProfileHeader from '../../components/ProfileHeader'
+import ImagePicker from 'react-native-image-crop-picker'
 
+import { currentUserWithId } from '../../utils'
 import colors from '../../assets/styles/colors'
 
-import { bindActionCreators } from 'redux'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import sessionActions from '../../actions/sessionActions'
-import uiActions from '../../actions/uiActions'
-import userActions from '../../actions/userActions'
+import { compose } from 'redux'
+import {
+  firebaseConnect,
+  isLoaded,
+  isEmpty,
+} from 'react-redux-firebase'
+
+import firebaseHelper from '../../utils/firebaseHelper'
 
 class ProfilePage extends Component {
   constructor(props) {
@@ -20,21 +27,33 @@ class ProfilePage extends Component {
   }
 
   logout() {
-    this.props.sessionActions.logout()
-    this.props.uiActions.setPage('signup')
+    this.props.firebase.auth().logout()
   }
 
   onEditPress() {
     console.log('Edit was pressed')
   }
 
-  render() {
-    const { state, sessionActions, userActions } = this.props
-    const { user } = state.sessionState
+  changeAvatar(user) {
+    ImagePicker.openPicker({
+      width: 400,
+      height: 400,
+      cropping: true,
+      cropperCircleOverlay: true,
+      mediaType: 'photo',
+    }).then(image => {
+      const imagePath = image.path
+      firebaseHelper.uploadImage(this.props.firebase, 'users', user.id, imagePath).then(photoURL => {
+        firebaseHelper.updateUser(this.props.firebase, user.id, { photoURL })
+      })
+    })
+  }
 
+  render() {
+    const { currentUser } = this.props
     return (
       <View style={styles.container}>
-        <ProfileHeader user={user} userActions={userActions} onEditPress={() => this.onEditPress()}/>
+        <ProfileHeader user={currentUser} onChangeAvatar={() => this.changeAvatar(currentUser)} onEditPress={() => this.onEditPress()}/>
         <Button
           onPress={() => this.logout()}
           title="Log out"
@@ -44,6 +63,10 @@ class ProfilePage extends Component {
   }
 }
 
+ProfilePage.propTypes = {
+  currentUser: PropTypes.object
+}
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -51,12 +74,13 @@ const styles = StyleSheet.create({
   }
 })
 
-export default connect(state => ({
-  state,
-}),
-dispatch => ({
-  uiActions: bindActionCreators(uiActions, dispatch),
-  sessionActions: bindActionCreators(sessionActions, dispatch),
-  userActions: bindActionCreators(userActions, dispatch),
-})
+export default compose(
+  firebaseConnect([
+    'users'
+  ]),
+  connect(
+    ({ firebase: { auth, data: { users } } }) => ({
+      currentUser: currentUserWithId(users, auth)
+    })
+  )
 )(ProfilePage)

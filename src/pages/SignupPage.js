@@ -15,11 +15,17 @@ import spacing from '../assets/styles/spacing'
 import fontSizes from '../assets/styles/fontSizes'
 import Icon from 'react-native-vector-icons/FontAwesome'
 
-import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import sessionActions from '../actions/sessionActions'
+import { compose } from 'redux'
+import {
+  firebaseConnect,
+  isLoaded,
+  isEmpty,
+} from 'react-redux-firebase'
+import PropTypes from 'prop-types'
+
+// import sessionActions from '../actions/sessionActions'
 import uiActions from '../actions/uiActions'
-import firebase from '../utils/firebase'
 import { NavigationActions } from 'react-navigation'
 
 let {height, width} = Dimensions.get('window')
@@ -38,16 +44,17 @@ class SignupPage extends Component {
     } else if (!lastName) {
       Alert.alert('Please enter a your last name')
     } else {
-      this.props.sessionActions.register(firstName, lastName, email, password, _ => {
+      this.props.firebase.auth().createUserWithEmailAndPassword(email, password).then(auth => {
+        this.props.firebase.ref('users').child(auth.uid).set({firstName, lastName, email}) // create user data from auth uid
         this.props.navigation.dispatch(NavigationActions.back())
-      })
+      }).catch(error => Alert.alert(error))
     }
   }
 
   login(email, password) {
-    this.props.sessionActions.login(email, password, _ => {
+    this.props.firebase.auth().signInWithEmailAndPassword(email, password).then(_ => {
       this.props.navigation.dispatch(NavigationActions.back())
-    })
+    }).catch(error => Alert.alert(error))
   }
 
   render() {
@@ -55,8 +62,11 @@ class SignupPage extends Component {
     const LoginButtons = (
       <View style={styles.container}>
         <TouchableOpacity style={{marginBottom: spacing.small}} onPress={() => this.login(this.state.email, this.state.password)}>
-          <Text style={[styles.loginButton, this.props.state.sessionState.loginLoading ? { color: colors.gray } : {}]}>
+          {/*<Text style={[styles.loginButton, this.props.state.sessionState.loginLoading ? { color: colors.gray } : {}]}>
             {this.props.state.sessionState.loginLoading ? 'Loggin you in...' : 'Log in'}
+          </Text>*/}
+          <Text style={[styles.loginButton]}>
+            Log in
           </Text>
         </TouchableOpacity>
 
@@ -81,8 +91,11 @@ class SignupPage extends Component {
     const SignupButtons = (
       <View style={styles.container}>
         <TouchableOpacity style={{marginBottom: spacing.small}} onPress={() => this.register(this.state.firstName, this.state.lastName, this.state.email, this.state.password)}>
-          <Text style={[styles.loginButton, this.props.state.sessionState.loginLoading ? {color: colors.gray} : {}]}>
+          {/*<Text style={[styles.loginButton, this.props.state.sessionState.loginLoading ? {color: colors.gray} : {}]}>
             {this.props.state.sessionState.loginLoading ? 'Signing you up...' : 'Sign up'}
+          </Text>*/}
+          <Text style={[styles.loginButton]}>
+            Sign up
           </Text>
         </TouchableOpacity>
 
@@ -176,6 +189,11 @@ class SignupPage extends Component {
   }
 }
 
+SignupPage.propTypes = {
+  firebase: PropTypes.object,
+  auth: PropTypes.object,
+}
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -231,11 +249,13 @@ const styles = StyleSheet.create({
   }
 })
 
-export default connect(state => ({
-  state
-}),
-dispatch => ({
-  uiActions: bindActionCreators(uiActions, dispatch),
-  sessionActions: bindActionCreators(sessionActions, dispatch)
-})
+export default compose(
+  firebaseConnect([
+    // 'posts' // { path: 'posts' } // object notation
+  ]),
+  connect(
+    ({ firebase: { auth } }) => ({ // state.firebase.data.posts
+      auth
+    })
+  )
 )(SignupPage)

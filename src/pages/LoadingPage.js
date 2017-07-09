@@ -12,7 +12,6 @@ import fontSizes from '../assets/styles/fontSizes'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import sessionActions from '../actions/sessionActions'
-import firebase from '../utils/firebase'
 
 class LoadingPage extends Component {
 

@@ -24,10 +24,10 @@ export default class ProfileHeader extends Component {
   }
 
   render() {
-    const { user, userActions } = this.props
+    const { user } = this.props
     return (
       <View style={{ flexDirection: 'row', alignItems: 'center', padding: spacing.normal }} >
-        <Avatar size={75} changeable={true} user={user} userActions={userActions}/>
+        <Avatar size={75} changeable={true} src={user.photoURL} onChange={() => this.props.onChangeAvatar()}/>
 
         <View style={{ marginLeft: spacing.xsmall }}>
           <Text style={{ color: colors.slate, fontWeight: 'bold' }}>{this.fullName(user)}</Text>

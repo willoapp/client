@@ -19,26 +19,15 @@ export default class PostListItem extends Component {
     super(props)
   }
 
-  toggleLove(post, user) {
-    this.props.postActions.toggleLove(post, user, !this.postLovedByUser(post, user))
-  }
-
-  postLovedByUser(post, user) {
-    return get(post, ['postLoves', get(user, 'id')], false)
-  }
-
   render() {
-    const firstItemInListMarginTop = this.props.index === 0 ? spacing.backgroundWidth : 0
-    const post = this.props.post
-    const currentUser = this.props.currentUser
-    const postUserImage = this.props.post.userId
+    const { post, lovedByCurrentUser, onToggleLove } = this.props
     return (
-      <View style={[styles.container, { marginTop: firstItemInListMarginTop }]}>
+      <View style={styles.container}>
         {/*Top*/}
         <View style={styles.alignRowWithPadding}>
           {/* Left - activity indicator */}
           <View style={styles.leftColumn}>
-            <Avatar size={45}/>
+            <Avatar size={45} src={post.user.photoUrl}/>
           </View>
 
           {/* Right - everything else */}
@@ -61,10 +50,10 @@ export default class PostListItem extends Component {
         {/*Liking*/}
         <View style={[styles.alignRowWithPadding, {marginTop: spacing.xsmall}]}>
           <View style={styles.leftColumn}>
-            <Icon name={this.postLovedByUser(post, currentUser) ? 'heart' : 'heart-o'} style={[{fontSize: 20}, {color: this.postLovedByUser(post, currentUser) ? colors.seaside : colors.darkgray}]} onPress={() => this.toggleLove(post, currentUser)}/>
+            <Icon name={lovedByCurrentUser ? 'heart' : 'heart-o'} style={[{fontSize: 20}, {color: lovedByCurrentUser ? colors.seaside : colors.darkgray}]} onPress={() => onToggleLove(!lovedByCurrentUser)}/>
           </View>
           <View style={{flex: 1}}>
-            <LoveCount loveCount={post.loveCount} lovedByCurrentUser={this.postLovedByUser(post, currentUser)}/>
+            <LoveCount loveCount={post.loveCount} lovedByCurrentUser={lovedByCurrentUser}/>
           </View>
         </View>
       </View>
