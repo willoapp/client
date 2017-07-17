@@ -20,6 +20,7 @@ import {
 } from 'react-redux-firebase'
 
 import firebaseHelper from '../../utils/firebaseHelper'
+import userActions from '../../actions/userActions'
 
 class ProfilePage extends Component {
   constructor(props) {
@@ -44,7 +45,7 @@ class ProfilePage extends Component {
     }).then(image => {
       const imagePath = image.path
       firebaseHelper.uploadImage(this.props.firebase, 'users', user.id, imagePath).then(photoURL => {
-        firebaseHelper.updateUser(this.props.firebase, user.id, { photoURL })
+        userActions.updateUser(this.props.firebase, user.id, { photoURL })
       })
     })
   }

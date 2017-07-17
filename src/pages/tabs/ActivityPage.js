@@ -14,6 +14,7 @@ import spacing from '../../assets/styles/spacing'
 import fontSizes from '../../assets/styles/fontSizes'
 import { currentUserWithId, collectionToArrayWithIds } from '../../utils'
 
+import postActions from '../../actions/postActions'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
@@ -52,16 +53,14 @@ class ActivityPage extends Component {
 
   toggleLove(post, currentUser, val) {
     if (val) {
-      this.props.firebase.ref(`posts/${post.id}`).child('loveCount').set(post.loveCount + 1)
-      this.props.firebase.ref(`posts/${post.id}/postLoves`).child(currentUser.id).set(currentUser)
+      postActions.lovePost(this.props.firebase, post, currentUser)
     } else {
-      this.props.firebase.ref(`posts/${post.id}`).child('loveCount').set(post.loveCount - 1)
-      this.props.firebase.ref(`posts/${post.id}/postLoves`).child(currentUser.id).remove()
+      postActions.unlovePost(this.props.firebase, post, currentUser)
     }
   }
 
   lovedByUser(post, currentUser) {
-    if (post && currentUser)
+    if (currentUser && post && post.postLoves)
       return Object.keys(post.postLoves).includes(currentUser.id)
   }
 

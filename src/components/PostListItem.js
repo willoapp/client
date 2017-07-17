@@ -27,7 +27,7 @@ export default class PostListItem extends Component {
         <View style={styles.alignRowWithPadding}>
           {/* Left - activity indicator */}
           <View style={styles.leftColumn}>
-            <Avatar size={45} src={post.user.photoUrl}/>
+            <Avatar size={45} src={post.user.photoURL}/>
           </View>
 
           {/* Right - everything else */}
