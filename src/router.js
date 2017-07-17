@@ -67,7 +67,7 @@ export const Tabs = TabNavigator({
 }, {
   // swipeEnabled: true,
   // animationEnabled: true,
-  lazy: true,
+  // lazy: true,
   tabBarOptions: {
     inactiveTintColor: colors.gray,
     activeTintColor: colors.blue,
@@ -121,20 +121,7 @@ export const RootModalNavigator = StackNavigator({
     }
   },
   AddActivityPage: {
-    screen: AddActivityPage,
-    navigationOptions: navigator => {
-      const text = navigator.navigation.state.params.text
-      const user = navigator.navigation.state.params.user
-      const addPost = navigator.navigation.state.params.addPost
-      const props = navigator.navigation.state.params.props
-      return {
-        title: 'Update Activity',
-        headerLeft: <Text style={{ color: colors.slate, marginLeft: spacing.small, fontSize: fontSizes.normal }} onPress={() => { navigator.navigation.goBack() }}>Cancel</Text>,
-        headerRight: <Text style={{ color: colors.slate, marginRight: spacing.small, fontSize: fontSizes.normal, fontWeight: 'bold' }} onPress={() => addPost(text, user, props)}>Post</Text>,
-        headerStyle: styles.header,
-        headerTitleStyle: styles.headerTitle,
-      }
-    },
+    screen: AddActivityPage
   },
   LoginNavigator: {
     screen: LoginNavigator,
