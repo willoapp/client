@@ -1,139 +1,46 @@
-// import firebase from '../utils/firebase'
-import {insertIds} from '../utils'
-import compact from 'lodash-es/compact'
-import isEmpty from 'lodash-es/isEmpty'
+function addPost(firebase, post) {
+  const rootRef = firebase.ref()
+  const newPostRef = firebase.ref('posts').push()
 
-export const types = {
-  SET_POSTS: 'SET_POSTS',
-  ADD_POST: 'ADD_POST',
-  LOVE_POST: 'LOVE_POST',
-  UPDATE_POST: 'UPDATE_POST',
-  UNLOVE_POST: 'UNLOVE_POST',
-  SET_LOADING: 'SET_LOADING', // Original load
-  SET_REFRESHING: 'SET_REFRESHING', // Pull to refresh
+  const updateObj = {
+    [`posts/${newPostRef.key}`] : post,
+    [`userPosts/${post.user.id}/${newPostRef.key}`]: true
+  }
+
+  return rootRef.update(updateObj)
 }
 
-// const rootRef = firebase.database()
-// const postsRef = rootRef.ref('posts')
-// const postLovesRef = (postId) => postsRef.child(`${postId}/postLoves`)
+function lovePost(firebase, post, user) {
+  const rootRef = firebase.ref()
+  const newLoveCount = (post.loveCount || 0) + 1
 
-function refreshPosts() {
-  // return dispatch => {
-  //   dispatch({
-  //     type: types.SET_REFRESHING,
-  //     payload: true
-  //   })
-  //   // TODO: Where do we clean up this listener?
-  //   postsRef.on('value', snapshot => {
-  //     const posts = insertIds(snapshot.val()) || {}
-  //     dispatch({
-  //       type: types.SET_POSTS,
-  //       payload: posts,
-  //     })
-  //     dispatch({
-  //       type: types.SET_REFRESHING,
-  //       payload: false
-  //     })
-  //   })
-  // }
+  const updateObj = {
+    [`posts/${post.id}/loveCount`] : newLoveCount,
+    [`posts/${post.id}/postLoves/${user.id}`] : user,
+    [`userPostLoves/${user.id}/${post.id}`] : true,
+  }
+
+  return rootRef.update(updateObj)
 }
 
-function getPosts() {
-  // return (dispatch, getState) => {
-  //   posts = getState().postsState.posts
-  //   if (isEmpty(posts)) {
-  //     dispatch({
-  //       type: types.SET_LOADING,
-  //       payload: true
-  //     })
-  //   }
-  //   // TODO: Where do we clean up this listener?
-  //   postsRef.on('value', snapshot => {
-  //     const posts = insertIds(snapshot.val()) || {}
-  //     dispatch({
-  //       type: types.SET_POSTS,
-  //       payload: posts,
-  //     })
-  //     dispatch({
-  //       type: types.SET_LOADING,
-  //       payload: false
-  //     })
-  //   })
-  // }
-}
+function unlovePost(firebase, post, user) {
+  const rootRef = firebase.ref()
+  let newLoveCount = (post.loveCount || 0) - 1
+  newLoveCount = newLoveCount < 0 ? 0 : newLoveCount
 
-function addPost(post) {
-  // return dispatch => {
-  //   const newPostRef = postsRef.push()
-  //   const p = Object.assign({}, post, {createdAt: new Date().toString(), loveCount: 0})
-  //   newPostRef.set(p).then(_ => {
-  //     dispatch({
-  //       type: types.ADD_POST,
-  //       payload: {[newPostRef.key]: p }
-  //     })
-  //   })
-  // }
-}
+  const updateObj = {
+    [`posts/${post.id}/loveCount`] : newLoveCount,
+    [`posts/${post.id}/postLoves/${user.id}`] : null,
+    [`userPostLoves/${user.id}/${post.id}`] : null,
+  }
 
-function toggleLove(post, user, val) {
-  // return dispatch => {
-  //   if (val) {
-  //     const newLoveCount = (post.loveCount || 0) + 1
-  //     // Optimistically Update
-  //     dispatch({
-  //       type: types.LOVE_POST,
-  //       payload: { postId: post.id, user }
-  //     })
-  //     dispatch({
-  //       type: types.UPDATE_POST,
-  //       payload: { postId: post.id, updates: { loveCount: newLoveCount } }
-  //     })
-
-  //     postsRef.child(`${post.id}/loveCount`).set(newLoveCount)
-  //       .catch(error => {
-  //         dispatch({
-  //           type: types.UPDATE_POST,
-  //           payload: { postId: post.id, updates: { loveCount: newLoveCount - 1 } }
-  //         })
-  //       })
-  //     postLovesRef(post.id).child(user.id).set(user)
-  //       .catch(error => {
-  //         dispatch({
-  //           type: types.UNLOVE_POST,
-  //           payload: {postId: post.id, userId: user.id }
-  //         })
-  //         Alert.alert(error)
-  //       })
-
-  //   } else if (val == false) {
-  //     // Optimistically update
-  //     const newLoveCount = (!post.loveCount || post.loveCount == 0) ? 0 : post.loveCount - 1
-  //     dispatch({
-  //       type: types.UNLOVE_POST,
-  //       payload: {postId: post.id, userId: user.id }
-  //     })
-  //     dispatch({
-  //       type: types.UPDATE_POST,
-  //       payload: { postId: post.id, updates: { loveCount: newLoveCount } }
-  //     })
-
-  //     postsRef.child(`${post.id}/loveCount`).set(newLoveCount)
-  //       .catch(error => {
-  //         dispatch({
-  //           type: types.UPDATE_POST,
-  //           payload: { postId: post.id, updates: { loveCount: newLoveCount } }
-  //         })
-  //       })
-  //     postLovesRef(post.id).child(user.id).remove() // Removes key/value pair on firebase
-  //   }
-  // }
+  return rootRef.update(updateObj)
 }
 
 export const postActions = {
-  getPosts,
   addPost,
-  toggleLove,
-  refreshPosts,
+  lovePost,
+  unlovePost,
 }
 
 export default postActions

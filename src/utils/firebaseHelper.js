@@ -14,11 +14,6 @@ class FirebaseHelper {
       })
     })
   }
-
-  updateUser(firebase, userId, updates) {
-    firebase.ref('users').child(userId).update(updates)
-    // TODO: Update post's users and postLoves users as well
-  }
 }
 
 const firebaseHelper = new FirebaseHelper()

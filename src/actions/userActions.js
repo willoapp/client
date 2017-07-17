@@ -1,39 +1,41 @@
-import { Alert } from 'react-native'
-// import firebase from '../utils/firebase'
-import willoFetchBlob from '../utils/WilloFetchBlob'
+function updateUser(firebase, userId, updates) {
+  const rootRef = firebase.ref()
 
-export const types = {
-  UPDATE_USER: 'UPDATE_USER',
-}
+  // Lookups
+  const userPostsLookup = firebase.ref(`userPosts/${userId}`)
+  const userPostLovesLookup = firebase.ref(`userPostLoves/${userId}`)
 
-function getUserImage(user) {
-  // return dispatch => {
-  //   userId = user.uid || user.id
-  //   willoFetchBlob.getPhotoURL('users', userId)
-  //     .then(photoURL => {
-  //       dispatch({
-  //         type: types.UPDATE_USER,
-  //         payload: { userId, updates: { photoURL } }
-  //       })
-  //     })
-  // }
-}
+  // Update Object for Multipath atomic update
+  let updateObj = {}
 
-// Used directly by firebase auth user event handler
-function setUserImage(user, photoURL) {
-  // return dispatch => {
-  //   willoFetchBlob.uploadImage('users', user.id, photoURL)
-  //     .then(_ => {
-  //       dispatch(getUserImage(user))
-  //     })
-  //     .catch(error => {
-  //       Alert.alert(error)
-  //     })
-  // }
+  // Update the user for each lookup
+  userPostsLookup.once('value', snap => {
+    snap.forEach(postSnap => {
+      Object.keys(updates).forEach(updateKey => {
+        updateObj[`posts/${postSnap.key}/user/${updateKey}`] = updates[updateKey]
+      })
+    })
+  })
+    .then(_ => {
+      userPostLovesLookup.once('value', snap => {
+        snap.forEach(postLoveSnap => {
+          Object.keys(updates).forEach(updateKey => {
+            updateObj[`posts/${postLoveSnap.key}/postLoves/${userId}/${updateKey}`] = updates[updateKey]
+          })
+        })
+      })
+        .then(_ => {
+          // Update the user directly as well
+          Object.keys(updates).forEach(updateKey => {
+            updateObj[`users/${userId}/${updateKey}`] = updates[updateKey]
+          })
+
+          return rootRef.update(updateObj)
+        })
+    })
 }
 
 const userActions = {
-  setUserImage,
-  getUserImage,
+  updateUser
 }
 export default userActions
