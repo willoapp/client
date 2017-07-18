@@ -1,0 +1,1 @@
+{"version":3,"file":"moment.js","sourceRoot":"","sources":["../../src/utils/moment.tsx"],"names":[],"mappings":"AAAA,OAAO,MAAM,MAAM,QAAQ,CAAA;AAE3B,MAAM,kBAAkB,IAAI;IAC1B,MAAM,QAAQ,GAAG,IAAI,IAAI,CAAC,IAAI,CAAC,CAAA;IAC/B,MAAM,CAAC,MAAM,CAAC,QAAQ,CAAC,CAAC,OAAO,EAAE,CAAA;AACnC,CAAC"}
