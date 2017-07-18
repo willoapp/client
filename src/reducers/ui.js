@@ -1,16 +1,18 @@
 import {types} from '../actions/uiActions'
 
 export const initialState = {
-  page: 'signup',
+  // activityLoading: true,
 }
 
 export default reducer = (state = initialState, action = {}) => {
   switch(action.type) {
-    case types.SET_PAGE:
-      return Object.assign({}, state, {
-        page: action.payload
-      })
-    default:
-      return state
+
+  // react-redux-firebase handles these sorts of things through isLoaded, isEmpty
+  // case types.SET_ACTIVITY_LOADING:
+  //   return Object.assign({}, state, {
+  //     activityLoading: action.payload
+  //   })
+  default:
+    return state
   }
 }

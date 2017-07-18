@@ -14,10 +14,11 @@ import spacing from '../../assets/styles/spacing'
 import fontSizes from '../../assets/styles/fontSizes'
 import { currentUserWithId, collectionToArrayWithIds } from '../../utils'
 
+import Spinner from 'react-native-spinkit'
 import postActions from '../../actions/postActions'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { compose } from 'redux'
+import { bindActionCreators, compose } from 'redux'
 import {
   firebaseConnect,
   isLoaded,
@@ -41,14 +42,8 @@ class ActivityPage extends Component {
     this.props.firebase.auth().onAuthStateChanged(user => {
       if (!user) {
         this.props.navigation.navigate('LoginNavigator')
-      } else {
-        this.props.firebase.ref('posts').on('value', snapshot => {})
       }
     })
-  }
-
-  logout() {
-    this.props.firebase.logout()
   }
 
   toggleLove(post, currentUser, val) {
@@ -65,40 +60,42 @@ class ActivityPage extends Component {
   }
 
   render() {
-    const { posts, auth, currentUser } = this.props
+    const { posts, currentUser, uiState, uiActions } = this.props
+    const loaded = isLoaded(posts)
+    const empty = isEmpty(posts)
     let data = []
     if (posts) {
       data = collectionToArrayWithIds(posts).reverse()
       data.unshift({id: 1})
     }
     return (
-      <View style={styles.container}>
+      <View style={{flex: 1}}>
         {/*TODO: Add Refreshing back in*/}
-        <View style={{ flex: 1 }}>
-          <FlatList
-            data={data}
-            keyExtractor={ item => item.id }
-            renderItem={({item, index}) => {
-              if (index === 0) return (
-                <View style={[styles.shareContainer]}>
-                  <TouchableOpacity style={styles.textInputMock} onPress={() => this.composePost(currentUser)}>
-                    <Avatar size={45} src={currentUser && currentUser.photoURL}/>
-                    <Text style={styles.placeholder}>Share something with your family...</Text>
-                  </TouchableOpacity>
-                </View>
-              )
-              else return <PostListItem post={item} lovedByCurrentUser={this.lovedByUser(item, currentUser)} onToggleLove={(val) => this.toggleLove(item, currentUser, val)}/>
-            }}
-            onPressItem={this._onPressItem}
-            ItemSeparatorComponent={() => <View style={styles.divider}/>}
-          />
-        </View>
-        {/*{ loading ?
-          <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-            <Spinner isVisible={loading} size={35} type={'ThreeBounce'} color={colors.gray}/>
+        { !loaded ?
+          <View style={[styles.container, {justifyContent: 'center', alignItems: 'center'}]}>
+            <Spinner isVisible={!loaded} size={35} type={'ThreeBounce'} color={colors.gray}/>
           </View>
-         : null
-        }*/}
+          :
+          <View style={styles.container}>
+            <FlatList
+              data={data}
+              keyExtractor={ item => item.id }
+              renderItem={({item, index}) => {
+                if (index === 0) return (
+                  <View style={[styles.shareContainer]}>
+                    <TouchableOpacity style={styles.textInputMock} onPress={() => this.composePost(currentUser)}>
+                      <Avatar size={45} src={currentUser && currentUser.photoURL}/>
+                      <Text style={styles.placeholder}>Share something with your family...</Text>
+                    </TouchableOpacity>
+                  </View>
+                )
+                else return <PostListItem post={item} lovedByCurrentUser={this.lovedByUser(item, currentUser)} onToggleLove={(val) => this.toggleLove(item, currentUser, val)}/>
+              }}
+              onPressItem={this._onPressItem}
+              ItemSeparatorComponent={() => <View style={styles.divider}/>}
+            />
+          </View>
+        }
       </View>
     )
   }
@@ -107,7 +104,6 @@ class ActivityPage extends Component {
 ActivityPage.propTypes = {
   posts: PropTypes.object,
   firebase: PropTypes.object,
-  auth: PropTypes.object,
   currentUser: PropTypes.object,
 }
 
@@ -147,12 +143,10 @@ export default compose(
     'users'
   ]),
   connect(
-    ({ firebase: { auth, data } }) => {
-      return { // state.firebase.data.posts
-        posts: data.posts, // Connect props.posts to state.firebase.data.posts
-        auth,
-        currentUser: currentUserWithId(data.users, auth)
-      }
-    }
+    ({ firebase: { auth, data }, uiState }) => ({
+      posts: data.posts, // Connect props.posts to state.firebase.data.posts
+      currentUser: currentUserWithId(data.users, auth),
+      uiState
+    })
   )
 )(ActivityPage)

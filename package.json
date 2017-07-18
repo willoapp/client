@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js run-ios",
-    "build": "node node_modules/react-native/local-cli/cli.js bundle --entry-file index.ios.js --bundle-output ios/client/main.jsbundle --platform ios --dev false --assets-dest='./ios'",
+    "build": "node node_modules/react-native/local-cli/cli.js bundle --entry-file index.ios.js --bundle-output ios/client/main.jsbundle --platform ios --dev=false --assets-dest='./ios'",
     "test": "jest"
   },
   "dependencies": {

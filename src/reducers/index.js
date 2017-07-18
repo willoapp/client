@@ -2,41 +2,13 @@ import thunk from 'redux-thunk'
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux'
 import logger from 'redux-logger'
 import { reactReduxFirebase, firebaseStateReducer } from 'react-redux-firebase'
-// import firebase from '../utils/firebase'
 import * as firebase from 'firebase'
 
-// import sessionState, { initialState as sessionInitialState } from './session'
-// import postsState, { initialState as postsInitialState } from './posts'
-// import uiState, { initialState as uiInitialState } from './ui'
-// import usersState, { initialState as usersInitialState } from './users'
+import uiState, { initialState as uiInitialState } from './ui'
 
-const initialState = {}
-
-// const initialState = {
-//   uiState: uiInitialState,
-//   sessionState: sessionInitialState,
-//   postsState: postsInitialState,
-//   usersState: usersInitialState,
-// }
-//
-// const reducers = {
-//   uiState,
-//   sessionState,
-//   postsState,
-//   usersState,
-// }
-
-// let reducer = combineReducers(reducers)
-// let store = createStore(
-//   reducer,
-//   initialState,
-//   compose(
-//     applyMiddleware(
-//       thunk,
-//       logger // TODO: Only use in development
-//     )
-//   )
-// )
+const initialState = {
+  uiState: uiInitialState
+}
 
 const config = {
   apiKey: 'AIzaSyCdRE-iZuUtkMkI6qVn96PlDGfJ-5tBDtI',
@@ -48,6 +20,7 @@ const config = {
 firebase.initializeApp(config)
 
 const rootReducer = combineReducers({
+  uiState: uiState,
   firebase: firebaseStateReducer
 })
 

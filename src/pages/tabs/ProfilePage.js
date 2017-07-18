@@ -28,7 +28,7 @@ class ProfilePage extends Component {
   }
 
   logout() {
-    this.props.firebase.auth().logout()
+    this.props.firebase.logout()
   }
 
   onEditPress() {
@@ -54,11 +54,17 @@ class ProfilePage extends Component {
     const { currentUser } = this.props
     return (
       <View style={styles.container}>
-        <ProfileHeader user={currentUser} onChangeAvatar={() => this.changeAvatar(currentUser)} onEditPress={() => this.onEditPress()}/>
-        <Button
-          onPress={() => this.logout()}
-          title="Log out"
-        />
+        {
+          currentUser ?
+            <View>
+              <ProfileHeader user={currentUser} onChangeAvatar={() => this.changeAvatar(currentUser)} onEditPress={() => this.onEditPress()}/>
+              <Button
+                onPress={() => this.logout()}
+                title="Log out"
+              />
+            </View>
+            : null
+        }
       </View>
     )
   }
