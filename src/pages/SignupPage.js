@@ -177,7 +177,9 @@ class SignupPage extends Component {
                   returnKeyType="done"
                   onChangeText={(password) => this.setState({ password })}
                   onSubmitEditing={(event) => {
-                    this.register(this.state.firstName, this.state.lastName, this.state.email, this.state.password)
+                    login ?
+                      this.login(this.state.email, this.state.password) :
+                      this.register(this.state.firstName, this.state.lastName, this.state.email, this.state.password)
                   }}/>
               </View>
             </View>
