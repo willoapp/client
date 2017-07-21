@@ -27,7 +27,7 @@ export default class PostListItem extends Component {
         <View style={styles.alignRowWithPadding}>
           {/* Left - activity indicator */}
           <View style={styles.leftColumn}>
-            <Avatar size={45} src={post.user.photoURL}/>
+            <Avatar size={55} src={post.user.photoURL}/>
           </View>
 
           {/* Right - everything else */}
@@ -37,7 +37,7 @@ export default class PostListItem extends Component {
               <Text style={styles.time}>{fromNow(post.createdAt)}</Text>
             </View>
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              <Text style={{flex: 1, width: 0}}>{post.content}</Text>
+              <Text style={styles.content}>{post.content}</Text>
             </View>
           </View>
         </View>
@@ -50,7 +50,7 @@ export default class PostListItem extends Component {
         {/*Liking*/}
         <View style={[styles.alignRowWithPadding, {marginTop: spacing.xsmall}]}>
           <View style={styles.leftColumn}>
-            <Icon name={lovedByCurrentUser ? 'heart' : 'heart-o'} style={[{fontSize: 20}, {color: lovedByCurrentUser ? colors.seaside : colors.darkgray}]} onPress={() => onToggleLove(!lovedByCurrentUser)}/>
+            <Icon name={lovedByCurrentUser ? 'heart' : 'heart-o'} style={[{fontSize: 24}, {color: lovedByCurrentUser ? colors.seaside : colors.darkgray}]} onPress={() => onToggleLove(!lovedByCurrentUser)}/>
           </View>
           <View style={{flex: 1}}>
             <LoveCount loveCount={post.loveCount} lovedByCurrentUser={lovedByCurrentUser}/>
@@ -92,8 +92,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   user: {
+    fontSize: fontSizes.normal,
     fontWeight: 'bold',
     color: colors.slate,
+  },
+  content: {
+    flex: 1,
+    width: 0,
+    fontSize: fontSizes.normal,
   },
   time: {
     fontSize: fontSizes.xsmall,
