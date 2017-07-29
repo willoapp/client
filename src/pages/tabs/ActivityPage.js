@@ -25,6 +25,7 @@ import {
   isEmpty,
 } from 'react-redux-firebase'
 import PostListItem from '../../components/PostListItem'
+import TitleText from '../../components/TitleText'
 
 class ActivityPage extends Component {
 
@@ -66,7 +67,7 @@ class ActivityPage extends Component {
     let data = []
     if (posts) {
       data = collectionToArrayWithIds(posts).reverse()
-      data.unshift({id: 1})
+      data.unshift({id: 1}, {id: 2})
     }
     return (
       <View style={{flex: 1}}>
@@ -81,7 +82,12 @@ class ActivityPage extends Component {
               data={data}
               keyExtractor={ item => item.id }
               renderItem={({item, index}) => {
-                if (index === 0) return (
+                if (index == 0) return (
+                  <View style={{ flex: 1, justifyContent: 'center', padding: 20, backgroundColor: colors.white }}>
+                    <TitleText>NEWSFEED</TitleText>
+                  </View>
+                )
+                else if (index === 1) return (
                   <View style={[styles.shareContainer]}>
                     <TouchableOpacity style={styles.textInputMock} onPress={() => this.composePost(currentUser)}>
                       <Avatar size={45} src={currentUser && currentUser.photoURL}/>
